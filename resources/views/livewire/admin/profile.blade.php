@@ -1,24 +1,24 @@
 <div>
     {{-- Page Header --}}
-    <x-admin.page-header title="Profile" subtitle="Kelola informasi akun Anda">
+    <x-page-header title="Profile" subtitle="Kelola informasi akun Anda">
         <x-slot:actions>
-            <x-admin.badge variant="success" icon="fas fa-user-check">
+            <x-badge variant="success" icon="fas fa-user-check">
                 {{ Auth::user()->email_verified_at ? 'Terverifikasi' : 'Belum Terverifikasi' }}
-            </x-admin.badge>
+            </x-badge>
         </x-slot:actions>
-    </x-admin.page-header>
+    </x-page-header>
 
     {{-- Flash Messages --}}
     @if (session('success'))
-        <x-admin.alert variant="success" title="Berhasil!" class="mb-4">
+        <x-alert variant="success" title="Berhasil!" class="mb-4">
             {{ session('success') }}
-        </x-admin.alert>
+        </x-alert>
     @endif
 
     @if (session('error'))
-        <x-admin.alert variant="danger" title="Error!" class="mb-4">
+        <x-alert variant="danger" title="Error!" class="mb-4">
             {{ session('error') }}
-        </x-admin.alert>
+        </x-alert>
     @endif
 
     <div class="row g-4">
@@ -39,7 +39,7 @@
 
                 <h4 style="color: var(--text-primary); font-weight: 600;">{{ Auth::user()->name }}</h4>
                 <p class="text-muted mb-3">{{ Auth::user()->email }}</p>
-                <x-admin.badge variant="primary" icon="fas fa-user-shield">Administrator</x-admin.badge>
+                <x-badge variant="primary" icon="fas fa-user-shield">Administrator</x-badge>
 
                 <hr style="border-color: var(--border-color); margin: 1.5rem 0;">
 
@@ -155,9 +155,9 @@
                     </div>
 
                     <div class="d-flex justify-content-end mt-4">
-                        <x-admin.button type="submit" variant="primary" icon="fas fa-save">
+                        <x-button type="submit" variant="primary" icon="fas fa-save">
                             Simpan Perubahan
-                        </x-admin.button>
+                        </x-button>
                     </div>
                 </form>
             </div>
@@ -169,10 +169,10 @@
                         <i class="fas fa-lock" style="color: var(--warning-color);"></i>
                         Ubah Password
                     </div>
-                    <x-admin.button type="button" variant="{{ $showPasswordSection ? 'danger' : 'outline' }}" size="sm"
+                    <x-button type="button" variant="{{ $showPasswordSection ? 'danger' : 'outline' }}" size="sm"
                         wire:click="togglePasswordSection">
                         {{ $showPasswordSection ? 'Batal' : 'Ubah Password' }}
-                    </x-admin.button>
+                    </x-button>
                 </div>
 
                 @if($showPasswordSection)
@@ -207,15 +207,15 @@
                             </div>
                         </div>
 
-                        <x-admin.alert variant="info" class="mt-3">
+                        <x-alert variant="info" class="mt-3">
                             <i class="fas fa-info-circle me-2"></i>
                             Password harus minimal 8 karakter dan mengandung huruf dan angka.
-                        </x-admin.alert>
+                        </x-alert>
 
                         <div class="d-flex justify-content-end mt-4">
-                            <x-admin.button type="submit" variant="warning" icon="fas fa-key">
+                            <x-button type="submit" variant="warning" icon="fas fa-key">
                                 Perbarui Password
-                            </x-admin.button>
+                            </x-button>
                         </div>
                     </form>
                 @else
