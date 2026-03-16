@@ -50,21 +50,21 @@
         {{ $slot }}
 
         <div class="d-flex justify-content-end gap-2 mt-4">
-            <x-admin.button
+            < button
                 type="button"
                 variant="outline"
                 wire:click="{{ $onCancel }}"
             >
                 {{ $cancelText }}
-            </x-admin.button>
+            </ button>
 
-            <x-admin.button
+            < button
                 type="button"
                 :variant="$variant"
                     wire:click="{{ $onConfirm }}"
             >
                 {{ $confirmText }}
-            </x-admin.button>
+            </ button>
         </div>
     </div>
 </div>

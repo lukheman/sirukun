@@ -502,9 +502,9 @@
 </head>
 <body>
     <!-- Sidebar -->
-    <x-admin.sidebar :brand-name="$brandName" :brand-icon="$brandIcon">
+    < sidebar :brand-name="$brandName" :brand-icon="$brandIcon">
         {{ $sidebar }}
-    </x-admin.sidebar>
+    </ sidebar>
 
     <!-- Main Content -->
     <div class="main-content">
