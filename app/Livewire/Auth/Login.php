@@ -9,7 +9,7 @@ use Livewire\Attributes\Rule;
 
 use Livewire\Component;
 
-#[Layout('components.auth.layout')]
+#[Layout('layouts.guest')]
 #[Title('Login - AdminPro')]
 class Login extends Component
 {
