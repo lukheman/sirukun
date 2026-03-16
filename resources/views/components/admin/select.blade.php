@@ -71,7 +71,7 @@
         background-color: var(--input-bg);
         border-color: var(--primary-color);
         color: var(--text-primary);
-        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        box-shadow: 0 0 0 3px rgba(199, 91, 63, 0.1);
     }
 
     .form-select:disabled {

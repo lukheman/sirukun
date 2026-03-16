@@ -57,7 +57,7 @@
 
     .custom-checkbox .form-check-input:focus {
         border-color: var(--primary-color);
-        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        box-shadow: 0 0 0 3px rgba(199, 91, 63, 0.1);
     }
 
     .custom-checkbox .form-check-input:disabled {

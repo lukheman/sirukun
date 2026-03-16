@@ -4,12 +4,12 @@
 ])
 @php
     $variants = [
-        'primary' => ['rgba(99, 102, 241, 0.1)', 'var(--primary-color)'],
-        'secondary' => ['rgba(14, 165, 233, 0.1)', 'var(--secondary-color)'],
-        'success' => ['rgba(16, 185, 129, 0.1)', 'var(--success-color)'],
-        'warning' => ['rgba(245, 158, 11, 0.1)', 'var(--warning-color)'],
-        'danger' => ['rgba(239, 68, 68, 0.1)', 'var(--danger-color)'],
-        'info' => ['rgba(100, 116, 139, 0.1)', '#64748b'],
+        'primary' => ['rgba(199, 91, 63, 0.1)', 'var(--primary-color)'],
+        'secondary' => ['rgba(107, 142, 90, 0.1)', 'var(--secondary-color)'],
+        'success' => ['rgba(91, 168, 124, 0.1)', 'var(--success-color)'],
+        'warning' => ['rgba(212, 148, 58, 0.1)', 'var(--warning-color)'],
+        'danger' => ['rgba(217, 79, 79, 0.1)', 'var(--danger-color)'],
+        'info' => ['rgba(122, 107, 93, 0.1)', '#7A6B5D'],
     ];
     $bg = $variants[$variant][0] ?? $variants['primary'][0];
     $color = $variants[$variant][1] ?? $variants['primary'][1];

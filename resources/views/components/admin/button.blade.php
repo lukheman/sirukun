@@ -13,7 +13,7 @@
         'success' => 'background: var(--success-color); color: white; border: none;',
         'warning' => 'background: var(--warning-color); color: white; border: none;',
         'danger' => 'background: var(--danger-color); color: white; border: none;',
-        'outline' => 'background: white; color: #64748b; border: 1px solid #e2e8f0;',
+        'outline' => 'background: white; color: #7A6B5D; border: 1px solid #E8DFD3;',
     ];
 
     $sizeClasses = [

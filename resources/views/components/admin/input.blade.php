@@ -19,7 +19,7 @@
 
 <div {{ $attributes->only('class')->merge(['class' => 'mb-3']) }}>
     @if($label)
-        <label for="{{ $inputId }}" class="form-label" style="color: #1e293b; font-weight: 500;">
+        <label for="{{ $inputId }}" class="form-label" style="color: var(--text-primary, #3D2C1E); font-weight: 500;">
             {{ $label }}
             @if($required)
                 <span style="color: var(--danger-color);">*</span>
