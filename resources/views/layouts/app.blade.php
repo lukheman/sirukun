@@ -588,8 +588,9 @@
         }
 
         .action-btn-delete {
-            color: var(--danger-color);
+            background-color: var(--danger-color);
         }
+
 
         /* ==================== PAGINATION ==================== */
         .pagination {
@@ -613,27 +614,71 @@
 <body>
     <!-- Sidebar -->
     <x-sidebar :brand-name="$brandName" :brand-icon="$brandIcon">
-        <x-sidebar-section title="Menu">
-            <x-sidebar-link href="{{ route('dashboard') }}" icon="fas fa-th-large" :active="request()->routeIs('dashboard')">Dashboard</x-sidebar-link>
-            <x-sidebar-link href="{{ route('admin.users') }}" icon="fas fa-users" :active="request()->routeIs('admin.users')">Users</x-sidebar-link>
-        </x-sidebar-section>
+        @if(Auth::guard('admin')->check())
+            <x-sidebar-section title="Menu">
+                <x-sidebar-link href="{{ route('dashboard') }}" icon="fas fa-th-large" :active="request()->routeIs('dashboard')">Dashboard</x-sidebar-link>
+            </x-sidebar-section>
 
-        <x-sidebar-section title="Account">
-            <x-sidebar-link href="{{ route('admin.profile') }}" icon="fas fa-user-circle" :active="request()->routeIs('admin.profile')">Profile</x-sidebar-link>
-            <x-sidebar-link href="#settings" icon="fas fa-cog">Settings</x-sidebar-link>
-        </x-sidebar-section>
+            <x-sidebar-section title="Data Master">
+                <x-sidebar-link href="{{ route('admin.warga') }}" icon="fas fa-users" :active="request()->routeIs('admin.warga')">Data Warga</x-sidebar-link>
+                <x-sidebar-link href="{{ route('admin.unitrumah') }}" icon="fas fa-home" :active="request()->routeIs('admin.unitrumah')">Data Unit Rumah</x-sidebar-link>
+            </x-sidebar-section>
 
+            <x-sidebar-section title="Transaksi">
+                <x-sidebar-link href="{{ route('admin.pengajuan') }}" icon="fas fa-file-signature" :active="request()->routeIs('admin.pengajuan')">Data Pengajuan</x-sidebar-link>
+                <x-sidebar-link href="{{ route('admin.penempatan') }}" icon="fas fa-key" :active="request()->routeIs('admin.penempatan')">Data Penempatan</x-sidebar-link>
+            </x-sidebar-section>
 
+            <x-sidebar-section title="Account">
+                <x-sidebar-link href="{{ route('admin.profile') }}" icon="fas fa-user-circle" :active="request()->routeIs('admin.profile')">Profile</x-sidebar-link>
+                <x-sidebar-link href="#settings" icon="fas fa-cog">Settings</x-sidebar-link>
+            </x-sidebar-section>
+
+        @elseif(Auth::guard('warga')->check())
+            <x-sidebar-section title="Menu Utama">
+                <x-sidebar-link href="{{ route('warga.dashboard') }}" icon="fas fa-th-large" :active="request()->routeIs('warga.dashboard')">Dashboard</x-sidebar-link>
+                <x-sidebar-link href="{{ route('warga.unit') }}" icon="fas fa-home" :active="request()->routeIs('warga.unit')">Informasi Unit</x-sidebar-link>
+            </x-sidebar-section>
+
+            <x-sidebar-section title="Aktivitas">
+                <x-sidebar-link href="{{ route('warga.pengajuan') }}" icon="fas fa-file-signature" :active="request()->routeIs('warga.pengajuan')">Riwayat Pengajuan</x-sidebar-link>
+            </x-sidebar-section>
+
+            <x-sidebar-section title="Account">
+                <x-sidebar-link href="{{ route('warga.profile') }}" icon="fas fa-user-circle" :active="request()->routeIs('warga.profile')">Profile Saya</x-sidebar-link>
+            </x-sidebar-section>
+        @endif
     </x-sidebar>
+
+    @php
+        // Determine current user and role
+        $activeUser = null;
+        $activeRole = 'Guest';
+        $logoutUrl = '#';
+
+        if (Auth::guard('admin')->check()) {
+            $activeUser = Auth::guard('admin')->user();
+            $activeRole = 'Administrator';
+            $logoutUrl = route('logout');
+        } elseif (Auth::guard('warga')->check()) {
+            $activeUser = Auth::guard('warga')->user();
+            $activeRole = 'Warga';
+            $logoutUrl = route('warga.logout');
+        }
+
+        // Coba ambil nama (dari warga) atau username (dari admin)
+        $displayName = $activeUser ? ($activeUser->nama ?? $activeUser->username ?? 'User') : 'Guest';
+    @endphp
 
     <!-- Main Content -->
     <div class="main-content">
         <!-- Top Bar -->
         <x-topbar
-            :user-name="Auth::user()?->name ?? 'Guest'"
-            user-role="Administrator"
+            :user-name="$displayName"
+            :user-role="$activeRole"
             :notification-count="0"
             :show-logout="true"
+            :logout-url="$logoutUrl"
             :show-theme-toggle="false"
         />
 
