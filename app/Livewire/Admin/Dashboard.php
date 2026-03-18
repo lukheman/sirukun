@@ -2,7 +2,6 @@
 
 namespace App\Livewire\Admin;
 
-use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
 use Livewire\Component;
 
@@ -20,7 +19,7 @@ class Dashboard extends Component
                 'status' => 'Delivered',
                 'status_variant' => 'success',
                 'status_icon' => 'fas fa-check-circle',
-                'created_at' => now()->subDay()
+                'created_at' => now()->subDay(),
             ],
             (object) [
                 'order_id' => '#ORD-2023',
@@ -30,7 +29,7 @@ class Dashboard extends Component
                 'status' => 'Pending',
                 'status_variant' => 'warning',
                 'status_icon' => 'fas fa-clock',
-                'created_at' => now()->subDay()
+                'created_at' => now()->subDay(),
             ],
             (object) [
                 'order_id' => '#ORD-2022',
@@ -40,7 +39,7 @@ class Dashboard extends Component
                 'status' => 'Shipped',
                 'status_variant' => 'secondary',
                 'status_icon' => 'fas fa-shipping-fast',
-                'created_at' => now()->subDays(2)
+                'created_at' => now()->subDays(2),
             ],
             (object) [
                 'order_id' => '#ORD-2021',
@@ -50,7 +49,7 @@ class Dashboard extends Component
                 'status' => 'Delivered',
                 'status_variant' => 'success',
                 'status_icon' => 'fas fa-check-circle',
-                'created_at' => now()->subDays(2)
+                'created_at' => now()->subDays(2),
             ],
         ]);
 

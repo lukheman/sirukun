@@ -321,6 +321,10 @@
             transition: all 0.2s;
             font-size: 0.875rem;
         }
+        .btn-modern:hover { 
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
 
         .btn-primary-modern {
             background: var(--primary-color);
@@ -580,15 +584,35 @@
         }
 
         .action-btn:hover {
-            background: var(--hover-bg);
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
         }
 
         .action-btn-edit {
-            color: var(--primary-color);
+            background-color: var(--warning-color);
+            color: #ffffff;
+        }
+
+        .action-btn-edit:hover {
+            border-color: var(--warning-color);
+        }
+
+        .action-btn-view {
+            color: var(--secondary-color);
+        }
+
+        .action-btn-view:hover {
+            background: rgba(194, 120, 148, 0.1);
+            border-color: var(--secondary-color);
         }
 
         .action-btn-delete {
             background-color: var(--danger-color);
+            color: #ffffff;
+        }
+
+        .action-btn-delete:hover {
+            border-color: var(--danger-color);
         }
 
 

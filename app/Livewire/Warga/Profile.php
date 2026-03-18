@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Admin;
+namespace App\Livewire\Warga;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -8,10 +8,19 @@ use Illuminate\Validation\Rules\Password;
 use Livewire\Attributes\Title;
 use Livewire\Component;
 
-#[Title('Profile - SIRUKUN')]
+#[Title('Profile Saya - SIRUKUN')]
 class Profile extends Component
 {
-    public string $username = '';
+    public string $nama = '';
+
+    public string $telepon = '';
+
+    public string $alamat = '';
+
+    // NIK dan NKK hanya untuk display (read-only)
+    public string $nik = '';
+
+    public string $nkk = '';
 
     public string $current_password = '';
 
@@ -23,16 +32,20 @@ class Profile extends Component
 
     public function mount(): void
     {
-        $admin = Auth::guard('admin')->user();
-        $this->username = $admin->username;
+        $warga = Auth::guard('warga')->user();
+        $this->nama = $warga->nama;
+        $this->telepon = $warga->telepon;
+        $this->alamat = $warga->alamat;
+        $this->nik = $warga->nik;
+        $this->nkk = $warga->nkk;
     }
 
     protected function rules(): array
     {
-        $admin = Auth::guard('admin')->user();
-
         $rules = [
-            'username' => ['required', 'string', 'max:255', 'unique:admin,username,'.$admin->id_admin.',id_admin'],
+            'nama' => ['required', 'string', 'max:255'],
+            'telepon' => ['required', 'string', 'max:20'],
+            'alamat' => ['required', 'string', 'max:255'],
         ];
 
         if ($this->showPasswordSection && $this->password) {
@@ -55,9 +68,11 @@ class Profile extends Component
     {
         $validated = $this->validate();
 
-        $admin = Auth::guard('admin')->user();
-        $admin->username = $validated['username'];
-        $admin->save();
+        $warga = Auth::guard('warga')->user();
+        $warga->nama = $validated['nama'];
+        $warga->telepon = $validated['telepon'];
+        $warga->alamat = $validated['alamat'];
+        $warga->save();
 
         session()->flash('success', 'Profile berhasil diperbarui.');
     }
@@ -69,16 +84,16 @@ class Profile extends Component
             'password' => ['required', 'confirmed', Password::defaults()],
         ]);
 
-        $admin = Auth::guard('admin')->user();
+        $warga = Auth::guard('warga')->user();
 
-        if (! Hash::check($this->current_password, $admin->password)) {
+        if (! Hash::check($this->current_password, $warga->password)) {
             $this->addError('current_password', 'Password saat ini tidak sesuai.');
 
             return;
         }
 
-        $admin->password = Hash::make($this->password);
-        $admin->save();
+        $warga->password = Hash::make($this->password);
+        $warga->save();
 
         $this->current_password = '';
         $this->password = '';
@@ -90,6 +105,6 @@ class Profile extends Component
 
     public function render()
     {
-        return view('livewire.admin.profile');
+        return view('livewire.warga.profile');
     }
 }

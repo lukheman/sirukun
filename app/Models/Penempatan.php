@@ -11,6 +11,7 @@ class Penempatan extends Model
     use HasFactory;
 
     protected $table = 'penempatan';
+
     protected $primaryKey = 'id_penempatan';
 
     protected $fillable = [

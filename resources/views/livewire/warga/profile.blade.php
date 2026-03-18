@@ -1,8 +1,8 @@
 <div>
     {{-- Page Header --}}
-    <x-page-header title="Profile" subtitle="Kelola informasi akun Anda">
+    <x-page-header title="Profile Saya" subtitle="Kelola informasi pribadi dan akun Anda">
         <x-slot:actions>
-            <x-badge variant="primary" icon="fas fa-user-shield">Administrator</x-badge>
+            <x-badge variant="info" icon="fas fa-user">Warga</x-badge>
         </x-slot:actions>
     </x-page-header>
 
@@ -24,24 +24,29 @@
         <div class="col-lg-4">
             <div class="modern-card text-center">
                 <div class="position-relative d-inline-block mb-3">
-                    <div class="user-avatar mx-auto" style="width: 120px; height: 120px; font-size: 3rem;">
-                        {{ Auth::guard('admin')->user()->initials() }}
+                    <div class="user-avatar mx-auto"
+                        style="width: 120px; height: 120px; font-size: 3rem; background-color: var(--secondary-color);">
+                        {{ substr(Auth::guard('warga')->user()->nama, 0, 1) }}
                     </div>
                 </div>
 
-                <h4 style="color: var(--text-primary); font-weight: 600;">{{ Auth::guard('admin')->user()->username }}</h4>
-                <x-badge variant="primary" icon="fas fa-user-shield">Administrator</x-badge>
+                <h4 style="color: var(--text-primary); font-weight: 600;">{{ Auth::guard('warga')->user()->nama }}</h4>
+                <div class="text-muted small mb-2">NIK: {{ Auth::guard('warga')->user()->nik }}</div>
+
+                <x-badge variant="info" icon="fas fa-home">Penghuni / Warga</x-badge>
 
                 <hr style="border-color: var(--border-color); margin: 1.5rem 0;">
 
                 <div class="text-start">
                     <div class="d-flex justify-content-between mb-2">
                         <span class="text-muted">Bergabung</span>
-                        <span style="color: var(--text-primary);">{{ Auth::guard('admin')->user()->created_at->format('d M Y') }}</span>
+                        <span
+                            style="color: var(--text-primary);">{{ Auth::guard('warga')->user()->created_at->format('d M Y') }}</span>
                     </div>
                     <div class="d-flex justify-content-between">
                         <span class="text-muted">Terakhir diperbarui</span>
-                        <span style="color: var(--text-primary);">{{ Auth::guard('admin')->user()->updated_at->diffForHumans() }}</span>
+                        <span
+                            style="color: var(--text-primary);">{{ Auth::guard('warga')->user()->updated_at->diffForHumans() }}</span>
                     </div>
                 </div>
             </div>
@@ -58,12 +63,45 @@
 
                 <form wire:submit="updateProfile">
                     <div class="row g-3">
-                        <div class="col-12">
-                            <label for="username" class="form-label">Username <span
+                        <div class="col-md-6">
+                            <label class="form-label text-muted">Nomor Induk Kependudukan (NIK)</label>
+                            <input type="text" class="form-control" wire:model="nik" readonly disabled>
+                            <small class="text-muted" style="font-size: 0.75rem;">*Hubungi admin jika ada kesalahan
+                                NIK.</small>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label text-muted">Nomor Kartu Keluarga (NKK)</label>
+                            <input type="text" class="form-control" wire:model="nkk" readonly disabled>
+                            <small class="text-muted" style="font-size: 0.75rem;">*Hubungi admin jika ada kesalahan
+                                NKK.</small>
+                        </div>
+
+                        <div class="col-12 mt-4">
+                            <label for="nama" class="form-label">Nama Lengkap <span
                                     style="color: var(--danger-color);">*</span></label>
-                            <input type="text" class="form-control @error('username') is-invalid @enderror" id="username"
-                                wire:model="username" placeholder="Masukkan username">
-                            @error('username')
+                            <input type="text" class="form-control @error('nama') is-invalid @enderror" id="nama"
+                                wire:model="nama" placeholder="Masukkan nama lengkap">
+                            @error('nama')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="telepon" class="form-label">No. Telepon / HP <span
+                                    style="color: var(--danger-color);">*</span></label>
+                            <input type="text" class="form-control @error('telepon') is-invalid @enderror" id="telepon"
+                                wire:model="telepon" placeholder="Contoh: 08123456789">
+                            @error('telepon')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="alamat" class="form-label">Alamat Lengkap <span
+                                    style="color: var(--danger-color);">*</span></label>
+                            <input type="text" class="form-control @error('alamat') is-invalid @enderror" id="alamat"
+                                wire:model="alamat" placeholder="Masukkan detail alamat">
+                            @error('alamat')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
@@ -124,7 +162,7 @@
 
                         <x-alert variant="info" class="mt-3">
                             <i class="fas fa-info-circle me-2"></i>
-                            Password harus minimal 8 karakter dan mengandung huruf dan angka.
+                            Password harus minimal 8 karakter.
                         </x-alert>
 
                         <div class="d-flex justify-content-end mt-4">
@@ -136,7 +174,7 @@
                 @else
                     <p class="text-muted mb-0">
                         <i class="fas fa-shield-alt me-2"></i>
-                        Klik tombol "Ubah Password" untuk memperbarui password Anda.
+                        Klik tombol "Ubah Password" untuk memperbarui password Anda untuk login.
                     </p>
                 @endif
             </div>

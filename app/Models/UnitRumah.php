@@ -11,6 +11,7 @@ class UnitRumah extends Model
     use HasFactory;
 
     protected $table = 'unit_rumah';
+
     protected $primaryKey = 'id_unit';
 
     protected $fillable = [

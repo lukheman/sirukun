@@ -5,32 +5,73 @@ namespace App\Livewire\Auth;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
-use Livewire\Attributes\Rule;
-
 use Livewire\Component;
 
 #[Layout('layouts.guest')]
-#[Title('Login - AdminPro')]
+#[Title('Login - SIRUKUN')]
 class Login extends Component
 {
-    #[Rule(['required', 'email'])]
-    public string $email = '';
+    public string $role = 'admin';
 
-    #[Rule([])]
+    // Admin fields
+    public string $username = '';
+
+    // Warga fields
+    public string $nik = '';
+
+    // Shared fields
     public string $password = '';
 
     public bool $remember = false;
 
+    public function updatedRole(): void
+    {
+        $this->resetValidation();
+        $this->resetErrorBag();
+        $this->username = '';
+        $this->nik = '';
+        $this->password = '';
+    }
+
     public function submit()
     {
-        $credentials = $this->validate();
+        if ($this->role === 'admin') {
+            $this->validate([
+                'username' => ['required', 'string'],
+                'password' => ['required'],
+            ]);
 
-        if (Auth::attempt($credentials, $this->remember)) {
-            session()->regenerate();
-            return redirect()->to(route('dashboard'));
+            $credentials = [
+                'username' => $this->username,
+                'password' => $this->password,
+            ];
+
+            if (Auth::guard('admin')->attempt($credentials, $this->remember)) {
+                session()->regenerate();
+
+                return redirect()->route('dashboard');
+            }
+
+            $this->addError('username', 'Username atau kata sandi salah.');
+        } else {
+            $this->validate([
+                'nik' => ['required', 'string'],
+                'password' => ['required'],
+            ]);
+
+            $credentials = [
+                'nik' => $this->nik,
+                'password' => $this->password,
+            ];
+
+            if (Auth::guard('warga')->attempt($credentials, $this->remember)) {
+                session()->regenerate();
+
+                return redirect()->route('warga.dashboard');
+            }
+
+            $this->addError('nik', 'NIK atau kata sandi salah.');
         }
-
-        $this->addError('email', __('auth.failed'));
     }
 
     public function render()

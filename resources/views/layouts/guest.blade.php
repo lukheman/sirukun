@@ -1,6 +1,6 @@
 @props([
-    'title' => 'AdminPro - Modern Admin Dashboard',
-    'description' => 'A beautiful, modern admin dashboard template built with Laravel, Livewire, and Tailwind CSS',
+    'title' => 'SIRUKUN - Sistem Informasi Rukun Warga',
+    'description' => 'Aplikasi manajemen data warga, pengajuan hunian, dan penempatan unit rumah.',
 ])
 
 <!DOCTYPE html>
@@ -19,31 +19,31 @@
 
     <style>
         :root {
-            --primary-color: #6366f1;
-            --primary-dark: #4f46e5;
-            --primary-light: #818cf8;
-            --secondary-color: #0ea5e9;
-            --success-color: #10b981;
-            --warning-color: #f59e0b;
-            --danger-color: #ef4444;
-            --text-primary: #1e293b;
-            --text-secondary: #64748b;
-            --text-muted: #94a3b8;
-            --border-color: #e2e8f0;
-            --bg-light: #f8fafc;
+            --primary-color: #C75B3F;
+            --primary-dark: #A8472E;
+            --primary-light: #E07A5F;
+            --secondary-color: #6B8E5A;
+            --success-color: #5BA87C;
+            --warning-color: #D4943A;
+            --danger-color: #D94F4F;
+            --text-primary: #3D2C1E;
+            --text-secondary: #7A6B5D;
+            --text-muted: #A89F93;
+            --border-color: #E8DFD3;
+            --bg-light: #F5F0E8;
             --bg-white: #ffffff;
         }
 
         [data-theme="dark"] {
-            --primary-color: #818cf8;
-            --primary-dark: #6366f1;
-            --primary-light: #a5b4fc;
-            --text-primary: #f1f5f9;
-            --text-secondary: #cbd5e1;
-            --text-muted: #94a3b8;
-            --border-color: #334155;
-            --bg-light: #0f172a;
-            --bg-white: #1e293b;
+            --primary-color: #E07A5F;
+            --primary-dark: #C75B3F;
+            --primary-light: #F2A694;
+            --text-primary: #F5F0E8;
+            --text-secondary: #D3C4B3;
+            --text-muted: #A89F93;
+            --border-color: #5C4B3D;
+            --bg-light: #2C1E16;
+            --bg-white: #3D2C1E;
         }
 
         * {
@@ -78,7 +78,7 @@
         }
 
         [data-theme="dark"] .navbar {
-            background: rgba(15, 23, 42, 0.95);
+            background: rgba(44, 30, 22, 0.95);
         }
 
         .navbar-container {
@@ -156,12 +156,12 @@
         .btn-primary {
             background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
             color: white;
-            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+            box-shadow: 0 4px 15px rgba(199, 91, 63, 0.3);
         }
 
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+            box-shadow: 0 6px 20px rgba(199, 91, 63, 0.4);
         }
 
         .btn-lg {
@@ -340,19 +340,17 @@
 </head>
 
 <body>
-    <!-- Navbar -->
     <nav class="navbar">
         <div class="navbar-container">
             <a href="/" class="navbar-brand">
-                <i class="fas fa-layer-group"></i>
-                <span>AdminPro</span>
+                <i class="fas fa-home"></i>
+                <span>SIRUKUN</span>
             </a>
 
             <ul class="navbar-nav">
-                <li><a href="#features" class="nav-link">Features</a></li>
-                <li><a href="#components" class="nav-link">Components</a></li>
-                <li><a href="#pricing" class="nav-link">Pricing</a></li>
-                <li><a href="#contact" class="nav-link">Contact</a></li>
+                <li><a href="#beranda" class="nav-link">Beranda</a></li>
+                <li><a href="#statistik" class="nav-link">Statistik</a></li>
+                <li><a href="#layanan" class="nav-link">Layanan</a></li>
             </ul>
 
             <div class="navbar-actions">
@@ -373,56 +371,42 @@
         {{ $slot }}
     </main>
 
-    <!-- Footer -->
     <footer class="footer">
         <div class="container">
             <div class="footer-container">
                 <div class="footer-brand">
                     <a href="/" class="navbar-brand">
-                        <i class="fas fa-layer-group"></i>
-                        <span>AdminPro</span>
+                        <i class="fas fa-home"></i>
+
+                                               <span>SIRUKUN</span>
                     </a>
-                    <p>A modern, elegant admin dashboard template built with Laravel, Livewire, and Tailwind CSS.</p>
+                    <p>Sistem Informasi Rukun Warga & Perumahan untuk pengelolaan data warga yang lebih baik dan terintegrasi.</p>
                 </div>
 
                 <div class="footer-links">
                     <div class="footer-column">
-                        <h4>Product</h4>
+                        <h4>Navigasi</h4>
                         <ul>
-                            <li><a href="#features">Features</a></li>
-                            <li><a href="#components">Components</a></li>
-                            <li><a href="#pricing">Pricing</a></li>
-                            <li><a href="#">Changelog</a></li>
+                            <li><a href="#beranda">Beranda</a></li>
+                            <li><a href="#layanan">Layanan</a></li>
+                            <li><a href="{{ route('login') }}">Masuk</a></li>
                         </ul>
                     </div>
                     <div class="footer-column">
-                        <h4>Resources</h4>
+                        <h4>Kontak</h4>
                         <ul>
-                            <li><a href="#">Documentation</a></li>
-                            <li><a href="#">Tutorials</a></li>
-                            <li><a href="#">Blog</a></li>
-                            <li><a href="#">Support</a></li>
-                        </ul>
-                    </div>
-                    <div class="footer-column">
-                        <h4>Company</h4>
-                        <ul>
-                            <li><a href="#">About</a></li>
-                            <li><a href="#">Careers</a></li>
-                            <li><a href="#">Privacy</a></li>
-                            <li><a href="#">Terms</a></li>
+                            <li><a href="#">Bantuan</a></li>
+                            <li><a href="#">Panduan</a></li>
                         </ul>
                     </div>
                 </div>
             </div>
 
             <div class="footer-bottom">
-                <p>&copy; {{ date('Y') }} AdminPro. All rights reserved.</p>
+                <p>&copy; {{ date('Y') }} SIRUKUN. Hak cipta dilindungi.</p>
                 <div class="footer-social">
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href="#"><i class="fab fa-github"></i></a>
-                    <a href="#"><i class="fab fa-linkedin"></i></a>
-                    <a href="#"><i class="fab fa-youtube"></i></a>
+                    <a href="#"><i class="fas fa-envelope"></i></a>
+                    <a href="#"><i class="fab fa-whatsapp"></i></a>
                 </div>
             </div>
         </div>
@@ -459,10 +443,9 @@
                 themeIcon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
             }
         }
-
         initTheme();
 
-         // Smooth scroll
+          // Smooth scroll
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
                 e.preventDefault();
