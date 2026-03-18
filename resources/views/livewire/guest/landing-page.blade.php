@@ -1,6 +1,6 @@
 <div>
     <!-- Hero Section -->
-    <section class="hero">
+    <section class="hero" id="beranda">
         <div class="hero-bg">
             <div class="hero-shape shape-1"></div>
             <div class="hero-shape shape-2"></div>
@@ -9,43 +9,26 @@
         <div class="container hero-container">
             <div class="hero-content">
                 <span class="hero-badge">
-                    <i class="fas fa-sparkles"></i>
-                    New Version 2.0 is Here!
+                    <i class="fas fa-home"></i>
+                    Sistem Terpadu
                 </span>
                 <h1 class="hero-title">
-                    Build Beautiful
-                    <span class="gradient-text">Admin Dashboards</span>
-                    In Minutes
+                    Sistem Informasi
+                    <span class="gradient-text">Rukun Warga</span> & Perumahan
                 </h1>
                 <p class="hero-description">
-                    A modern, elegant admin dashboard template built with Laravel 12, Livewire, and Tailwind CSS.
-                    Features dark mode, 18+ reusable components, and user management out of the box.
+                    Kelola data warga, pendataan unit rumah, dan pengajuan hunian dengan lebih transparan, mudah, dan
+                    efisien dalam satu platform terintegrasi.
                 </p>
                 <div class="hero-actions">
                     <a href="{{ route('login') }}" class="btn btn-primary btn-lg">
-                        <i class="fas fa-rocket"></i>
-                        Get Started Free
+                        <i class="fas fa-sign-in-alt"></i>
+                        Masuk Sistem
                     </a>
-                    <a href="#features" class="btn btn-outline btn-lg">
-                        <i class="fas fa-play-circle"></i>
-                        Watch Demo
+                    <a href="#layanan" class="btn btn-outline btn-lg">
+                        <i class="fas fa-info-circle"></i>
+                        Pelajari Lebih Lanjut
                     </a>
-                </div>
-                <div class="hero-stats">
-                    <div class="stat-item">
-                        <span class="stat-value">18+</span>
-                        <span class="stat-label">Components</span>
-                    </div>
-                    <div class="stat-divider"></div>
-                    <div class="stat-item">
-                        <span class="stat-value">Dark/Light</span>
-                        <span class="stat-label">Theme Support</span>
-                    </div>
-                    <div class="stat-divider"></div>
-                    <div class="stat-item">
-                        <span class="stat-value">100%</span>
-                        <span class="stat-label">Responsive</span>
-                    </div>
                 </div>
             </div>
             <div class="hero-image">
@@ -78,130 +61,108 @@
         </div>
     </section>
 
-    <!-- Features Section -->
-    <section class="section features-section" id="features">
+    <!-- Stats Section -->
+    <section class="section pt-0" id="statistik">
         <div class="container">
-            <div class="section-header">
-                <span class="section-badge">Features</span>
-                <h2 class="section-title">Everything You Need to Build Amazing Dashboards</h2>
-                <p class="section-description">
-                    Packed with features that help you build professional admin interfaces faster than ever.
-                </p>
-            </div>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon" style="background: linear-gradient(135deg, #6366f1, #8b5cf6);">
-                        <i class="fas fa-moon"></i>
-                    </div>
-                    <h3>Dark Mode</h3>
-                    <p>Beautiful dark theme with smooth transitions. User preference is saved automatically.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon" style="background: linear-gradient(135deg, #0ea5e9, #06b6d4);">
-                        <i class="fas fa-bolt"></i>
-                    </div>
-                    <h3>Livewire Powered</h3>
-                    <p>Dynamic, reactive components without writing JavaScript. Real-time updates made easy.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon" style="background: linear-gradient(135deg, #10b981, #34d399);">
-                        <i class="fas fa-puzzle-piece"></i>
-                    </div>
-                    <h3>18+ Components</h3>
-                    <p>Reusable Blade components for cards, tables, buttons, modals, and more.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon" style="background: linear-gradient(135deg, #f59e0b, #fbbf24);">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #6366f1, #8b5cf6);">
                         <i class="fas fa-users"></i>
                     </div>
-                    <h3>User Management</h3>
-                    <p>Full CRUD operations with search, pagination, and form validation out of the box.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon" style="background: linear-gradient(135deg, #ef4444, #f87171);">
-                        <i class="fas fa-mobile-alt"></i>
+                    <div class="stat-info">
+                        <h3 class="stat-number">{{ number_format($stats['total_warga']) }}</h3>
+                        <p class="stat-label">Total Warga</p>
                     </div>
-                    <h3>Responsive Design</h3>
-                    <p>Perfect on any device with mobile-first approach and collapsible sidebar.</p>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon" style="background: linear-gradient(135deg, #8b5cf6, #a78bfa);">
-                        <i class="fas fa-shield-alt"></i>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #0ea5e9, #06b6d4);">
+                        <i class="fas fa-building"></i>
                     </div>
-                    <h3>Authentication Ready</h3>
-                    <p>Modern login system with form validation, remember me, and session management.</p>
+                    <div class="stat-info">
+                        <h3 class="stat-number">{{ number_format($stats['total_unit']) }}</h3>
+                        <p class="stat-label">Total Unit Rumah</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #10b981, #34d399);">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 class="stat-number">{{ number_format($stats['unit_tersedia']) }}</h3>
+                        <p class="stat-label">Unit Tersedia</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #f59e0b, #fbbf24);">
+                        <i class="fas fa-file-signature"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 class="stat-number">{{ number_format($stats['pengajuan_disetujui']) }}</h3>
+                        <p class="stat-label">Pengajuan Disetujui</p>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Components Section -->
-    <section class="section components-section" id="components">
+    <!-- Features Section -->
+    <section class="section features-section" id="layanan">
         <div class="container">
             <div class="section-header">
-                <span class="section-badge">Components</span>
-                <h2 class="section-title">Beautiful, Reusable UI Components</h2>
+                <span class="section-badge">Layanan Utama</span>
+                <h2 class="section-title">Solusi Terpadu Pengelolaan Perumahan</h2>
                 <p class="section-description">
-                    All components are built with accessibility and customization in mind.
+                    Semua fitur yang Anda butuhkan untuk manajemen rukun warga dan pendataan properti.
                 </p>
             </div>
-            <div class="components-showcase">
-                <div class="component-preview-card">
-                    <h4>Buttons</h4>
-                    <div class="component-demo">
-                        <button class="demo-btn primary">Primary</button>
-                        <button class="demo-btn secondary">Secondary</button>
-                        <button class="demo-btn success">Success</button>
-                        <button class="demo-btn warning">Warning</button>
-                        <button class="demo-btn danger">Danger</button>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, #6366f1, #8b5cf6);">
+                        <i class="fas fa-address-card"></i>
                     </div>
+                    <h3>Manajemen Warga</h3>
+                    <p>Pendataan warga yang valid terintegrasi dengan NIK dan Kartu Keluarga memudahkan identifikasi
+                        demografi perumahan.</p>
                 </div>
-                <div class="component-preview-card">
-                    <h4>Badges</h4>
-                    <div class="component-demo">
-                        <span class="demo-badge primary"><i class="fas fa-circle"></i> Active</span>
-                        <span class="demo-badge success"><i class="fas fa-check"></i> Completed</span>
-                        <span class="demo-badge warning"><i class="fas fa-clock"></i> Pending</span>
-                        <span class="demo-badge danger"><i class="fas fa-times"></i> Cancelled</span>
+                <div class="feature-card">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, #0ea5e9, #06b6d4);">
+                        <i class="fas fa-city"></i>
                     </div>
+                    <h3>Inventori Unit Rumah</h3>
+                    <p>Pemantauan real-time ketersediaan dan status setiap blok serta nomor rumah yang ada pada
+                        perumahan.</p>
                 </div>
-                <div class="component-preview-card">
-                    <h4>Alerts</h4>
-                    <div class="component-demo column">
-                        <div class="demo-alert success">
-                            <i class="fas fa-check-circle"></i>
-                            <span>Your changes have been saved successfully.</span>
-                        </div>
-                        <div class="demo-alert warning">
-                            <i class="fas fa-exclamation-triangle"></i>
-                            <span>Please review your settings before continuing.</span>
-                        </div>
+                <div class="feature-card">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, #10b981, #34d399);">
+                        <i class="fas fa-file-contract"></i>
                     </div>
+                    <h3>Pengajuan Hunian</h3>
+                    <p>Sistem pengajuan otomatis bagi warga yang ingin menempati atau menyewa unit, disertai tracking
+                        status approval.</p>
                 </div>
-                <div class="component-preview-card">
-                    <h4>Progress Bars</h4>
-                    <div class="component-demo column">
-                        <div class="demo-progress">
-                            <div class="progress-label">
-                                <span>Project Progress</span>
-                                <span>75%</span>
-                            </div>
-                            <div class="progress-bar">
-                                <div class="progress-fill"
-                                    style="width: 75%; background: linear-gradient(90deg, #6366f1, #8b5cf6);"></div>
-                            </div>
-                        </div>
-                        <div class="demo-progress">
-                            <div class="progress-label">
-                                <span>Storage Used</span>
-                                <span>45%</span>
-                            </div>
-                            <div class="progress-bar">
-                                <div class="progress-fill"
-                                    style="width: 45%; background: linear-gradient(90deg, #0ea5e9, #06b6d4);"></div>
-                            </div>
-                        </div>
+                <div class="feature-card">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, #f59e0b, #fbbf24);">
+                        <i class="fas fa-house-user"></i>
                     </div>
+                    <h3>Riwayat Penempatan</h3>
+                    <p>Mencatat secara historis penempatan unit oleh masing-masing kepala keluarga dengan rekam jejak
+                        yang jelas.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, #ef4444, #f87171);">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <h3>Keamanan Data</h3>
+                    <p>Dibangun menggunakan framework terbaru dengan keamanan tingkat tinggi yang memastikan privasi
+                        dari setiap warga.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, #8b5cf6, #a78bfa);">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3>Akses Responsif</h3>
+                    <p>Desain aplikasi yang ramah digunakan di semua perangkat. Mudah diakses melalui Smartphone maupun
+                        Desktop.</p>
                 </div>
             </div>
         </div>
@@ -212,16 +173,12 @@
         <div class="container">
             <div class="cta-card">
                 <div class="cta-content">
-                    <h2>Ready to Build Something Amazing?</h2>
-                    <p>Get started with AdminPro today and create stunning admin dashboards in minutes.</p>
+                    <h2>Siap Bergabung dengan SIRUKUN?</h2>
+                    <p>Optimalkan pengelolaan rukun warga dan perumahan Anda mulai hari ini juga.</p>
                     <div class="cta-actions">
                         <a href="{{ route('login') }}" class="btn btn-white btn-lg">
-                            <i class="fas fa-rocket"></i>
-                            Get Started Free
-                        </a>
-                        <a href="#" class="btn btn-outline-white btn-lg">
-                            <i class="fab fa-github"></i>
-                            View on GitHub
+                            <i class="fas fa-sign-in-alt"></i>
+                            Masuk Sekarang
                         </a>
                     </div>
                 </div>
@@ -237,12 +194,13 @@
         <style>
             /* Hero Section */
             .hero {
-                min-height: 100vh;
+                min-height: 90vh;
                 display: flex;
                 align-items: center;
                 position: relative;
                 overflow: hidden;
-                padding-top: 80px;
+                padding-top: 100px;
+                padding-bottom: 50px;
             }
 
             .hero-bg {
@@ -352,35 +310,7 @@
                 margin-bottom: 3rem;
             }
 
-            .hero-stats {
-                display: flex;
-                align-items: center;
-                gap: 2rem;
-            }
-
-            .stat-item {
-                text-align: center;
-            }
-
-            .stat-value {
-                display: block;
-                font-size: 1.5rem;
-                font-weight: 700;
-                color: var(--text-primary);
-            }
-
-            .stat-label {
-                font-size: 0.9rem;
-                color: var(--text-muted);
-            }
-
-            .stat-divider {
-                width: 1px;
-                height: 40px;
-                background: var(--border-color);
-            }
-
-            /* Dashboard Preview */
+            /* Dashboard Preview styles (same as before) */
             .dashboard-preview {
                 background: var(--bg-white);
                 border-radius: 20px;
@@ -482,7 +412,63 @@
                 border: 1px solid var(--border-color);
             }
 
-            /* Section Styles */
+            /* Stats Grid */
+            .stats-grid {
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 1.5rem;
+                position: relative;
+                z-index: 10;
+                margin-top: -2rem;
+            }
+
+            .stat-card {
+                background: var(--bg-white);
+                padding: 1.5rem;
+                border-radius: 16px;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+                border: 1px solid var(--border-color);
+                display: flex;
+                align-items: center;
+                gap: 1.2rem;
+                transition: transform 0.3s ease;
+            }
+
+            .stat-card:hover {
+                transform: translateY(-5px);
+            }
+
+            .stat-icon {
+                width: 50px;
+                height: 50px;
+                border-radius: 12px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: white;
+                font-size: 1.3rem;
+                flex-shrink: 0;
+            }
+
+            .stat-info {
+                display: flex;
+                flex-direction: column;
+            }
+
+            .stat-number {
+                font-size: 1.5rem;
+                font-weight: 700;
+                color: var(--text-primary);
+                line-height: 1.2;
+            }
+
+            .stat-label {
+                font-size: 0.85rem;
+                color: var(--text-secondary);
+                margin: 0;
+            }
+
+            /* Section Header */
             .section-header {
                 text-align: center;
                 max-width: 700px;
@@ -515,7 +501,7 @@
 
             /* Features Grid */
             .features-section {
-                background: var(--bg-white);
+                background: var(--bg-light);
             }
 
             .features-grid {
@@ -525,8 +511,8 @@
             }
 
             .feature-card {
-                background: var(--bg-light);
-                padding: 2rem;
+                background: var(--bg-white);
+                padding: 2.5rem;
                 border-radius: 16px;
                 transition: all 0.3s ease;
                 border: 1px solid var(--border-color);
@@ -556,156 +542,19 @@
                 font-size: 1.25rem;
                 font-weight: 600;
                 margin-bottom: 0.75rem;
+                color: var(--text-primary);
             }
 
             .feature-card p {
                 color: var(--text-secondary);
                 font-size: 0.95rem;
-            }
-
-            /* Components Showcase */
-            .components-showcase {
-                display: grid;
-                grid-template-columns: repeat(2, 1fr);
-                gap: 2rem;
-            }
-
-            .component-preview-card {
-                background: var(--bg-white);
-                border-radius: 16px;
-                padding: 2rem;
-                border: 1px solid var(--border-color);
-            }
-
-            .component-preview-card h4 {
-                font-size: 1rem;
-                font-weight: 600;
-                margin-bottom: 1.5rem;
-                color: var(--text-muted);
-                text-transform: uppercase;
-                letter-spacing: 1px;
-            }
-
-            .component-demo {
-                display: flex;
-                flex-wrap: wrap;
-                gap: 0.75rem;
-            }
-
-            .component-demo.column {
-                flex-direction: column;
-            }
-
-            .demo-btn {
-                padding: 0.625rem 1.25rem;
-                border-radius: 8px;
-                font-weight: 500;
-                font-size: 0.9rem;
-                border: none;
-                cursor: pointer;
-                transition: all 0.3s;
-            }
-
-            .demo-btn.primary {
-                background: #6366f1;
-                color: white;
-            }
-
-            .demo-btn.secondary {
-                background: #64748b;
-                color: white;
-            }
-
-            .demo-btn.success {
-                background: #10b981;
-                color: white;
-            }
-
-            .demo-btn.warning {
-                background: #f59e0b;
-                color: white;
-            }
-
-            .demo-btn.danger {
-                background: #ef4444;
-                color: white;
-            }
-
-            .demo-badge {
-                display: inline-flex;
-                align-items: center;
-                gap: 6px;
-                padding: 0.5rem 1rem;
-                border-radius: 50px;
-                font-size: 0.8rem;
-                font-weight: 600;
-            }
-
-            .demo-badge.primary {
-                background: rgba(99, 102, 241, 0.15);
-                color: #6366f1;
-            }
-
-            .demo-badge.success {
-                background: rgba(16, 185, 129, 0.15);
-                color: #10b981;
-            }
-
-            .demo-badge.warning {
-                background: rgba(245, 158, 11, 0.15);
-                color: #f59e0b;
-            }
-
-            .demo-badge.danger {
-                background: rgba(239, 68, 68, 0.15);
-                color: #ef4444;
-            }
-
-            .demo-alert {
-                display: flex;
-                align-items: center;
-                gap: 12px;
-                padding: 1rem 1.25rem;
-                border-radius: 10px;
-                font-size: 0.9rem;
-            }
-
-            .demo-alert.success {
-                background: rgba(16, 185, 129, 0.1);
-                color: #10b981;
-            }
-
-            .demo-alert.warning {
-                background: rgba(245, 158, 11, 0.1);
-                color: #f59e0b;
-            }
-
-            .demo-progress {
-                width: 100%;
-            }
-
-            .progress-label {
-                display: flex;
-                justify-content: space-between;
-                margin-bottom: 0.5rem;
-                font-size: 0.9rem;
-            }
-
-            .progress-bar {
-                height: 8px;
-                background: var(--border-color);
-                border-radius: 50px;
-                overflow: hidden;
-            }
-
-            .progress-fill {
-                height: 100%;
-                border-radius: 50px;
+                line-height: 1.6;
             }
 
             /* CTA Section */
             .cta-section {
-                background: var(--bg-light);
+                background: var(--bg-white);
+                padding-bottom: 8rem;
             }
 
             .cta-card {
@@ -751,17 +600,7 @@
             .btn-white:hover {
                 background: #f8fafc;
                 transform: translateY(-2px);
-            }
-
-            .btn-outline-white {
-                background: transparent;
-                border: 2px solid rgba(255, 255, 255, 0.3);
-                color: white;
-            }
-
-            .btn-outline-white:hover {
-                background: rgba(255, 255, 255, 0.1);
-                border-color: white;
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
             }
 
             .cta-decoration {
@@ -799,72 +638,43 @@
                     text-align: center;
                 }
 
-                .hero-title {
-                    font-size: 2.75rem;
-                }
-
                 .hero-actions {
                     justify-content: center;
                 }
 
-                .hero-stats {
-                    justify-content: center;
+                .hero-image {
+                    max-width: 600px;
+                    margin: 0 auto;
                 }
 
-                .hero-image {
-                    display: none;
+                .stats-grid {
+                    grid-template-columns: repeat(2, 1fr);
                 }
 
                 .features-grid {
                     grid-template-columns: repeat(2, 1fr);
                 }
-
-                .components-showcase {
-                    grid-template-columns: 1fr;
-                }
             }
 
             @media (max-width: 768px) {
                 .hero-title {
-                    font-size: 2.25rem;
+                    font-size: 2.5rem;
                 }
 
-                .hero-description {
-                    font-size: 1.1rem;
-                }
-
-                .hero-actions {
-                    flex-direction: column;
-                }
-
-                .hero-stats {
-                    flex-direction: column;
-                    gap: 1.5rem;
-                }
-
-                .stat-divider {
-                    width: 40px;
-                    height: 1px;
+                .stats-grid {
+                    grid-template-columns: 1fr;
                 }
 
                 .features-grid {
                     grid-template-columns: 1fr;
                 }
 
-                .section-title {
-                    font-size: 2rem;
-                }
-
                 .cta-card {
-                    padding: 2.5rem 1.5rem;
+                    padding: 3rem 2rem;
                 }
 
                 .cta-content h2 {
-                    font-size: 1.75rem;
-                }
-
-                .cta-actions {
-                    flex-direction: column;
+                    font-size: 2rem;
                 }
             }
         </style>
