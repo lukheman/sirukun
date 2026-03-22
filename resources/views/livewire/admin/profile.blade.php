@@ -29,7 +29,7 @@
                     </div>
                 </div>
 
-                <h4 style="color: var(--text-primary); font-weight: 600;">{{ Auth::guard('admin')->user()->username }}</h4>
+                <h4 style="color: var(--text-primary); font-weight: 600;">{{ Auth::guard('admin')->user()->admin }}</h4>
                 <x-badge variant="primary" icon="fas fa-user-shield">Administrator</x-badge>
 
                 <hr style="border-color: var(--border-color); margin: 1.5rem 0;">
@@ -37,11 +37,13 @@
                 <div class="text-start">
                     <div class="d-flex justify-content-between mb-2">
                         <span class="text-muted">Bergabung</span>
-                        <span style="color: var(--text-primary);">{{ Auth::guard('admin')->user()->created_at->format('d M Y') }}</span>
+                        <span
+                            style="color: var(--text-primary);">{{ Auth::guard('admin')->user()->created_at->format('d M Y') }}</span>
                     </div>
                     <div class="d-flex justify-content-between">
                         <span class="text-muted">Terakhir diperbarui</span>
-                        <span style="color: var(--text-primary);">{{ Auth::guard('admin')->user()->updated_at->diffForHumans() }}</span>
+                        <span
+                            style="color: var(--text-primary);">{{ Auth::guard('admin')->user()->updated_at->diffForHumans() }}</span>
                     </div>
                 </div>
             </div>
@@ -59,11 +61,11 @@
                 <form wire:submit="updateProfile">
                     <div class="row g-3">
                         <div class="col-12">
-                            <label for="username" class="form-label">Username <span
+                            <label for="admin" class="form-label">Username <span
                                     style="color: var(--danger-color);">*</span></label>
-                            <input type="text" class="form-control @error('username') is-invalid @enderror" id="username"
-                                wire:model="username" placeholder="Masukkan username">
-                            @error('username')
+                            <input type="text" class="form-control @error('admin') is-invalid @enderror" id="admin"
+                                wire:model="admin" placeholder="Masukkan username">
+                            @error('admin')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>

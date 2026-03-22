@@ -11,7 +11,7 @@ use Livewire\Component;
 #[Title('Profile - SIRUKUN')]
 class Profile extends Component
 {
-    public string $username = '';
+    public string $email = '';
 
     public string $current_password = '';
 
@@ -24,7 +24,7 @@ class Profile extends Component
     public function mount(): void
     {
         $admin = Auth::guard('admin')->user();
-        $this->username = $admin->username;
+        $this->email = $admin->email;
     }
 
     protected function rules(): array
@@ -32,7 +32,7 @@ class Profile extends Component
         $admin = Auth::guard('admin')->user();
 
         $rules = [
-            'username' => ['required', 'string', 'max:255', 'unique:admin,username,'.$admin->id_admin.',id_admin'],
+            'email' => ['required', 'email', 'max:255', 'unique:admin,email,' . $admin->id_admin . ',id_admin'],
         ];
 
         if ($this->showPasswordSection && $this->password) {
@@ -44,7 +44,7 @@ class Profile extends Component
 
     public function togglePasswordSection(): void
     {
-        $this->showPasswordSection = ! $this->showPasswordSection;
+        $this->showPasswordSection = !$this->showPasswordSection;
         $this->current_password = '';
         $this->password = '';
         $this->password_confirmation = '';
@@ -56,7 +56,7 @@ class Profile extends Component
         $validated = $this->validate();
 
         $admin = Auth::guard('admin')->user();
-        $admin->username = $validated['username'];
+        $admin->email = $validated['email'];
         $admin->save();
 
         session()->flash('success', 'Profile berhasil diperbarui.');
@@ -71,7 +71,7 @@ class Profile extends Component
 
         $admin = Auth::guard('admin')->user();
 
-        if (! Hash::check($this->current_password, $admin->password)) {
+        if (!Hash::check($this->current_password, $admin->password)) {
             $this->addError('current_password', 'Password saat ini tidak sesuai.');
 
             return;

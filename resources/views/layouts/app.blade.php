@@ -701,8 +701,8 @@
             $logoutUrl = route('pimpinan.logout');
         }
 
-        // Coba ambil nama (dari warga) atau username (dari admin)
-        $displayName = $activeUser ? ($activeUser->nama ?? $activeUser->username ?? 'User') : 'Guest';
+        // Coba ambil nama (dari warga) atau admin (dari admin)
+        $displayName = $activeUser ? ($activeUser->nama ?? $activeUser->admin ?? 'User') : 'Guest';
     @endphp
 
     <!-- Main Content -->

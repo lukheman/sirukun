@@ -14,7 +14,7 @@ class Login extends Component
     public string $role = 'admin';
 
     // Admin fields
-    public string $username = '';
+    public string $admin_email = '';
 
     // Warga fields
     public string $nik = '';
@@ -31,7 +31,7 @@ class Login extends Component
     {
         $this->resetValidation();
         $this->resetErrorBag();
-        $this->username = '';
+        $this->admin_email = '';
         $this->nik = '';
         $this->email = '';
         $this->password = '';
@@ -41,12 +41,12 @@ class Login extends Component
     {
         if ($this->role === 'admin') {
             $this->validate([
-                'username' => ['required', 'string'],
+                'admin_email' => ['required', 'email'],
                 'password' => ['required'],
             ]);
 
             $credentials = [
-                'username' => $this->username,
+                'email' => $this->admin_email,
                 'password' => $this->password,
             ];
 
@@ -56,7 +56,7 @@ class Login extends Component
                 return redirect()->route('dashboard');
             }
 
-            $this->addError('username', 'Username atau kata sandi salah.');
+            $this->addError('admin_email', 'Email atau kata sandi salah.');
         } elseif ($this->role === 'warga') {
             $this->validate([
                 'nik' => ['required', 'string'],

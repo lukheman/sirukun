@@ -16,7 +16,7 @@ class Admin extends Authenticatable
     protected $primaryKey = 'id_admin';
 
     protected $fillable = [
-        'username',
+        'email',
         'password',
         'remember_token',
     ];
@@ -35,6 +35,6 @@ class Admin extends Authenticatable
      */
     public function initials(): string
     {
-        return Str::upper(Str::substr($this->username, 0, 2));
+        return Str::upper(Str::substr($this->email, 0, 2));
     }
 }

@@ -63,13 +63,13 @@
                     @if($role === 'admin')
                         <!-- Username (Admin) -->
                         <div class="auth-field">
-                            <label for="username">Username</label>
+                            <label for="admin">Username</label>
                             <div class="auth-input-wrap">
                                 <i class="fas fa-user"></i>
-                                <input type="text" wire:model="username" class="@error('username') is-invalid @enderror"
-                                    id="username" placeholder="Masukkan username" autofocus>
+                                <input type="text" wire:model="admin" class="@error('admin') is-invalid @enderror"
+                                    id="admin" placeholder="Masukkan username" autofocus>
                             </div>
-                            @error('username')
+                            @error('admin')
                                 <span class="auth-error">{{ $message }}</span>
                             @enderror
                         </div>
