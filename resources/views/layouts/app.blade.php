@@ -671,6 +671,13 @@
             <x-sidebar-section title="Account">
                 <x-sidebar-link href="{{ route('warga.profile') }}" icon="fas fa-user-circle" :active="request()->routeIs('warga.profile')">Profile Saya</x-sidebar-link>
             </x-sidebar-section>
+
+        @elseif(Auth::guard('kepala_dinas')->check())
+            <x-sidebar-section title="Menu Pimpinan">
+                <x-sidebar-link href="{{ route('pimpinan.dashboard') }}" icon="fas fa-th-large" :active="request()->routeIs('pimpinan.dashboard')">Dashboard</x-sidebar-link>
+                <x-sidebar-link href="{{ route('pimpinan.laporan') }}" icon="fas fa-file-alt" :active="request()->routeIs('pimpinan.laporan')">Laporan Rumah</x-sidebar-link>
+                <x-sidebar-link href="{{ route('pimpinan.arsip') }}" icon="fas fa-archive" :active="request()->routeIs('pimpinan.arsip')">Arsip Penghuni</x-sidebar-link>
+            </x-sidebar-section>
         @endif
     </x-sidebar>
 
@@ -688,6 +695,10 @@
             $activeUser = Auth::guard('warga')->user();
             $activeRole = 'Warga';
             $logoutUrl = route('warga.logout');
+        } elseif (Auth::guard('kepala_dinas')->check()) {
+            $activeUser = Auth::guard('kepala_dinas')->user();
+            $activeRole = 'Kepala Dinas';
+            $logoutUrl = route('pimpinan.logout');
         }
 
         // Coba ambil nama (dari warga) atau username (dari admin)

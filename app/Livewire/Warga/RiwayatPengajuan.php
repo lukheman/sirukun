@@ -2,6 +2,8 @@
 
 namespace App\Livewire\Warga;
 
+use App\Enums\JenisPengajuan;
+use App\Enums\StatusPengajuan;
 use App\Models\Pengajuan;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Title;
@@ -33,8 +35,8 @@ class RiwayatPengajuan extends Component
 
         // Buat pengajuan baru dengan tipe Keluar
         $warga->pengajuan()->create([
-            'jenis_pengajuan' => 'Keluar',
-            'status_pengajuan' => 'Menunggu',
+            'jenis_pengajuan' => JenisPengajuan::KELUAR,
+            'status_pengajuan' => StatusPengajuan::MENUNGGU,
         ]);
 
         $this->closeAjukanKeluarModal();
@@ -55,16 +57,16 @@ class RiwayatPengajuan extends Component
         $allPengajuans = Pengajuan::where('id_warga', $warga->id_warga)->get();
 
         // Cek apakah warga sedang menghuni (punya penempatan aktif)
-        $punyaPenempatan = $allPengajuans->where('status_pengajuan', 'Disetujui')
+        $punyaPenempatan = $allPengajuans->where('status_pengajuan', StatusPengajuan::DISETUJUI)
             ->whereNotNull('penempatan')
             ->isNotEmpty();
 
         // Cek apakah warga sudah punya pengajuan keluar yang masih Menunggu
-        $punyaPengajuanKeluarMenunggu = $allPengajuans->where('jenis_pengajuan', 'Keluar')
-            ->where('status_pengajuan', 'Menunggu')
+        $punyaPengajuanKeluarMenunggu = $allPengajuans->where('jenis_pengajuan', JenisPengajuan::KELUAR)
+            ->where('status_pengajuan', StatusPengajuan::MENUNGGU)
             ->isNotEmpty();
 
-        $bisaAjukanKeluar = $punyaPenempatan && ! $punyaPengajuanKeluarMenunggu;
+        $bisaAjukanKeluar = $punyaPenempatan && !$punyaPengajuanKeluarMenunggu;
 
         return view('livewire.warga.riwayat-pengajuan', [
             'pengajuans' => $pengajuansPagination,

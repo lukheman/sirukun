@@ -1,7 +1,7 @@
 # Note
 
 - Tambahkan avatar pada admin, warga, dan pemda
-- 
+-
 
 # ERD
 

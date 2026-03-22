@@ -2,6 +2,8 @@
 
 namespace App\Livewire\Warga;
 
+use App\Enums\JenisPengajuan;
+use App\Enums\StatusPengajuan;
 use App\Models\Pengajuan;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Title;
@@ -30,8 +32,8 @@ class InformasiUnit extends Component
         $warga = Auth::guard('warga')->user();
 
         $warga->pengajuan()->create([
-            'jenis_pengajuan' => 'Masuk',
-            'status_pengajuan' => 'Menunggu',
+            'jenis_pengajuan' => JenisPengajuan::MASUK,
+            'status_pengajuan' => StatusPengajuan::MENUNGGU,
         ]);
 
         $this->closeAjukanUnitModal();
@@ -54,8 +56,8 @@ class InformasiUnit extends Component
         $warga = Auth::guard('warga')->user();
 
         $warga->pengajuan()->create([
-            'jenis_pengajuan' => 'Keluar',
-            'status_pengajuan' => 'Menunggu',
+            'jenis_pengajuan' => JenisPengajuan::KELUAR,
+            'status_pengajuan' => StatusPengajuan::MENUNGGU,
         ]);
 
         $this->closeAjukanKeluarModal();
@@ -68,23 +70,23 @@ class InformasiUnit extends Component
 
         // Cari penempatan aktif (pengajuan 'disetujui' dan punya relasi penempatan)
         $penempatanAktif = $warga->pengajuan()
-            ->where('status_pengajuan', 'Disetujui')
+            ->where('status_pengajuan', StatusPengajuan::DISETUJUI)
             ->whereHas('penempatan')
             ->with('penempatan.unitRumah')
             ->first()
-            ?->penempatan;
+                ?->penempatan;
 
         // Cari pengajuan masuk yang masih menunggu
         $pengajuanMasukMenunggu = $warga->pengajuan()
-            ->where('jenis_pengajuan', 'Masuk')
-            ->where('status_pengajuan', 'Menunggu')
+            ->where('jenis_pengajuan', JenisPengajuan::MASUK)
+            ->where('status_pengajuan', StatusPengajuan::MENUNGGU)
             ->latest()
             ->first();
 
         // Cari pengajuan keluar yang masih menunggu (untuk disable tombol keluar jika ada)
         $pengajuanKeluarMenunggu = $warga->pengajuan()
-            ->where('jenis_pengajuan', 'Keluar')
-            ->where('status_pengajuan', 'Menunggu')
+            ->where('jenis_pengajuan', JenisPengajuan::KELUAR)
+            ->where('status_pengajuan', StatusPengajuan::MENUNGGU)
             ->exists();
 
         return view('livewire.warga.informasi-unit', [

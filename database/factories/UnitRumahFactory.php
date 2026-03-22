@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\StatusKetersediaan;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -19,7 +20,7 @@ class UnitRumahFactory extends Factory
         return [
             'blok' => $this->faker->randomElement(['A', 'B', 'C', 'D', 'E']),
             'nomor' => $this->faker->numberBetween(1, 100),
-            'status_ketersediaan' => $this->faker->randomElement(['Tersedia', 'Terisi', 'Renovasi']),
+            'status_ketersediaan' => $this->faker->randomElement(StatusKetersediaan::cases()),
         ];
     }
 }

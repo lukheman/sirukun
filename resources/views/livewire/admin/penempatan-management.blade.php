@@ -132,7 +132,8 @@
                                 <option value="">Pilih Unit...</option>
                                 @foreach($unitRumahs as $unit)
                                     <option value="{{ $unit->id_unit }}">
-                                        Blok {{ $unit->blok }} - No. {{ $unit->nomor }} ({{ $unit->status_ketersediaan }})
+                                        Blok {{ $unit->blok }} - No. {{ $unit->nomor }}
+                                        ({{ $unit->status_ketersediaan->getLabel() }})
                                     </option>
                                 @endforeach
                             </select>

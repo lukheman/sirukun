@@ -50,16 +50,11 @@
                                 <div class="text-dark-secondary">No. {{ $unit->nomor }}</div>
                             </td>
                             <td>
-                                @if($unit->status_ketersediaan === 'Tersedia')
-                                    <span class="badge badge-modern bg-success text-white"><i class="fas fa-check-circle"></i>
-                                        Tersedia</span>
-                                @elseif($unit->status_ketersediaan === 'Terisi')
-                                    <span class="badge badge-modern bg-primary text-white"><i class="fas fa-home"></i>
-                                        Terisi</span>
-                                @else
-                                    <span class="badge badge-modern bg-warning text-dark"><i class="fas fa-tools"></i>
-                                        Renovasi</span>
-                                @endif
+                                <span
+                                    class="badge badge-modern bg-{{ $unit->status_ketersediaan->getColor() }} text-{{ $unit->status_ketersediaan->getColor() === 'warning' ? 'dark' : 'white' }}">
+                                    <i class="{{ $unit->status_ketersediaan->getIcon() }}"></i>
+                                    {{ $unit->status_ketersediaan->getLabel() }}
+                                </span>
                             </td>
                             <td class="text-end">
                                 <div class="d-flex gap-1 justify-content-end">
@@ -124,9 +119,9 @@
                         <label class="form-label">Status Ketersediaan <span class="text-danger">*</span></label>
                         <select class="form-select form-control @error('status_ketersediaan') is-invalid @enderror"
                             wire:model="status_ketersediaan">
-                            <option value="Tersedia">Tersedia</option>
-                            <option value="Terisi">Terisi</option>
-                            <option value="Renovasi">Renovasi</option>
+                            @foreach(App\Enums\StatusKetersediaan::cases() as $status)
+                                <option value="{{ $status->value }}">{{ $status->getLabel() }}</option>
+                            @endforeach
                         </select>
                         @error('status_ketersediaan') <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>

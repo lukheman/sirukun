@@ -123,14 +123,14 @@
                                 <div class="d-flex align-items-center gap-3">
                                     <div class="icon-wrap"
                                         style="width: 42px; height: 42px; border-radius: 10px; background: rgba(199, 91, 63, 0.1); color: var(--primary-color); display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">
-                                        @if($pengajuan->jenis_pengajuan === 'Keluar')
+                                        @if($pengajuan->jenis_pengajuan === App\Enums\JenisPengajuan::KELUAR)
                                             <i class="fas fa-sign-out-alt"></i>
                                         @else
                                             <i class="fas fa-file-contract"></i>
                                         @endif
                                     </div>
                                     <div>
-                                        <div class="fw-bold" style="color: var(--text-primary); font-size: 0.95rem;">Pengajuan {{ $pengajuan->jenis_pengajuan }}
+                                        <div class="fw-bold" style="color: var(--text-primary); font-size: 0.95rem;">Pengajuan {{ $pengajuan->jenis_pengajuan->getLabel() }}
                                             #{{ $pengajuan->id_pengajuan }}</div>
                                         <div class="small text-muted d-flex align-items-center gap-1">
                                             <i class="fas fa-calendar-alt"></i>
@@ -138,23 +138,11 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="d-flex align-items-center gap-3">
-                                    @php
-                                        $statusClass = match ($pengajuan->status_pengajuan) {
-                                            'Disetujui' => 'success',
-                                            'Ditolak' => 'danger',
-                                            default => 'warning',
-                                        };
-                                        $statusIcon = match ($pengajuan->status_pengajuan) {
-                                            'Disetujui' => 'fas fa-check-circle',
-                                            'Ditolak' => 'fas fa-times-circle',
-                                            default => 'fas fa-clock',
-                                        };
-                                    @endphp
-                                    <x-badge :variant="$statusClass" :icon="$statusIcon">
-                                        {{ $pengajuan->status_pengajuan }}
+                                    <div class="d-flex align-items-center gap-3">
+                                    <x-badge :variant="$pengajuan->status_pengajuan->getColor()" :icon="$pengajuan->status_pengajuan->getIcon()">
+                                        {{ $pengajuan->status_pengajuan->getLabel() }}
                                     </x-badge>
-                                    @if($pengajuan->jenis_pengajuan === 'Keluar')
+                                    @if($pengajuan->jenis_pengajuan === App\Enums\JenisPengajuan::KELUAR)
                                         <x-badge variant="info" icon="fas fa-sign-out-alt">
                                             Keluar
                                         </x-badge>
@@ -191,11 +179,9 @@
                         <td><strong>{{ $unit->blok }}</strong></td>
                         <td>{{ $unit->nomor }}</td>
                         <td>
-                            @if($unit->status_ketersediaan === 'Terisi')
-                                <x-badge variant="success" icon="fas fa-house-user">Terisi</x-badge>
-                            @else
-                                <x-badge variant="secondary" icon="fas fa-door-open">Tersedia</x-badge>
-                            @endif
+                            <x-badge variant="{{ $unit->status_ketersediaan->getColor() }}" icon="{{ $unit->status_ketersediaan->getIcon() }}">
+                                {{ $unit->status_ketersediaan->getLabel() }}
+                            </x-badge>
                         </td>
                         <td>
                             @if($unit->penempatan && $unit->penempatan->pengajuan && $unit->penempatan->pengajuan->warga)

@@ -46,8 +46,8 @@
                             <label for="nik">NIK <span class="req">*</span></label>
                             <div class="auth-input-wrap">
                                 <i class="fas fa-id-card"></i>
-                                <input type="text" wire:model="nik" class="@error('nik') is-invalid @enderror"
-                                    id="nik" placeholder="16 digit NIK" maxlength="16" autofocus>
+                                <input type="text" wire:model="nik" class="@error('nik') is-invalid @enderror" id="nik"
+                                    placeholder="16 digit NIK" maxlength="16" autofocus>
                             </div>
                             @error('nik')
                                 <span class="auth-error">{{ $message }}</span>
@@ -59,8 +59,8 @@
                             <label for="nkk">No. KK <span class="req">*</span></label>
                             <div class="auth-input-wrap">
                                 <i class="fas fa-file-alt"></i>
-                                <input type="text" wire:model="nkk" class="@error('nkk') is-invalid @enderror"
-                                    id="nkk" placeholder="16 digit No. KK" maxlength="16">
+                                <input type="text" wire:model="nkk" class="@error('nkk') is-invalid @enderror" id="nkk"
+                                    placeholder="16 digit No. KK" maxlength="16">
                             </div>
                             @error('nkk')
                                 <span class="auth-error">{{ $message }}</span>
@@ -98,8 +98,9 @@
                             <label for="tempat_lahir">Tempat Lahir <span class="req">*</span></label>
                             <div class="auth-input-wrap">
                                 <i class="fas fa-map-marker-alt"></i>
-                                <input type="text" wire:model="tempat_lahir" class="@error('tempat_lahir') is-invalid @enderror"
-                                    id="tempat_lahir" placeholder="Kota tempat lahir">
+                                <input type="text" wire:model="tempat_lahir"
+                                    class="@error('tempat_lahir') is-invalid @enderror" id="tempat_lahir"
+                                    placeholder="Kota tempat lahir">
                             </div>
                             @error('tempat_lahir')
                                 <span class="auth-error">{{ $message }}</span>
@@ -111,8 +112,8 @@
                             <label for="tanggal_lahir">Tanggal Lahir <span class="req">*</span></label>
                             <div class="auth-input-wrap">
                                 <i class="fas fa-calendar"></i>
-                                <input type="date" wire:model="tanggal_lahir" class="@error('tanggal_lahir') is-invalid @enderror"
-                                    id="tanggal_lahir">
+                                <input type="date" wire:model="tanggal_lahir"
+                                    class="@error('tanggal_lahir') is-invalid @enderror" id="tanggal_lahir">
                             </div>
                             @error('tanggal_lahir')
                                 <span class="auth-error">{{ $message }}</span>
@@ -152,14 +153,34 @@
                             @enderror
                         </div>
 
+                        <!-- Upload Foto KTP (full width) -->
+                        <div class="auth-field auth-field-full">
+                            <label for="foto_ktp">Foto KTP <small class="text-muted">(opsional, maks
+                                    2MB)</small></label>
+                            <div class="auth-input-wrap" style="padding: 0.5rem 0.85rem;">
+                                <i class="fas fa-id-card"></i>
+                                <input type="file" wire:model="foto_ktp" class="@error('foto_ktp') is-invalid @enderror"
+                                    id="foto_ktp" accept="image/*" style="font-size: 0.85rem;">
+                            </div>
+                            @error('foto_ktp')
+                                <span class="auth-error">{{ $message }}</span>
+                            @enderror
+                            <div wire:loading wire:target="foto_ktp" class="auth-error"
+                                style="color: var(--primary-color);">
+                                <i class="fas fa-spinner fa-spin"></i> Mengupload...
+                            </div>
+                        </div>
+
                         <!-- Password -->
                         <div class="auth-field">
                             <label for="password">Kata Sandi <span class="req">*</span></label>
                             <div class="auth-input-wrap">
                                 <i class="fas fa-lock"></i>
-                                <input type="password" wire:model="password" class="@error('password') is-invalid @enderror"
-                                    id="password" placeholder="Min. 6 karakter">
-                                <button type="button" class="toggle-pw" onclick="togglePassword('password', 'toggleIcon1')">
+                                <input type="password" wire:model="password"
+                                    class="@error('password') is-invalid @enderror" id="password"
+                                    placeholder="Min. 6 karakter">
+                                <button type="button" class="toggle-pw"
+                                    onclick="togglePassword('password', 'toggleIcon1')">
                                     <i class="fas fa-eye" id="toggleIcon1"></i>
                                 </button>
                             </div>
@@ -173,9 +194,10 @@
                             <label for="password_confirmation">Konfirmasi Kata Sandi <span class="req">*</span></label>
                             <div class="auth-input-wrap">
                                 <i class="fas fa-lock"></i>
-                                <input type="password" wire:model="password_confirmation"
-                                    id="password_confirmation" placeholder="Ulangi kata sandi">
-                                <button type="button" class="toggle-pw" onclick="togglePassword('password_confirmation', 'toggleIcon2')">
+                                <input type="password" wire:model="password_confirmation" id="password_confirmation"
+                                    placeholder="Ulangi kata sandi">
+                                <button type="button" class="toggle-pw"
+                                    onclick="togglePassword('password_confirmation', 'toggleIcon2')">
                                     <i class="fas fa-eye" id="toggleIcon2"></i>
                                 </button>
                             </div>
@@ -203,8 +225,13 @@
 
     <x-slot:styles>
         <style>
-            .footer { display: none; }
-            .navbar { position: relative; }
+            .footer {
+                display: none;
+            }
+
+            .navbar {
+                position: relative;
+            }
 
             .auth-page {
                 min-height: calc(100vh - 70px);
@@ -221,12 +248,55 @@
                 background: linear-gradient(160deg, #2C1E16 0%, #3D2C1E 50%, #2C1E16 100%);
             }
 
-            .auth-particles { position: absolute; inset: 0; pointer-events: none; z-index: 0; }
-            .auth-particle { position: absolute; border-radius: 50%; opacity: 0.5; animation: auth-drift 16s ease-in-out infinite alternate; }
-            .ap1 { width: 280px; height: 280px; background: radial-gradient(circle, rgba(199,91,63,0.1), transparent 70%); top: -60px; right: 5%; }
-            .ap2 { width: 220px; height: 220px; background: radial-gradient(circle, rgba(107,142,90,0.1), transparent 70%); bottom: 5%; left: 10%; animation-delay: -6s; }
-            .ap3 { width: 160px; height: 160px; background: radial-gradient(circle, rgba(212,148,58,0.08), transparent 70%); top: 50%; left: 40%; animation-delay: -12s; }
-            @keyframes auth-drift { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(20px,-15px) scale(1.08); } }
+            .auth-particles {
+                position: absolute;
+                inset: 0;
+                pointer-events: none;
+                z-index: 0;
+            }
+
+            .auth-particle {
+                position: absolute;
+                border-radius: 50%;
+                opacity: 0.5;
+                animation: auth-drift 16s ease-in-out infinite alternate;
+            }
+
+            .ap1 {
+                width: 280px;
+                height: 280px;
+                background: radial-gradient(circle, rgba(199, 91, 63, 0.1), transparent 70%);
+                top: -60px;
+                right: 5%;
+            }
+
+            .ap2 {
+                width: 220px;
+                height: 220px;
+                background: radial-gradient(circle, rgba(107, 142, 90, 0.1), transparent 70%);
+                bottom: 5%;
+                left: 10%;
+                animation-delay: -6s;
+            }
+
+            .ap3 {
+                width: 160px;
+                height: 160px;
+                background: radial-gradient(circle, rgba(212, 148, 58, 0.08), transparent 70%);
+                top: 50%;
+                left: 40%;
+                animation-delay: -12s;
+            }
+
+            @keyframes auth-drift {
+                0% {
+                    transform: translate(0, 0) scale(1);
+                }
+
+                100% {
+                    transform: translate(20px, -15px) scale(1.08);
+                }
+            }
 
             .auth-wrapper {
                 display: grid;
@@ -235,7 +305,7 @@
                 width: 100%;
                 background: var(--bg-white);
                 border-radius: 28px;
-                box-shadow: 0 25px 80px rgba(0,0,0,0.08);
+                box-shadow: 0 25px 80px rgba(0, 0, 0, 0.08);
                 border: 1px solid var(--border-color);
                 overflow: hidden;
                 position: relative;
@@ -250,74 +320,281 @@
                 position: relative;
                 overflow: hidden;
             }
-            .auth-brand-panel::before { content: ''; position: absolute; width: 300px; height: 300px; border-radius: 50%; background: rgba(255,255,255,0.05); top: -80px; right: -80px; }
-            .auth-brand-panel::after { content: ''; position: absolute; width: 200px; height: 200px; border-radius: 50%; background: rgba(255,255,255,0.04); bottom: -60px; left: -40px; }
 
-            .brand-inner { position: relative; z-index: 1; }
-            .brand-icon-wrap { width: 56px; height: 56px; border-radius: 16px; background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); display: flex; align-items: center; justify-content: center; font-size: 1.4rem; color: white; margin-bottom: 1.25rem; }
-            .auth-brand-panel h2 { font-size: 1.5rem; font-weight: 700; color: white; margin-bottom: 0.6rem; line-height: 1.3; }
-            .auth-brand-panel h2 span { color: rgba(255,255,255,0.9); }
-            .auth-brand-panel>.brand-inner>p { color: rgba(255,255,255,0.7); font-size: 0.9rem; line-height: 1.5; margin-bottom: 1.5rem; }
-            .brand-features { display: flex; flex-direction: column; gap: 0.75rem; }
-            .brand-feat-item { display: flex; align-items: center; gap: 10px; color: rgba(255,255,255,0.85); font-size: 0.85rem; font-weight: 500; }
-            .brand-feat-item i { color: rgba(255,255,255,0.6); font-size: 0.8rem; }
+            .auth-brand-panel::before {
+                content: '';
+                position: absolute;
+                width: 300px;
+                height: 300px;
+                border-radius: 50%;
+                background: rgba(255, 255, 255, 0.05);
+                top: -80px;
+                right: -80px;
+            }
 
-            .auth-form-panel { padding: 2.5rem; display: flex; align-items: flex-start; justify-content: center; overflow-y: auto; max-height: calc(100vh - 140px); }
-            .auth-form-inner-wide { width: 100%; max-width: 560px; }
-            .auth-form-header { margin-bottom: 1.25rem; }
-            .auth-form-header h1 { font-size: 1.5rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.3rem; }
-            .auth-form-header p { color: var(--text-muted); font-size: 0.85rem; }
+            .auth-brand-panel::after {
+                content: '';
+                position: absolute;
+                width: 200px;
+                height: 200px;
+                border-radius: 50%;
+                background: rgba(255, 255, 255, 0.04);
+                bottom: -60px;
+                left: -40px;
+            }
 
-            .auth-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem 1rem; }
-            .auth-field-full { grid-column: 1 / -1; }
+            .brand-inner {
+                position: relative;
+                z-index: 1;
+            }
 
-            .req { color: var(--danger-color, #D94F4F); }
+            .brand-icon-wrap {
+                width: 56px;
+                height: 56px;
+                border-radius: 16px;
+                background: rgba(255, 255, 255, 0.15);
+                backdrop-filter: blur(10px);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 1.4rem;
+                color: white;
+                margin-bottom: 1.25rem;
+            }
 
-            .auth-field { margin-bottom: 0; }
-            .auth-field label { display: block; font-size: 0.8rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.3rem; }
+            .auth-brand-panel h2 {
+                font-size: 1.5rem;
+                font-weight: 700;
+                color: white;
+                margin-bottom: 0.6rem;
+                line-height: 1.3;
+            }
+
+            .auth-brand-panel h2 span {
+                color: rgba(255, 255, 255, 0.9);
+            }
+
+            .auth-brand-panel>.brand-inner>p {
+                color: rgba(255, 255, 255, 0.7);
+                font-size: 0.9rem;
+                line-height: 1.5;
+                margin-bottom: 1.5rem;
+            }
+
+            .brand-features {
+                display: flex;
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+
+            .brand-feat-item {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                color: rgba(255, 255, 255, 0.85);
+                font-size: 0.85rem;
+                font-weight: 500;
+            }
+
+            .brand-feat-item i {
+                color: rgba(255, 255, 255, 0.6);
+                font-size: 0.8rem;
+            }
+
+            .auth-form-panel {
+                padding: 2.5rem;
+                display: flex;
+                align-items: flex-start;
+                justify-content: center;
+                overflow-y: auto;
+                max-height: calc(100vh - 140px);
+            }
+
+            .auth-form-inner-wide {
+                width: 100%;
+                max-width: 560px;
+            }
+
+            .auth-form-header {
+                margin-bottom: 1.25rem;
+            }
+
+            .auth-form-header h1 {
+                font-size: 1.5rem;
+                font-weight: 700;
+                color: var(--text-primary);
+                margin-bottom: 0.3rem;
+            }
+
+            .auth-form-header p {
+                color: var(--text-muted);
+                font-size: 0.85rem;
+            }
+
+            .auth-form-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 0.75rem 1rem;
+            }
+
+            .auth-field-full {
+                grid-column: 1 / -1;
+            }
+
+            .req {
+                color: var(--danger-color, #D94F4F);
+            }
+
+            .auth-field {
+                margin-bottom: 0;
+            }
+
+            .auth-field label {
+                display: block;
+                font-size: 0.8rem;
+                font-weight: 600;
+                color: var(--text-primary);
+                margin-bottom: 0.3rem;
+            }
 
             .auth-input-wrap {
-                display: flex; align-items: center; gap: 8px;
-                background: var(--bg-light); border: 1.5px solid var(--border-color);
-                border-radius: 10px; padding: 0 0.85rem; transition: all 0.25s;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                background: var(--bg-light);
+                border: 1.5px solid var(--border-color);
+                border-radius: 10px;
+                padding: 0 0.85rem;
+                transition: all 0.25s;
             }
-            .auth-input-wrap:focus-within { border-color: var(--primary-color); box-shadow: 0 0 0 3px rgba(199,91,63,0.08); }
-            .auth-input-wrap i { color: var(--text-muted); font-size: 0.85rem; flex-shrink: 0; }
-            .auth-input-wrap input, .auth-input-wrap select {
-                flex: 1; border: none; background: transparent;
-                padding: 0.65rem 0; font-size: 0.9rem; color: var(--text-primary);
-                outline: none; font-family: inherit;
+
+            .auth-input-wrap:focus-within {
+                border-color: var(--primary-color);
+                box-shadow: 0 0 0 3px rgba(199, 91, 63, 0.08);
             }
-            .auth-input-wrap input::placeholder { color: var(--text-muted); }
-            .auth-select-wrap select { cursor: pointer; appearance: none; }
 
-            .toggle-pw { background: transparent; border: none; cursor: pointer; color: var(--text-muted); padding: 0.3rem; font-size: 0.85rem; transition: color 0.2s; }
-            .toggle-pw:hover { color: var(--primary-color); }
+            .auth-input-wrap i {
+                color: var(--text-muted);
+                font-size: 0.85rem;
+                flex-shrink: 0;
+            }
 
-            .auth-error { display: block; font-size: 0.75rem; color: var(--danger-color); margin-top: 0.25rem; font-weight: 500; }
+            .auth-input-wrap input,
+            .auth-input-wrap select {
+                flex: 1;
+                border: none;
+                background: transparent;
+                padding: 0.65rem 0;
+                font-size: 0.9rem;
+                color: var(--text-primary);
+                outline: none;
+                font-family: inherit;
+            }
+
+            .auth-input-wrap input::placeholder {
+                color: var(--text-muted);
+            }
+
+            .auth-select-wrap select {
+                cursor: pointer;
+                appearance: none;
+            }
+
+            .toggle-pw {
+                background: transparent;
+                border: none;
+                cursor: pointer;
+                color: var(--text-muted);
+                padding: 0.3rem;
+                font-size: 0.85rem;
+                transition: color 0.2s;
+            }
+
+            .toggle-pw:hover {
+                color: var(--primary-color);
+            }
+
+            .auth-error {
+                display: block;
+                font-size: 0.75rem;
+                color: var(--danger-color);
+                margin-top: 0.25rem;
+                font-weight: 500;
+            }
 
             .auth-submit {
-                width: 100%; padding: 0.8rem; border: none; border-radius: 12px;
-                background: linear-gradient(135deg, #C75B3F, #A8472E); color: white;
-                font-size: 0.95rem; font-weight: 600; cursor: pointer;
-                display: flex; align-items: center; justify-content: center; gap: 8px;
-                transition: all 0.3s; box-shadow: 0 4px 15px rgba(199,91,63,0.25);
-                font-family: inherit; margin-top: 1.25rem;
+                width: 100%;
+                padding: 0.8rem;
+                border: none;
+                border-radius: 12px;
+                background: linear-gradient(135deg, #C75B3F, #A8472E);
+                color: white;
+                font-size: 0.95rem;
+                font-weight: 600;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 8px;
+                transition: all 0.3s;
+                box-shadow: 0 4px 15px rgba(199, 91, 63, 0.25);
+                font-family: inherit;
+                margin-top: 1.25rem;
             }
-            .auth-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(199,91,63,0.35); }
-            .auth-submit:disabled { opacity: 0.7; transform: none; cursor: not-allowed; }
-            .auth-submit i { transition: transform 0.3s; }
-            .auth-submit:hover i { transform: translateX(3px); }
 
-            .auth-footer { text-align: center; margin-top: 1.25rem; font-size: 0.85rem; color: var(--text-secondary); }
-            .auth-footer a { color: var(--primary-color); font-weight: 600; text-decoration: none; transition: opacity 0.2s; }
-            .auth-footer a:hover { opacity: 0.8; }
+            .auth-submit:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 25px rgba(199, 91, 63, 0.35);
+            }
+
+            .auth-submit:disabled {
+                opacity: 0.7;
+                transform: none;
+                cursor: not-allowed;
+            }
+
+            .auth-submit i {
+                transition: transform 0.3s;
+            }
+
+            .auth-submit:hover i {
+                transform: translateX(3px);
+            }
+
+            .auth-footer {
+                text-align: center;
+                margin-top: 1.25rem;
+                font-size: 0.85rem;
+                color: var(--text-secondary);
+            }
+
+            .auth-footer a {
+                color: var(--primary-color);
+                font-weight: 600;
+                text-decoration: none;
+                transition: opacity 0.2s;
+            }
+
+            .auth-footer a:hover {
+                opacity: 0.8;
+            }
 
             @media (max-width:768px) {
-                .auth-wrapper { grid-template-columns: 1fr; }
-                .auth-brand-panel { display: none; }
-                .auth-page { padding: 1rem; }
-                .auth-form-grid { grid-template-columns: 1fr; }
+                .auth-wrapper {
+                    grid-template-columns: 1fr;
+                }
+
+                .auth-brand-panel {
+                    display: none;
+                }
+
+                .auth-page {
+                    padding: 1rem;
+                }
+
+                .auth-form-grid {
+                    grid-template-columns: 1fr;
+                }
             }
         </style>
     </x-slot:styles>

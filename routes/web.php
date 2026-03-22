@@ -1,11 +1,14 @@
 <?php
 
 use App\Http\Controllers\Admin\LogoutController;
+use App\Http\Controllers\Pimpinan\LaporanPdfController;
 use App\Livewire\Admin\Dashboard as AdminDashboard;
 use App\Livewire\Admin\Profile;
 use App\Livewire\Auth\Login;
 use App\Livewire\Auth\Register;
-use App\Livewire\Guest\LandingPage;
+use App\Livewire\Pimpinan\ArsipPenghuni as PimpinanArsipPenghuni;
+use App\Livewire\Pimpinan\Dashboard as PimpinanDashboard;
+use App\Livewire\Pimpinan\LaporanRumah as PimpinanLaporanRumah;
 use App\Livewire\Warga\Dashboard as WargaDashboard;
 use App\Livewire\Warga\InformasiUnit as WargaInformasiUnit;
 use App\Livewire\Warga\Profile as WargaProfile;
@@ -13,7 +16,7 @@ use App\Livewire\Warga\RiwayatPengajuan as WargaRiwayatPengajuan;
 use Illuminate\Support\Facades\Route;
 
 // Guest Routes
-Route::get('/', LandingPage::class)->name('home');
+Route::get('/', \App\Livewire\Guest\LandingPage::class)->name('home');
 
 // Auth Routes
 Route::get('/login', Login::class)->name('login');
@@ -40,4 +43,13 @@ Route::prefix('warga')->middleware('auth:warga')->group(function () {
     Route::get('/pengajuan', WargaRiwayatPengajuan::class)->name('warga.pengajuan');
     Route::get('/profile', WargaProfile::class)->name('warga.profile');
     Route::post('/logout', [LogoutController::class, '__invoke'])->name('warga.logout');
+});
+
+// Pimpinan Routes
+Route::prefix('pimpinan')->middleware('auth:kepala_dinas')->group(function () {
+    Route::get('/dashboard', PimpinanDashboard::class)->name('pimpinan.dashboard');
+    Route::get('/laporan-rumah', PimpinanLaporanRumah::class)->name('pimpinan.laporan');
+    Route::get('/laporan-rumah/pdf', [LaporanPdfController::class, 'downloadLaporanRumah'])->name('pimpinan.laporan.pdf');
+    Route::get('/arsip-penghuni', PimpinanArsipPenghuni::class)->name('pimpinan.arsip');
+    Route::post('/logout', [LogoutController::class, '__invoke'])->name('pimpinan.logout');
 });

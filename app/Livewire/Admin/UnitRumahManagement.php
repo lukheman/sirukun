@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin;
 
+use App\Enums\StatusKetersediaan;
 use App\Models\UnitRumah;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
@@ -24,9 +25,14 @@ class UnitRumahManagement extends Component
 
     public $nomor;
 
-    public $status_ketersediaan = 'Tersedia';
+    public $status_ketersediaan;
 
     protected $paginationTheme = 'bootstrap';
+
+    public function mount()
+    {
+        $this->status_ketersediaan = StatusKetersediaan::TERSEDIA->value;
+    }
 
     public function updatingSearch()
     {
@@ -46,7 +52,7 @@ class UnitRumahManagement extends Component
                         ->where('nomor', $this->nomor);
                 })->ignore($this->editingUnitId, 'id_unit'),
             ],
-            'status_ketersediaan' => 'required|in:Tersedia,Terisi,Renovasi',
+            'status_ketersediaan' => ['required', Rule::enum(StatusKetersediaan::class)],
         ];
     }
 
@@ -74,7 +80,7 @@ class UnitRumahManagement extends Component
 
         $this->blok = $unit->blok;
         $this->nomor = $unit->nomor;
-        $this->status_ketersediaan = $unit->status_ketersediaan;
+        $this->status_ketersediaan = $unit->status_ketersediaan->value;
 
         $this->showModal = true;
     }
@@ -90,7 +96,7 @@ class UnitRumahManagement extends Component
         $this->editingUnitId = null;
         $this->blok = null;
         $this->nomor = null;
-        $this->status_ketersediaan = 'Tersedia';
+        $this->status_ketersediaan = StatusKetersediaan::TERSEDIA->value;
     }
 
     public function save()
@@ -136,8 +142,8 @@ class UnitRumahManagement extends Component
     {
         $unitQuery = UnitRumah::query()
             ->when($this->search, function ($query) {
-                $query->where('blok', 'like', '%'.$this->search.'%')
-                    ->orWhere('nomor', 'like', '%'.$this->search.'%');
+                $query->where('blok', 'like', '%' . $this->search . '%')
+                    ->orWhere('nomor', 'like', '%' . $this->search . '%');
             })
             ->orderBy('blok')
             ->orderBy('nomor')

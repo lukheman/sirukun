@@ -52,6 +52,11 @@
                         <i class="fas fa-users"></i>
                         Warga
                     </button>
+                    <button type="button" class="auth-role-tab {{ $role === 'pimpinan' ? 'active' : '' }}"
+                        wire:click="$set('role', 'pimpinan')">
+                        <i class="fas fa-user-tie"></i>
+                        Pimpinan
+                    </button>
                 </div>
 
                 <form wire:submit="submit">
@@ -68,7 +73,7 @@
                                 <span class="auth-error">{{ $message }}</span>
                             @enderror
                         </div>
-                    @else
+                    @elseif($role === 'warga')
                         <!-- NIK (Warga) -->
                         <div class="auth-field">
                             <label for="nik">Nomor Induk Kependudukan (NIK)</label>
@@ -78,6 +83,19 @@
                                     placeholder="Masukkan 16 digit NIK" autofocus>
                             </div>
                             @error('nik')
+                                <span class="auth-error">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    @elseif($role === 'pimpinan')
+                        <!-- Email (Pimpinan) -->
+                        <div class="auth-field">
+                            <label for="email">Email</label>
+                            <div class="auth-input-wrap">
+                                <i class="fas fa-envelope"></i>
+                                <input type="email" wire:model="email" class="@error('email') is-invalid @enderror"
+                                    id="email" placeholder="Masukkan alamat email" autofocus>
+                            </div>
+                            @error('email')
                                 <span class="auth-error">{{ $message }}</span>
                             @enderror
                         </div>
@@ -339,7 +357,7 @@
             /* Role Tabs */
             .auth-role-tabs {
                 display: grid;
-                grid-template-columns: 1fr 1fr;
+                grid-template-columns: 1fr 1fr 1fr;
                 gap: 0.5rem;
                 margin-bottom: 1.5rem;
                 background: var(--bg-light, #f5f0e8);

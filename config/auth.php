@@ -16,6 +16,10 @@ return [
             'driver' => 'session',
             'provider' => 'wargas',
         ],
+        'kepala_dinas' => [
+            'driver' => 'session',
+            'provider' => 'kepala_dinas',
+        ],
     ],
 
     'providers' => [
@@ -26,6 +30,10 @@ return [
         'wargas' => [
             'driver' => 'eloquent',
             'model' => App\Models\Warga::class,
+        ],
+        'kepala_dinas' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\KepalaDinas::class,
         ],
     ],
 

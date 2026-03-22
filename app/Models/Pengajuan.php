@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Enums\JenisPengajuan;
+use App\Enums\StatusPengajuan;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -19,6 +21,11 @@ class Pengajuan extends Model
         'id_warga',
         'jenis_pengajuan',
         'status_pengajuan',
+    ];
+
+    protected $casts = [
+        'jenis_pengajuan' => JenisPengajuan::class,
+        'status_pengajuan' => StatusPengajuan::class,
     ];
 
     public function warga(): BelongsTo

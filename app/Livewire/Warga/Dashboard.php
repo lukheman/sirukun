@@ -2,6 +2,9 @@
 
 namespace App\Livewire\Warga;
 
+use App\Enums\JenisPengajuan;
+use App\Enums\StatusKetersediaan;
+use App\Enums\StatusPengajuan;
 use App\Models\UnitRumah;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Layout;
@@ -30,8 +33,8 @@ class Dashboard extends Component
 
         // Buat pengajuan baru dengan tipe Keluar
         $warga->pengajuan()->create([
-            'jenis_pengajuan' => 'Keluar',
-            'status_pengajuan' => 'Menunggu',
+            'jenis_pengajuan' => JenisPengajuan::KELUAR,
+            'status_pengajuan' => StatusPengajuan::MENUNGGU,
         ]);
 
         $this->closeAjukanKeluarModal();
@@ -45,23 +48,23 @@ class Dashboard extends Component
 
         // Unit info
         $totalUnit = UnitRumah::count();
-        $unitTerisi = UnitRumah::where('status_ketersediaan', 'Terisi')->count();
-        $unitKosong = UnitRumah::where('status_ketersediaan', 'Tersedia')->count();
+        $unitTerisi = UnitRumah::where('status_ketersediaan', StatusKetersediaan::DIHUNI)->count();
+        $unitKosong = UnitRumah::where('status_ketersediaan', StatusKetersediaan::TERSEDIA)->count();
 
         // All units with penempatan and warga info
         $units = UnitRumah::with('penempatan.pengajuan.warga')->get();
 
         // Cek apakah warga sedang menghuni (punya penempatan aktif)
-        $punyaPenempatan = $pengajuans->where('status_pengajuan', 'Disetujui')
+        $punyaPenempatan = $pengajuans->where('status_pengajuan', StatusPengajuan::DISETUJUI)
             ->whereNotNull('penempatan')
             ->isNotEmpty();
 
         // Cek apakah warga sudah punya pengajuan keluar yang masih Menunggu
-        $punyaPengajuanKeluarMenunggu = $pengajuans->where('jenis_pengajuan', 'Keluar')
-            ->where('status_pengajuan', 'Menunggu')
+        $punyaPengajuanKeluarMenunggu = $pengajuans->where('jenis_pengajuan', JenisPengajuan::KELUAR)
+            ->where('status_pengajuan', StatusPengajuan::MENUNGGU)
             ->isNotEmpty();
 
-        $bisaAjukanKeluar = $punyaPenempatan && ! $punyaPengajuanKeluarMenunggu;
+        $bisaAjukanKeluar = $punyaPenempatan && !$punyaPengajuanKeluarMenunggu;
 
         return view('livewire.warga.dashboard', [
             'warga' => $warga,

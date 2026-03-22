@@ -9,7 +9,7 @@
                 Tambah Pengajuan
             </x-button>
         </x-slot:actions>
---}}
+        --}}
 
     </x-page-header>
 
@@ -50,11 +50,13 @@
                                 <div>
                                     <div class="fw-semibold text-dark-heading">{{ $pengajuan->warga->nama }}</div>
                                     <small class="text-muted">NIK: {{ $pengajuan->warga->nik }}</small>
-                                    @if($pengajuan->jenis_pengajuan === 'Keluar')
-                                        <div class="mt-1"><x-badge variant="danger" icon="fas fa-sign-out-alt">Keluar</x-badge>
+                                    @if($pengajuan->jenis_pengajuan === App\Enums\JenisPengajuan::KELUAR)
+                                        <div class="mt-1"><x-badge :variant="$pengajuan->jenis_pengajuan->getColor()"
+                                                :icon="$pengajuan->jenis_pengajuan->getIcon()">{{ $pengajuan->jenis_pengajuan->getLabel() }}</x-badge>
                                         </div>
                                     @else
-                                        <div class="mt-1"><x-badge variant="success" icon="fas fa-sign-in-alt">Masuk</x-badge>
+                                        <div class="mt-1"><x-badge :variant="$pengajuan->jenis_pengajuan->getColor()"
+                                                :icon="$pengajuan->jenis_pengajuan->getIcon()">{{ $pengajuan->jenis_pengajuan->getLabel() }}</x-badge>
                                         </div>
                                     @endif
                                 </div>
@@ -64,31 +66,27 @@
                                 <small class="text-muted">{{ $pengajuan->created_at->format('H:i') }} WIB</small>
                             </td>
                             <td>
-                                @if($pengajuan->status_pengajuan === 'Menunggu')
-                                    <span class="badge badge-modern bg-warning text-dark"><i class="fas fa-clock"></i>
-                                        Menunggu</span>
-                                @elseif($pengajuan->status_pengajuan === 'Disetujui')
-                                    <span class="badge badge-modern bg-success text-white"><i class="fas fa-check-circle"></i>
-                                        Disetujui</span>
-                                @else
-                                    <span class="badge badge-modern bg-danger text-white"><i class="fas fa-times-circle"></i>
-                                        Ditolak</span>
-                                @endif
+                                <span
+                                    class="badge badge-modern bg-{{ $pengajuan->status_pengajuan->getColor() }} {{ $pengajuan->status_pengajuan === App\Enums\StatusPengajuan::MENUNGGU ? 'text-dark' : 'text-white' }}"><i
+                                        class="{{ $pengajuan->status_pengajuan->getIcon() }}"></i>
+                                    {{ $pengajuan->status_pengajuan->getLabel() }}</span>
                             </td>
                             <td class="text-end">
                                 <div class="d-flex gap-1 justify-content-end">
-                                    @if($pengajuan->status_pengajuan === 'Menunggu')
-                                        @if($pengajuan->jenis_pengajuan === 'Masuk' && !$pengajuan->penempatan)
+                                    @if($pengajuan->status_pengajuan === App\Enums\StatusPengajuan::MENUNGGU)
+                                        @if($pengajuan->jenis_pengajuan === App\Enums\JenisPengajuan::MASUK && !$pengajuan->penempatan)
 
 
-            <x-button wire:click="acceptPengajuan({{ $pengajuan->id_pengajuan}})" variant="success" icon="fas fa-home">
-            Penempatan
-            </x-button>
+                                            <x-button wire:click="acceptPengajuan({{ $pengajuan->id_pengajuan}})" variant="success"
+                                                icon="fas fa-home">
+                                                Penempatan
+                                            </x-button>
 
-                                        @elseif($pengajuan->jenis_pengajuan === 'Keluar')
-            <x-button wire:click="acceptPengajuanKeluar({{ $pengajuan->id_pengajuan}})" variant="success" icon="fas fa-door-open">
-            Setujui Keluar
-            </x-button>
+                                        @elseif($pengajuan->jenis_pengajuan === App\Enums\JenisPengajuan::KELUAR)
+                                            <x-button wire:click="acceptPengajuanKeluar({{ $pengajuan->id_pengajuan}})"
+                                                variant="success" icon="fas fa-door-open">
+                                                Setujui Keluar
+                                            </x-button>
                                         @endif
                                     @endif
 
@@ -157,8 +155,9 @@
                         <label class="form-label">Jenis Pengajuan <span class="text-danger">*</span></label>
                         <select class="form-select form-control @error('jenis_pengajuan') is-invalid @enderror"
                             wire:model="jenis_pengajuan">
-                            <option value="Masuk">Masuk (Menempati Unit)</option>
-                            <option value="Keluar">Keluar (Meninggalkan Unit)</option>
+                            @foreach(App\Enums\JenisPengajuan::cases() as $jenis)
+                                <option value="{{ $jenis->value }}">{{ $jenis->getLabel() }}</option>
+                            @endforeach
                         </select>
                         @error('jenis_pengajuan') <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>
@@ -167,9 +166,9 @@
                         <label class="form-label">Status Pengajuan <span class="text-danger">*</span></label>
                         <select class="form-select form-control @error('status_pengajuan') is-invalid @enderror"
                             wire:model="status_pengajuan">
-                            <option value="Menunggu">Menunggu</option>
-                            <option value="Disetujui">Disetujui</option>
-                            <option value="Ditolak">Ditolak</option>
+                            @foreach(App\Enums\StatusPengajuan::cases() as $status)
+                                <option value="{{ $status->value }}">{{ $status->getLabel() }}</option>
+                            @endforeach
                         </select>
                         @error('status_pengajuan') <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>
@@ -220,7 +219,8 @@
                             <option value="">Pilih Unit Tersedia...</option>
                             @foreach($unitRumahs as $unit)
                                 <option value="{{ $unit->id_unit }}">
-                                    Blok {{ $unit->blok }} - No. {{ $unit->nomor }} ({{ $unit->status_ketersediaan }})
+                                    Blok {{ $unit->blok }} - No. {{ $unit->nomor }}
+                                    ({{ $unit->status_ketersediaan->getLabel() }})
                                 </option>
                             @endforeach
                         </select>

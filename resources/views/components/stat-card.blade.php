@@ -26,7 +26,7 @@
     <div class="stat-icon" style="background: {{ $bgColor }}; color: {{ $color }};">
         <i class="{{ $icon }}"></i>
     </div>
-    <p class="text-muted mb-1" style="font-size: 0.875rem;">{{ $label }}</p>
+    <p class="text-muted mb-1" style="font-size: 0.875rem;">{{ $label ?? '' }}</p>
     <h3 class="mb-2" style="color: var(--text-primary); font-weight: 700;">{{ $value }}</h3>
     @if($trendValue)
         <small style="color: {{ $trendColor }}; font-weight: 600;">

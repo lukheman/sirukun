@@ -16,6 +16,7 @@ class LogoutController extends Controller
         // Logout from all guards
         Auth::guard('admin')->logout();
         Auth::guard('warga')->logout();
+        Auth::guard('kepala_dinas')->logout();
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();

@@ -1,6 +1,5 @@
 <?php
 
-use App\Enums\StatusKetersediaan;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -11,11 +10,12 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('unit_rumah', function (Blueprint $table) {
-            $table->id('id_unit');
-            $table->string('blok');
-            $table->string('nomor');
-            $table->string('status_ketersediaan')->default(StatusKetersediaan::TERSEDIA->value);
+        Schema::create('kepala_dinas', function (Blueprint $table) {
+            $table->id('id_kepala_dinas');
+            $table->string('nama');
+            $table->string('email')->unique();
+            $table->string('password');
+            $table->rememberToken();
             $table->timestamps();
         });
     }
@@ -25,6 +25,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('unit_rumah');
+        Schema::dropIfExists('kepala_dinas');
     }
 };

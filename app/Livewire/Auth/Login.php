@@ -19,6 +19,9 @@ class Login extends Component
     // Warga fields
     public string $nik = '';
 
+    // Pimpinan fields
+    public string $email = '';
+
     // Shared fields
     public string $password = '';
 
@@ -30,6 +33,7 @@ class Login extends Component
         $this->resetErrorBag();
         $this->username = '';
         $this->nik = '';
+        $this->email = '';
         $this->password = '';
     }
 
@@ -53,7 +57,7 @@ class Login extends Component
             }
 
             $this->addError('username', 'Username atau kata sandi salah.');
-        } else {
+        } elseif ($this->role === 'warga') {
             $this->validate([
                 'nik' => ['required', 'string'],
                 'password' => ['required'],
@@ -71,6 +75,24 @@ class Login extends Component
             }
 
             $this->addError('nik', 'NIK atau kata sandi salah.');
+        } elseif ($this->role === 'pimpinan') {
+            $this->validate([
+                'email' => ['required', 'email'],
+                'password' => ['required'],
+            ]);
+
+            $credentials = [
+                'email' => $this->email,
+                'password' => $this->password,
+            ];
+
+            if (Auth::guard('kepala_dinas')->attempt($credentials, $this->remember)) {
+                session()->regenerate();
+
+                return redirect()->route('pimpinan.dashboard');
+            }
+
+            $this->addError('email', 'Email atau kata sandi salah.');
         }
     }
 

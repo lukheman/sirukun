@@ -18,10 +18,12 @@ class Penempatan extends Model
         'id_pengajuan',
         'id_unit',
         'tanggal_masuk',
+        'tanggal_keluar',
     ];
 
     protected $casts = [
         'tanggal_masuk' => 'date',
+        'tanggal_keluar' => 'date',
     ];
 
     public function pengajuan(): BelongsTo

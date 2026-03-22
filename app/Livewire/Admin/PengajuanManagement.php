@@ -2,6 +2,9 @@
 
 namespace App\Livewire\Admin;
 
+use App\Enums\JenisPengajuan;
+use App\Enums\StatusKetersediaan;
+use App\Enums\StatusPengajuan;
 use App\Models\Penempatan;
 use App\Models\Pengajuan;
 use App\Models\UnitRumah;
@@ -30,9 +33,9 @@ class PengajuanManagement extends Component
     // Form fields — Pengajuan
     public $id_warga;
 
-    public $jenis_pengajuan = 'Masuk';
+    public $jenis_pengajuan = 'Masuk'; // Livewire binding requires string; validated against enum
 
-    public $status_pengajuan = 'Menunggu';
+    public $status_pengajuan = 'Menunggu'; // Livewire binding requires string; validated against enum
 
     // Form fields — Penempatan
     public $id_unit;
@@ -50,8 +53,8 @@ class PengajuanManagement extends Component
     {
         return [
             'id_warga' => 'required|exists:warga,id_warga',
-            'jenis_pengajuan' => 'required|in:Masuk,Keluar',
-            'status_pengajuan' => 'required|in:Menunggu,Disetujui,Ditolak',
+            'jenis_pengajuan' => 'required|in:' . implode(',', JenisPengajuan::values()),
+            'status_pengajuan' => 'required|in:' . implode(',', StatusPengajuan::values()),
         ];
     }
 
@@ -71,8 +74,12 @@ class PengajuanManagement extends Component
         $this->editingPengajuanId = $pengajuan->id_pengajuan;
 
         $this->id_warga = $pengajuan->id_warga;
-        $this->jenis_pengajuan = $pengajuan->jenis_pengajuan;
-        $this->status_pengajuan = $pengajuan->status_pengajuan;
+        $this->jenis_pengajuan = $pengajuan->jenis_pengajuan instanceof JenisPengajuan
+            ? $pengajuan->jenis_pengajuan->value
+            : $pengajuan->jenis_pengajuan;
+        $this->status_pengajuan = $pengajuan->status_pengajuan instanceof StatusPengajuan
+            ? $pengajuan->status_pengajuan->value
+            : $pengajuan->status_pengajuan;
 
         $this->showModal = true;
     }
@@ -87,8 +94,8 @@ class PengajuanManagement extends Component
     {
         $this->editingPengajuanId = null;
         $this->id_warga = null;
-        $this->jenis_pengajuan = 'Masuk';
-        $this->status_pengajuan = 'Menunggu';
+        $this->jenis_pengajuan = JenisPengajuan::MASUK->value;
+        $this->status_pengajuan = StatusPengajuan::MENUNGGU->value;
     }
 
     public function save()
@@ -142,19 +149,20 @@ class PengajuanManagement extends Component
         $pengajuan = Pengajuan::findOrFail($this->acceptingPengajuanId);
 
         // Update status pengajuan
-        $pengajuan->update(['status_pengajuan' => 'Disetujui']);
+        $pengajuan->update(['status_pengajuan' => StatusPengajuan::DISETUJUI]);
 
-        // Cari penempatan warga ini dan bebaskan unitnya
-        $penempatan = Penempatan::whereHas('pengajuan', function ($q) use ($pengajuan) {
-            $q->where('id_warga', $pengajuan->id_warga);
-        })->first();
+        // Cari penempatan aktif warga ini dan arsipkan
+        $penempatan = Penempatan::whereNull('tanggal_keluar')
+            ->whereHas('pengajuan', function ($q) use ($pengajuan) {
+                $q->where('id_warga', $pengajuan->id_warga);
+            })->first();
 
         if ($penempatan) {
-            UnitRumah::where('id_unit', $penempatan->id_unit)
-                ->update(['status_ketersediaan' => 'Tersedia']);
+            // Arsipkan dengan tanggal keluar (bukan hapus)
+            $penempatan->update(['tanggal_keluar' => now()]);
 
-            // Hapus record penempatan
-            $penempatan->delete();
+            UnitRumah::where('id_unit', $penempatan->id_unit)
+                ->update(['status_ketersediaan' => StatusKetersediaan::TERSEDIA->value]);
         }
 
         $this->closeTerimaKeluarModal();
@@ -170,7 +178,7 @@ class PengajuanManagement extends Component
 
         // Update status pengajuan → Disetujui
         $pengajuan = Pengajuan::findOrFail($this->acceptingPengajuanId);
-        $pengajuan->update(['status_pengajuan' => 'Disetujui']);
+        $pengajuan->update(['status_pengajuan' => StatusPengajuan::DISETUJUI]);
 
         // Buat record penempatan
         Penempatan::create([
@@ -181,7 +189,7 @@ class PengajuanManagement extends Component
 
         // Update status unit → Dihuni
         UnitRumah::where('id_unit', $this->id_unit)
-            ->update(['status_ketersediaan' => 'Dihuni']);
+            ->update(['status_ketersediaan' => StatusKetersediaan::DIHUNI->value]);
 
         $this->closePenempatanModal();
         session()->flash('success', 'Pengajuan masuk berhasil disetujui dan penempatan unit telah diatur.');
@@ -215,14 +223,14 @@ class PengajuanManagement extends Component
     {
         $pengajuanQuery = Pengajuan::with(['warga', 'penempatan'])
             ->whereHas('warga', function ($query) {
-                $query->where('nama', 'like', '%'.$this->search.'%')
-                    ->orWhere('nik', 'like', '%'.$this->search.'%');
+                $query->where('nama', 'like', '%' . $this->search . '%')
+                    ->orWhere('nik', 'like', '%' . $this->search . '%');
             })
             ->latest('created_at')
             ->paginate(10);
 
         // Unit rumah yang tersedia (belum dihuni)
-        $unitRumahs = UnitRumah::where('status_ketersediaan', '!=', 'Dihuni')
+        $unitRumahs = UnitRumah::where('status_ketersediaan', '!=', StatusKetersediaan::DIHUNI->value)
             ->orderBy('blok')
             ->orderBy('nomor')
             ->get();

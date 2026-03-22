@@ -23,7 +23,7 @@
                     @forelse($pengajuans as $pengajuan)
                         <tr>
                             <td>
-                                @if($pengajuan->jenis_pengajuan === 'Keluar')
+                                @if($pengajuan->jenis_pengajuan === App\Enums\JenisPengajuan::KELUAR)
                                     <div class="d-flex align-items-center gap-2">
                                         <div class="icon-wrap"
                                             style="width: 32px; height: 32px; border-radius: 8px; background: rgba(199, 91, 63, 0.1); color: var(--primary-color); display: flex; align-items: center; justify-content: center; font-size: 0.9rem;">
@@ -59,20 +59,9 @@
                                 @endif
                             </td>
                             <td>
-                                @php
-                                    $statusClass = match ($pengajuan->status_pengajuan) {
-                                        'Disetujui' => 'success',
-                                        'Ditolak' => 'danger',
-                                        default => 'warning',
-                                    };
-                                    $statusIcon = match ($pengajuan->status_pengajuan) {
-                                        'Disetujui' => 'fas fa-check-circle',
-                                        'Ditolak' => 'fas fa-times-circle',
-                                        default => 'fas fa-clock',
-                                    };
-                                @endphp
-                                <x-badge :variant="$statusClass" :icon="$statusIcon">
-                                    {{ $pengajuan->status_pengajuan }}
+                                <x-badge :variant="$pengajuan->status_pengajuan->getColor()"
+                                    :icon="$pengajuan->status_pengajuan->getIcon()">
+                                    {{ $pengajuan->status_pengajuan->getLabel() }}
                                 </x-badge>
                             </td>
                         </tr>

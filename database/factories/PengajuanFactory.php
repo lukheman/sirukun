@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\StatusPengajuan;
 use App\Models\Warga;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -19,7 +20,7 @@ class PengajuanFactory extends Factory
     {
         return [
             'id_warga' => Warga::factory(),
-            'status_pengajuan' => $this->faker->randomElement(['Menunggu', 'Disetujui', 'Ditolak']),
+            'status_pengajuan' => $this->faker->randomElement(StatusPengajuan::cases()),
         ];
     }
 }
