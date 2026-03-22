@@ -14,7 +14,7 @@ use Livewire\Component;
 #[Title('Dashboard Pimpinan - SIRUKUN')]
 class Dashboard extends Component
 {
-    public function render(): void
+    public function render()
     {
         $totalWarga = Warga::query()->count();
         $totalUnit = UnitRumah::query()->count();
