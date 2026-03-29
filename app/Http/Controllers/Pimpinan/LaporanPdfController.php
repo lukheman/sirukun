@@ -1,4 +1,5 @@
 <?php
+namespace App\Http\Controllers\Pimpinan;
 
 use App\Enums\StatusKetersediaan;
 use App\Http\Controllers\Controller;
