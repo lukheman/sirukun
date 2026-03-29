@@ -13,10 +13,10 @@ class KepalaDinasSeeder extends Seeder
      */
     public function run(): void
     {
-        KepalaDinas::create([
-            'nama' => 'Kepala Dinas',
-            'email' => 'kepaladinas@gmail.com',
-            'password' => Hash::make('password123'),
-        ]);
+        KepalaDinas::query()->firstOrCreate([
+            'nama' => 'Kepala Dinas'],
+            ['email' => 'kepaladinas@gmail.com'],
+            ['password' => Hash::make('password123')],
+        );
     }
 }
