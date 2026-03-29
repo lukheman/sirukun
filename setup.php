@@ -1,6 +1,8 @@
 #!/usr/bin/env php
 <?php
 
+require __DIR__ . '/helpers.php';
+
 /**
  * Script Setup Project Laravel
  *
@@ -19,132 +21,6 @@
  */
 
 // ============================================================
-//  Konstanta & Inisialisasi
-// ============================================================
-
-define('IS_WIN', PHP_OS_FAMILY === 'Windows');
-define('USE_COLOR', IS_WIN
-    ? (function_exists('sapi_windows_vt100_support') && @sapi_windows_vt100_support(STDOUT, true))
-    : true
-);
-
-const C = [
-    'reset'  => "\033[0m",
-    'green'  => "\033[32m",
-    'red'    => "\033[31m",
-    'yellow' => "\033[33m",
-    'blue'   => "\033[34m",
-    'cyan'   => "\033[36m",
-    'bold'   => "\033[1m",
-    'dim'    => "\033[2m",
-];
-
-// ============================================================
-//  Helper Functions
-// ============================================================
-
-/** Cetak teks dengan warna opsional */
-function out(string $text, string ...$colors): void
-{
-    if (USE_COLOR && $colors) {
-        $open = implode('', array_map(fn($c) => C[$c] ?? '', $colors));
-        echo $open . $text . C['reset'] . PHP_EOL;
-    } else {
-        echo $text . PHP_EOL;
-    }
-}
-
-/** Prefix berdasarkan tipe pesan */
-function icon(string $type): string
-{
-    $icons = [
-        'ok'   => IS_WIN ? '[OK]   ' : '✔  ',
-        'err'  => IS_WIN ? '[ERR]  ' : '✖  ',
-        'warn' => IS_WIN ? '[WARN] ' : '⚠  ',
-        'info' => IS_WIN ? '[-]    ' : '➜  ',
-    ];
-    return '  ' . ($icons[$type] ?? '   ');
-}
-
-function ok(string $msg): void   { out(icon('ok')   . $msg, 'green'); }
-function err(string $msg): void  { out(icon('err')  . $msg, 'red'); }
-function warn(string $msg): void { out(icon('warn') . $msg, 'yellow'); }
-function info(string $msg): void { out(icon('info') . $msg, 'blue'); }
-
-/** Header per langkah */
-function step(int $n, string $title): void
-{
-    out('');
-    out(str_repeat('═', 60), 'cyan');
-    out("  Langkah {$n}: {$title}", 'bold', 'cyan');
-    out(str_repeat('═', 60), 'cyan');
-    out('');
-}
-
-/** Jalankan shell command dengan output live */
-function run(string $cmd): bool
-{
-    info("Menjalankan: {$cmd}");
-    out('');
-    $proc = proc_open($cmd, [STDIN, STDOUT, STDERR], $pipes);
-    if (!is_resource($proc)) return false;
-    $code = proc_close($proc);
-    out('');
-    return $code === 0;
-}
-
-/** Cek apakah command tersedia */
-function hasCmd(string $cmd): bool
-{
-    $out = IS_WIN ? shell_exec("where {$cmd} 2>NUL") : shell_exec("which {$cmd} 2>/dev/null");
-    return !empty(trim($out ?? ''));
-}
-
-/** Ambil versi command (baris pertama) */
-function getVer(string $cmd): string
-{
-    $redirect = IS_WIN ? '2>NUL' : '2>/dev/null';
-    $out = shell_exec("{$cmd} --version {$redirect}");
-    return explode("\n", trim($out ?? ''))[0] ?: 'Tidak diketahui';
-}
-
-/** Baca input user */
-function input(string $prompt, string $default = ''): string
-{
-    $hint = $default !== '' ? " [{$default}]" : '';
-    echo (USE_COLOR ? C['yellow'] : '') . "  {$prompt}{$hint}: " . (USE_COLOR ? C['reset'] : '');
-    $val = trim(fgets(STDIN));
-    return $val !== '' ? $val : $default;
-}
-
-/** Update atau tambah key di file .env */
-function setEnv(string $file, string $key, string $val): void
-{
-    $content = file_get_contents($file);
-    $line    = "{$key}={$val}";
-    $content = preg_match("/^{$key}=/m", $content)
-        ? preg_replace("/^{$key}=.*/m", $line, $content)
-        : $content . PHP_EOL . $line;
-    file_put_contents($file, $content);
-}
-
-/** Tampilkan box kontak developer */
-function showContact(): void
-{
-    $e = fn(string $u, string $w) => IS_WIN ? $w : $u;
-    out('');
-    out('+' . str_repeat('-', 63) . '+', 'bold', 'cyan');
-    out('|' . str_repeat(' ', 63) . '|', 'bold', 'cyan');
-    out('|   ' . $e('👤','*') . ' Nama      : Akmal' . str_repeat(' ', 43) . '|', 'bold', 'cyan');
-    out('|   ' . $e('📸','*') . ' Instagram : @lukheeman' . str_repeat(' ', 38) . '|', 'bold', 'cyan');
-    out('|   ' . $e('📱','*') . ' No. HP    : 082250223147' . str_repeat(' ', 36) . '|', 'bold', 'cyan');
-    out('|   ' . $e('🌐','*') . ' Portfolio : https://lukheman.github.io/portfolio/' . str_repeat(' ', 11) . '|', 'bold', 'cyan');
-    out('|' . str_repeat(' ', 63) . '|', 'bold', 'cyan');
-    out('+' . str_repeat('-', 63) . '+', 'bold', 'cyan');
-    out('');
-}
-
-// ============================================================
 //  MULAI SETUP
 // ============================================================
 
@@ -153,7 +29,7 @@ chdir($dir);
 
 out('');
 out('+' . str_repeat('-', 63) . '+', 'bold', 'green');
-out('|' . str_pad('  IMKA - SCRIPT SETUP PROJECT LARAVEL', 63) . '|', 'bold', 'green');
+out('|' . str_pad('  SIMKA - SETUP APLIKASI', 63) . '|', 'bold', 'green');
 out('+' . str_repeat('-', 63) . '+', 'bold', 'green');
 out('');
 info("Lokasi  : {$dir}");
@@ -292,7 +168,7 @@ foreach (['config', 'view', 'route'] as $cache) run("php artisan {$cache}:clear"
 
 out('');
 out('+' . str_repeat('-', 63) . '+', 'bold', 'green');
-out('|' . str_pad('  ✅  SETUP PROJECT BERHASIL DISELESAIKAN!', 63) . '|', 'bold', 'green');
+out('|' . str_pad(' SETUP APLIKASI SIMKA BERHASIL DISELESAIKAN!', 63) . '|', 'bold', 'green');
 out('+' . str_repeat('-', 63) . '+', 'bold', 'green');
 out('');
 info('Jalankan server dengan: php artisan serve');

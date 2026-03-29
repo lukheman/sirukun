@@ -1,6 +1,8 @@
 #!/usr/bin/env php
 <?php
 
+require __DIR__ . '/helpers.php';
+
 /**
  * Script Update Project Laravel
  *
@@ -15,109 +17,6 @@
  * @phone     082250223147
  * @portfolio https://lukheman.github.io/portfolio/
  */
-
-// ============================================================
-//  Konstanta & Inisialisasi
-// ============================================================
-
-define('IS_WIN', PHP_OS_FAMILY === 'Windows');
-define('USE_COLOR', IS_WIN
-    ? (function_exists('sapi_windows_vt100_support') && @sapi_windows_vt100_support(STDOUT, true))
-    : true
-);
-
-const C = [
-    'reset'  => "\033[0m",
-    'green'  => "\033[32m",
-    'red'    => "\033[31m",
-    'yellow' => "\033[33m",
-    'blue'   => "\033[34m",
-    'cyan'   => "\033[36m",
-    'bold'   => "\033[1m",
-];
-
-// ============================================================
-//  Helper Functions
-// ============================================================
-
-function out(string $text, string ...$colors): void
-{
-    if (USE_COLOR && $colors) {
-        $open = implode('', array_map(fn($c) => C[$c] ?? '', $colors));
-        echo $open . $text . C['reset'] . PHP_EOL;
-    } else {
-        echo $text . PHP_EOL;
-    }
-}
-
-function icon(string $type): string
-{
-    return '  ' . match($type) {
-        'ok'   => IS_WIN ? '[OK]   ' : '✔  ',
-        'err'  => IS_WIN ? '[ERR]  ' : '✖  ',
-        'warn' => IS_WIN ? '[WARN] ' : '⚠  ',
-        'info' => IS_WIN ? '[-]    ' : '➜  ',
-        default => '   ',
-    };
-}
-
-function ok(string $msg): void   { out(icon('ok')   . $msg, 'green'); }
-function err(string $msg): void  { out(icon('err')  . $msg, 'red'); }
-function warn(string $msg): void { out(icon('warn') . $msg, 'yellow'); }
-function info(string $msg): void { out(icon('info') . $msg, 'blue'); }
-
-function step(int $n, string $title): void
-{
-    out('');
-    out(str_repeat('═', 60), 'cyan');
-    out("  Langkah {$n}: {$title}", 'bold', 'cyan');
-    out(str_repeat('═', 60), 'cyan');
-    out('');
-}
-
-function run(string $cmd): bool
-{
-    info("Menjalankan: {$cmd}");
-    out('');
-    $proc = proc_open($cmd, [STDIN, STDOUT, STDERR], $pipes);
-    if (!is_resource($proc)) return false;
-    $code = proc_close($proc);
-    out('');
-    return $code === 0;
-}
-
-function shell(string $cmd): string
-{
-    $redirect = IS_WIN ? '2>NUL' : '2>/dev/null';
-    return trim(shell_exec("{$cmd} {$redirect}") ?? '');
-}
-
-function hasCmd(string $cmd): bool
-{
-    return !empty(shell(IS_WIN ? "where {$cmd}" : "which {$cmd}"));
-}
-
-function showContact(): void
-{
-    $e = fn(string $u, string $w) => IS_WIN ? $w : $u;
-    out('');
-    out('+' . str_repeat('-', 63) . '+', 'bold', 'cyan');
-    out('|' . str_repeat(' ', 63) . '|', 'bold', 'cyan');
-    out('|   ' . $e('👤','*') . ' Nama      : Akmal' . str_repeat(' ', 43) . '|', 'bold', 'cyan');
-    out('|   ' . $e('📸','*') . ' Instagram : @lukheeman' . str_repeat(' ', 38) . '|', 'bold', 'cyan');
-    out('|   ' . $e('📱','*') . ' No. HP    : 082250223147' . str_repeat(' ', 36) . '|', 'bold', 'cyan');
-    out('|   ' . $e('🌐','*') . ' Portfolio : https://lukheman.github.io/portfolio/' . str_repeat(' ', 11) . '|', 'bold', 'cyan');
-    out('|   ' . $e('🌐','*') . ' Website   : https://aplikasita.my.id/' . str_repeat(' ', 23) . '|', 'bold', 'cyan');
-    out('|' . str_repeat(' ', 63) . '|', 'bold', 'cyan');
-    out('|   Silahkan hubungi untuk pertanyaan atau bantuan!' . str_repeat(' ', 12) . '|', 'bold', 'cyan');
-    out('|' . str_repeat(' ', 63) . '|', 'bold', 'cyan');
-    out('+' . str_repeat('-', 63) . '+', 'bold', 'cyan');
-    out('');
-}
-
-// ============================================================
-//  MULAI UPDATE
-// ============================================================
 
 $dir   = __DIR__;
 $start = microtime(true);
