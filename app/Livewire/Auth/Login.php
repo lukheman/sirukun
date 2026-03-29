@@ -41,7 +41,7 @@ class Login extends Component
     {
         if ($this->role === 'admin') {
             $this->validate([
-                'admin_email' => ['required', 'email'],
+                'admin_email' => ['required'],
                 'password' => ['required'],
             ]);
 
@@ -56,7 +56,7 @@ class Login extends Component
                 return redirect()->route('dashboard');
             }
 
-            $this->addError('admin_email', 'Email atau kata sandi salah.');
+            $this->addError('admin', 'Username atau kata sandi salah.');
         } elseif ($this->role === 'warga') {
             $this->validate([
                 'nik' => ['required', 'string'],
