@@ -8,15 +8,14 @@ use Illuminate\Support\Facades\Hash;
 
 class KepalaDinasSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        KepalaDinas::query()->firstOrCreate([
-            'nama' => 'Kepala Dinas'],
-            ['email' => 'kepaladinas@gmail.com'],
-            ['password' => Hash::make('password123')],
+        KepalaDinas::firstOrCreate(
+            ['email' => 'kepaladinas@gmail.com'], // untuk cek data sudah ada atau belum
+            [
+                'nama' => 'Kepala Dinas',
+                'password' => Hash::make('password123'),
+            ]
         );
     }
 }
