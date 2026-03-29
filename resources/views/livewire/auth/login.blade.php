@@ -63,10 +63,10 @@
                     @if($role === 'admin')
                         <!-- Username (Admin) -->
                         <div class="auth-field">
-                            <label for="admin">Username</label>
+                            <label for="admin">Email</label>
                             <div class="auth-input-wrap">
                                 <i class="fas fa-user"></i>
-                                <input type="text" wire:model="admin" class="@error('admin') is-invalid @enderror"
+                                <input type="text" wire:model="admin_email" class="@error('admin_email') is-invalid @enderror"
                                     id="admin" placeholder="Masukkan username" autofocus>
                             </div>
                             @error('admin')
