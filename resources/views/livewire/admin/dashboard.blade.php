@@ -1,115 +1,138 @@
 <div>
     {{-- Page Header --}}
-    <x-page-header title="Dashboard Overview" subtitle="Welcome back! Here's what's happening today.">
+    <x-page-header title="Dashboard Overview"
+        subtitle="Selamat datang kembali! Berikut ringkasan data SIRUKUN hari ini.">
         <x-slot:actions>
-            <x-button variant="primary" icon="fas fa-plus">New Report</x-button>
+            <a href="{{ route('admin.pengajuan') }}" wire:navigate
+                class="btn btn-primary d-flex align-items-center gap-2">
+                <i class="fas fa-arrow-right"></i>
+                <span>Lihat Pengajuan</span>
+            </a>
         </x-slot:actions>
     </x-page-header>
 
     {{-- Stats Cards --}}
     <div class="row g-4 mb-4">
         <div class="col-md-6 col-lg-3">
-            <x-stat-card icon="fas fa-dollar-sign" label="Total Revenue" value="$48,574"
-                trend-value="12.5% from last month" trend-direction="up" variant="primary" />
+            <x-stat-card icon="fas fa-users" label="Total Warga" value="{{ number_format($totalWarga) }}"
+                variant="primary" />
         </div>
         <div class="col-md-6 col-lg-3">
-            <x-stat-card icon="fas fa-shopping-bag" label="New Orders" value="1,245"
-                trend-value="8.2% from last month" trend-direction="up" variant="secondary" />
+            <x-stat-card icon="fas fa-home" label="Unit Rumah Dihuni" value="{{ number_format($unitRumahDihuni) }}"
+                trend-value="Dari {{ number_format($totalUnitRumah) }} Total Unit" trend-direction="up"
+                variant="success" />
         </div>
         <div class="col-md-6 col-lg-3">
-            <x-stat-card icon="fas fa-users" label="Total Users" value="8,456" trend-value="15.3% from last month"
-                trend-direction="up" variant="success" />
+            <x-stat-card icon="fas fa-door-open" label="Unit Rumah Tersedia"
+                value="{{ number_format($unitRumahTersedia) }}" variant="info" />
         </div>
         <div class="col-md-6 col-lg-3">
-            <x-stat-card icon="fas fa-chart-pie" label="Conversion Rate" value="3.24%"
-                trend-value="2.1% from last month" trend-direction="down" variant="warning" />
+            <x-stat-card icon="fas fa-clock" label="Pengajuan Menunggu" value="{{ number_format($pengajuanMenunggu) }}"
+                variant="warning" />
         </div>
     </div>
 
-    {{-- Component Preview Section --}}
-    <div class="component-preview"
-        style="background: var(--bg-secondary); border-radius: 20px; padding: 2rem; box-shadow: var(--card-shadow); margin-bottom: 2rem;">
-        <h2 class="mb-4" style="color: var(--text-primary); font-weight: 700;">UI Components Preview</h2>
-
-        {{-- Buttons Preview --}}
-        <div class="preview-section" style="margin-bottom: 2.5rem;">
-            <div class="preview-title">Buttons</div>
-            <div class="d-flex flex-wrap gap-2">
-                <x-button variant="primary">Primary Button</x-button>
-                <x-button variant="secondary">Secondary Button</x-button>
-                <x-button variant="success">Success Button</x-button>
-                <x-button variant="warning">Warning Button</x-button>
-                <x-button variant="danger">Danger Button</x-button>
-                <x-button variant="outline">Outline Button</x-button>
-            </div>
-        </div>
-
-        {{-- Badges Preview --}}
-        <div class="preview-section" style="margin-bottom: 2.5rem;">
-            <div class="preview-title">Badges</div>
-            <div class="d-flex flex-wrap gap-2">
-                <x-badge variant="primary" icon="fas fa-circle">Primary</x-badge>
-                <x-badge variant="success" icon="fas fa-check-circle">Success</x-badge>
-                <x-badge variant="warning" icon="fas fa-exclamation-circle">Warning</x-badge>
-                <x-badge variant="danger" icon="fas fa-times-circle">Danger</x-badge>
-                <x-badge variant="info" icon="fas fa-info-circle">Info</x-badge>
-            </div>
-        </div>
-
-        {{-- Alerts Preview --}}
-        <div class="preview-section" style="margin-bottom: 2.5rem;">
-            <div class="preview-title">Alerts</div>
-            <x-alert variant="success" title="Success!" class="mb-3">
-                Your changes have been saved successfully.
-            </x-alert>
-            <x-alert variant="danger" title="Error!" class="mb-3">
-                There was a problem processing your request.
-            </x-alert>
-            <x-alert variant="info" title="Info!">
-                You have 3 new notifications waiting for you.
-            </x-alert>
-        </div>
-
-        {{-- Progress Bars Preview --}}
-        <div class="preview-section" style="margin-bottom: 2.5rem;">
-            <div class="preview-title">Progress Bars</div>
-            <x-progress-bar :value="75" label="Project Progress" variant="primary" class="mb-3" />
-            <x-progress-bar :value="45" label="Storage Used" variant="secondary" class="mb-3" />
-            <x-progress-bar :value="32" label="CPU Usage" variant="success" />
-        </div>
-
-        {{-- Feature Cards Preview --}}
-        <div class="preview-section">
-            <div class="preview-title">Feature Cards</div>
-            <div class="row g-3">
-                <div class="col-md-4">
-                    <x-feature-card icon="fas fa-rocket" title="Fast Performance"
-                        description="Lightning fast load times and smooth interactions" variant="primary" />
-                </div>
-                <div class="col-md-4">
-                    <x-feature-card icon="fas fa-shield-alt" title="Secure by Default"
-                        description="Enterprise-grade security for your data" variant="secondary" />
-                </div>
-                <div class="col-md-4">
-                    <x-feature-card icon="fas fa-mobile-alt" title="Mobile Responsive"
-                        description="Perfect experience on any device" variant="success" />
-                </div>
-            </div>
-        </div>
-    </div>
-
-    {{-- Recent Orders Table --}}
-    <x-table-card title="Recent Orders" view-all-href="#orders" :headers="['Order ID', 'Customer', 'Product', 'Amount', 'Status', 'Date']">
-        @foreach($orders as $order)
+    {{-- Recent Pengajuan Table --}}
+    <x-table-card title="Pengajuan Terbaru" view-all-href="{{ route('admin.pengajuan') }}" :headers="['Warga', 'Jenis Pengajuan', 'Status', 'Tanggal']">
+        @forelse($recentPengajuan as $pengajuan)
             <tr>
-                <td><strong style="color: var(--text-primary);">{{ $order->order_id }}</strong></td>
-                <td>{{ $order->customer_name }}</td>
-                <td>{{ $order->product_name }}</td>
-                <td><strong style="color: var(--text-primary);">{{ $order->amount }}</strong></td>
-                <td><x-badge :variant="$order->status_variant"
-                        :icon="$order->status_icon">{{ $order->status }}</x-badge></td>
-                <td class="text-muted">{{ $order->created_at->format('M d, Y') }}</td>
+                <td>
+                    <div class="d-flex align-items-center">
+                        <div class="avatar avatar-sm me-3"
+                            style="background: rgba(199, 91, 63, 0.1); color: var(--primary-color); display: flex; align-items: center; justify-content: center; border-radius: 8px; width: 36px; height: 36px; font-weight: bold;">
+                            {{ $pengajuan->warga->initials() }}
+                        </div>
+                        <div>
+                            <strong style="color: var(--text-primary);">{{ $pengajuan->warga->nama }}</strong>
+                            <div class="text-muted small" style="font-size: 0.8rem;">NIK: {{ $pengajuan->warga->nik }}</div>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <x-badge :variant="$pengajuan->jenis_pengajuan->getColor()"
+                        :icon="$pengajuan->jenis_pengajuan->getIcon()">
+                        {{ $pengajuan->jenis_pengajuan->getLabel() }}
+                    </x-badge>
+                </td>
+                <td>
+                    <x-badge :variant="$pengajuan->status_pengajuan->getColor()"
+                        :icon="$pengajuan->status_pengajuan->getIcon()">
+                        {{ $pengajuan->status_pengajuan->getLabel() }}
+                    </x-badge>
+                </td>
+                <td class="text-muted">{{ $pengajuan->created_at->format('d M Y, H:i') }}</td>
             </tr>
-        @endforeach
+        @empty
+            <tr>
+                <td colspan="4" class="text-center py-4 text-muted">Belum ada data pengajuan terbaru.</td>
+            </tr>
+        @endforelse
     </x-table-card>
+
+    <div class="row g-4 mt-1">
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm rounded-4 h-100" style="background: var(--bg-secondary);">
+                <div class="card-body p-4">
+                    <h5 class="card-title fw-bold mb-4" style="color: var(--text-primary);">Informasi Perumahan</h5>
+                    <div class="d-flex justify-content-between align-items-center mb-3 p-3 rounded-3 border"
+                        style="background: var(--bg-white); border-color: var(--border-color) !important;">
+                        <span class="text-muted"><i class="fas fa-building me-3"></i>Total Unit Rumah</span>
+                        <span class="fw-bold fs-5" style="color: var(--text-primary);">{{ $totalUnitRumah }}</span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mb-3 p-3 rounded-3 border"
+                        style="background: var(--bg-white); border-color: var(--border-color) !important;">
+                        <span class="text-muted"><i class="fas fa-check-circle text-success me-3"></i>Unit Dihuni</span>
+                        <span class="fw-bold" style="color: var(--text-primary);">{{ $unitRumahDihuni }}</span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mb-3 p-3 rounded-3 border"
+                        style="background: var(--bg-white); border-color: var(--border-color) !important;">
+                        <span class="text-muted"><i class="fas fa-door-open text-primary me-3"></i>Unit Tersedia</span>
+                        <span class="fw-bold" style="color: var(--text-primary);">{{ $unitRumahTersedia }}</span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center p-3 rounded-3 border"
+                        style="background: var(--bg-white); border-color: var(--border-color) !important;">
+                        <span class="text-muted"><i class="fas fa-tools text-warning me-3"></i>Sedang Renovasi</span>
+                        <span class="fw-bold" style="color: var(--text-primary);">{{ $unitRumahRenovasi }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm rounded-4 h-100" style="background: var(--bg-secondary);">
+                <div class="card-body p-4">
+                    <h5 class="card-title fw-bold mb-4" style="color: var(--text-primary);">Pintasan Admin</h5>
+                    <div class="d-grid gap-3">
+                        <a href="{{ route('admin.warga') }}" wire:navigate
+                            class="btn text-start p-3 rounded-3 d-flex align-items-center justify-content-between border transition-all"
+                            style="background: var(--bg-white); border-color: var(--border-color) !important; text-decoration: none;">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-users-cog text-primary me-3 fs-5"></i>
+                                <span class="fw-medium" style="color: var(--text-primary);">Kelola Data Warga</span>
+                            </div>
+                            <i class="fas fa-chevron-right text-muted small"></i>
+                        </a>
+                        <a href="{{ route('admin.unitrumah') }}" wire:navigate
+                            class="btn text-start p-3 rounded-3 d-flex align-items-center justify-content-between border transition-all"
+                            style="background: var(--bg-white); border-color: var(--border-color) !important; text-decoration: none;">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-home text-success me-3 fs-5"></i>
+                                <span class="fw-medium" style="color: var(--text-primary);">Manajemen Unit Rumah</span>
+                            </div>
+                            <i class="fas fa-chevron-right text-muted small"></i>
+                        </a>
+                        <a href="{{ route('admin.pengajuan') }}" wire:navigate
+                            class="btn text-start p-3 rounded-3 d-flex align-items-center justify-content-between border transition-all"
+                            style="background: var(--bg-white); border-color: var(--border-color) !important; text-decoration: none;">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-file-signature text-warning me-3 fs-5"></i>
+                                <span class="fw-medium" style="color: var(--text-primary);">Tinjau Pengajuan
+                                    Masuk</span>
+                            </div>
+                            <i class="fas fa-chevron-right text-muted small"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
