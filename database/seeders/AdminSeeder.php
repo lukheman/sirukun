@@ -16,6 +16,6 @@ class AdminSeeder extends Seeder
         Admin::query()->firstOrCreate([
             'email' => 'admin@gmail.com'],
             ['password' => Hash::make('password123'),
-        ]);
+            ]);
     }
 }

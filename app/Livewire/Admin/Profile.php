@@ -32,7 +32,7 @@ class Profile extends Component
         $admin = Auth::guard('admin')->user();
 
         $rules = [
-            'email' => ['required', 'email', 'max:255', 'unique:admin,email,' . $admin->id_admin . ',id_admin'],
+            'email' => ['required', 'email', 'max:255', 'unique:admin,email,'.$admin->id_admin.',id_admin'],
         ];
 
         if ($this->showPasswordSection && $this->password) {
@@ -44,7 +44,7 @@ class Profile extends Component
 
     public function togglePasswordSection(): void
     {
-        $this->showPasswordSection = !$this->showPasswordSection;
+        $this->showPasswordSection = ! $this->showPasswordSection;
         $this->current_password = '';
         $this->password = '';
         $this->password_confirmation = '';
@@ -71,7 +71,7 @@ class Profile extends Component
 
         $admin = Auth::guard('admin')->user();
 
-        if (!Hash::check($this->current_password, $admin->password)) {
+        if (! Hash::check($this->current_password, $admin->password)) {
             $this->addError('current_password', 'Password saat ini tidak sesuai.');
 
             return;

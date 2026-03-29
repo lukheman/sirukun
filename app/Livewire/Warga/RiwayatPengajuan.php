@@ -66,7 +66,7 @@ class RiwayatPengajuan extends Component
             ->where('status_pengajuan', StatusPengajuan::MENUNGGU)
             ->isNotEmpty();
 
-        $bisaAjukanKeluar = $punyaPenempatan && !$punyaPengajuanKeluarMenunggu;
+        $bisaAjukanKeluar = $punyaPenempatan && ! $punyaPengajuanKeluarMenunggu;
 
         return view('livewire.warga.riwayat-pengajuan', [
             'pengajuans' => $pengajuansPagination,

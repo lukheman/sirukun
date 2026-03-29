@@ -38,7 +38,7 @@ class PenempatanManagement extends Component
     public function rules()
     {
         return [
-            'id_pengajuan' => 'required|exists:pengajuan,id_pengajuan|unique:penempatan,id_pengajuan,' . $this->editingPenempatanId . ',id_penempatan',
+            'id_pengajuan' => 'required|exists:pengajuan,id_pengajuan|unique:penempatan,id_pengajuan,'.$this->editingPenempatanId.',id_penempatan',
             'id_unit' => 'required|exists:unit_rumah,id_unit',
             'tanggal_masuk' => 'required|date',
         ];
@@ -128,11 +128,11 @@ class PenempatanManagement extends Component
             ->when($this->search, function ($query) {
                 // Search via relationship
                 $query->whereHas('pengajuan.warga', function ($q) {
-                    $q->where('nama', 'like', '%' . $this->search . '%')
-                        ->orWhere('nik', 'like', '%' . $this->search . '%');
+                    $q->where('nama', 'like', '%'.$this->search.'%')
+                        ->orWhere('nik', 'like', '%'.$this->search.'%');
                 })->orWhereHas('unitRumah', function ($q) {
-                    $q->where('blok', 'like', '%' . $this->search . '%')
-                        ->orWhere('nomor', 'like', '%' . $this->search . '%');
+                    $q->where('blok', 'like', '%'.$this->search.'%')
+                        ->orWhere('nomor', 'like', '%'.$this->search.'%');
                 });
             })
             ->latest('tanggal_masuk')

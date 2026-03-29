@@ -53,8 +53,8 @@ class PengajuanManagement extends Component
     {
         return [
             'id_warga' => 'required|exists:warga,id_warga',
-            'jenis_pengajuan' => 'required|in:' . implode(',', JenisPengajuan::values()),
-            'status_pengajuan' => 'required|in:' . implode(',', StatusPengajuan::values()),
+            'jenis_pengajuan' => 'required|in:'.implode(',', JenisPengajuan::values()),
+            'status_pengajuan' => 'required|in:'.implode(',', StatusPengajuan::values()),
         ];
     }
 
@@ -223,8 +223,8 @@ class PengajuanManagement extends Component
     {
         $pengajuanQuery = Pengajuan::with(['warga', 'penempatan'])
             ->whereHas('warga', function ($query) {
-                $query->where('nama', 'like', '%' . $this->search . '%')
-                    ->orWhere('nik', 'like', '%' . $this->search . '%');
+                $query->where('nama', 'like', '%'.$this->search.'%')
+                    ->orWhere('nik', 'like', '%'.$this->search.'%');
             })
             ->latest('created_at')
             ->paginate(10);

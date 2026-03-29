@@ -1,7 +1,7 @@
 #!/usr/bin/env php
 <?php
 
-require __DIR__ . '/helpers.php';
+require __DIR__.'/helpers.php';
 
 /**
  * Script Update Project Laravel
@@ -13,22 +13,24 @@ require __DIR__ . '/helpers.php';
  * 5. Optimasi aplikasi
  *
  * @author    Akmal
+ *
  * @instagram @lukheeman
+ *
  * @phone     082250223147
+ *
  * @portfolio https://lukheman.github.io/portfolio/
  */
-
-$dir   = __DIR__;
+$dir = __DIR__;
 $start = microtime(true);
 chdir($dir);
 
 out('');
-out('+' . str_repeat('-', 63) . '+', 'bold', 'green');
-out('|' . str_pad('  SIMKA - SCRIPT UPDATE APLIKASI', 63) . '|', 'bold', 'green');
-out('+' . str_repeat('-', 63) . '+', 'bold', 'green');
+out('+'.str_repeat('-', 63).'+', 'bold', 'green');
+out('|'.str_pad('  SIMKA - SCRIPT UPDATE APLIKASI', 63).'|', 'bold', 'green');
+out('+'.str_repeat('-', 63).'+', 'bold', 'green');
 out('');
 info("Lokasi : {$dir}");
-info("Waktu  : " . date('Y-m-d H:i:s'));
+info('Waktu  : '.date('Y-m-d H:i:s'));
 
 // ============================================================
 //  Langkah 0 – Cek Kebutuhan
@@ -36,9 +38,18 @@ info("Waktu  : " . date('Y-m-d H:i:s'));
 
 step(0, 'Mengecek Kebutuhan');
 
-if (!hasCmd('git'))      { err('Git tidak ditemukan!');      exit(1); } ok('Git ditemukan');
-if (!is_dir("$dir/.git")){ err('Bukan repository Git!');     exit(1); } ok('Repository Git terdeteksi');
-if (!hasCmd('composer')) { err('Composer tidak ditemukan!'); exit(1); } ok('Composer ditemukan');
+if (! hasCmd('git')) {
+    err('Git tidak ditemukan!');
+    exit(1);
+} ok('Git ditemukan');
+if (! is_dir("$dir/.git")) {
+    err('Bukan repository Git!');
+    exit(1);
+} ok('Repository Git terdeteksi');
+if (! hasCmd('composer')) {
+    err('Composer tidak ditemukan!');
+    exit(1);
+} ok('Composer ditemukan');
 
 // ============================================================
 //  Langkah 1 – Status Git
@@ -50,9 +61,9 @@ $branch = shell('git branch --show-current');
 info("Branch saat ini: {$branch}");
 
 $status = shell('git status --porcelain');
-if (!empty($status)) {
+if (! empty($status)) {
     warn('Ada perubahan lokal yang belum di-commit:');
-    out((USE_COLOR ? C['yellow'] : '') . $status . (USE_COLOR ? C['reset'] : ''));
+    out((USE_COLOR ? C['yellow'] : '').$status.(USE_COLOR ? C['reset'] : ''));
     out('');
     warn('Perubahan lokal akan tetap dipertahankan.');
     out('');
@@ -66,7 +77,7 @@ step(2, 'Mengambil Pembaruan dari Repository (Git Pull)');
 
 $hashBefore = shell('git rev-parse HEAD');
 
-if (!run('git pull')) {
+if (! run('git pull')) {
     err('Git pull gagal!');
     out('');
     warn('Kemungkinan penyebab:');
@@ -83,7 +94,7 @@ if ($hashBefore === $hashAfter) {
 } else {
     ok('Pembaruan berhasil diambil!');
     info('Commit baru:');
-    out((USE_COLOR ? C['cyan'] : '') . shell("git log --oneline {$hashBefore}..{$hashAfter}") . (USE_COLOR ? C['reset'] : ''));
+    out((USE_COLOR ? C['cyan'] : '').shell("git log --oneline {$hashBefore}..{$hashAfter}").(USE_COLOR ? C['reset'] : ''));
 }
 
 // ============================================================
@@ -100,8 +111,9 @@ if ($hashBefore !== $hashAfter) {
     if (str_contains($changed, 'composer.json') || str_contains($changed, 'composer.lock')) {
         info('Terdeteksi perubahan composer.json/composer.lock, menjalankan install...');
 
-        if (!run('composer install --no-interaction --optimize-autoloader')) {
-            err('Composer install gagal!'); exit(1);
+        if (! run('composer install --no-interaction --optimize-autoloader')) {
+            err('Composer install gagal!');
+            exit(1);
         }
 
         $composerUpdated = true;
@@ -119,7 +131,7 @@ if ($hashBefore !== $hashAfter) {
 
 step(4, 'Menjalankan Migrasi Database');
 
-if (!run('php artisan migrate:fresh --seed')) {
+if (! run('php artisan migrate:fresh --seed')) {
     err('Migrasi database gagal!');
     out('');
     warn('Kemungkinan penyebab:');
@@ -136,7 +148,9 @@ ok('Migrasi database selesai!');
 
 step(5, 'Membersihkan Cache Aplikasi');
 
-foreach (['config', 'route', 'view', 'cache'] as $cache) run("php artisan {$cache}:clear");
+foreach (['config', 'route', 'view', 'cache'] as $cache) {
+    run("php artisan {$cache}:clear");
+}
 run('php artisan clear-compiled');
 
 ok('Semua cache berhasil dibersihkan!');
@@ -157,9 +171,9 @@ ok('Aplikasi berhasil dioptimasi!');
 $duration = round(microtime(true) - $start, 2);
 
 out('');
-out('+' . str_repeat('-', 63) . '+', 'bold', 'green');
-out('|' . str_pad('  ✅  UPDATE PROJECT BERHASIL!', 63) . '|', 'bold', 'green');
-out('+' . str_repeat('-', 63) . '+', 'bold', 'green');
+out('+'.str_repeat('-', 63).'+', 'bold', 'green');
+out('|'.str_pad('  ✅  UPDATE PROJECT BERHASIL!', 63).'|', 'bold', 'green');
+out('+'.str_repeat('-', 63).'+', 'bold', 'green');
 out('');
 info("Waktu proses: {$duration} detik");
 info('Project berhasil diupdate ke versi terbaru!');
@@ -168,11 +182,11 @@ out('');
 // Ringkasan
 $composerStatus = $composerUpdated ? 'Selesai' : 'Dilewati (tidak ada perubahan)';
 out('  Ringkasan Update:', 'bold', 'cyan');
-out("  ├─ Git Pull            : Selesai", 'cyan');
+out('  ├─ Git Pull            : Selesai', 'cyan');
 out("  ├─ Composer Install    : {$composerStatus}", 'cyan');
-out("  ├─ Database Migration  : Selesai", 'cyan');
-out("  ├─ Clear Cache         : Selesai", 'cyan');
-out("  └─ Optimasi            : Selesai", 'cyan');
+out('  ├─ Database Migration  : Selesai', 'cyan');
+out('  ├─ Clear Cache         : Selesai', 'cyan');
+out('  └─ Optimasi            : Selesai', 'cyan');
 out('');
 out('  Untuk menjalankan aplikasi, gunakan:', 'yellow');
 out('  php serve.php  atau  php artisan serve');

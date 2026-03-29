@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Livewire\Guest;
 
 use App\Enums\StatusKetersediaan;

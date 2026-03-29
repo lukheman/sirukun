@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Pimpinan;
 
 use App\Enums\StatusKetersediaan;
@@ -28,11 +29,11 @@ class LaporanPdfController extends Controller
             'unitDihuni' => $unitDihuni,
             'unitTersedia' => $unitTersedia,
             'namaPimpinan' => $pimpinan->nama,
-            'tanggalCetak' => now()->format('d F Y, H:i') . ' WIB',
+            'tanggalCetak' => now()->format('d F Y, H:i').' WIB',
         ]);
 
         $pdf->setPaper('A4', 'landscape');
 
-        return $pdf->download('Laporan_Rumah_Nelayan_' . date('Y-m-d') . '.pdf');
+        return $pdf->download('Laporan_Rumah_Nelayan_'.date('Y-m-d').'.pdf');
     }
 }

@@ -11,8 +11,11 @@ use Livewire\Component;
 class ArsipPenghuni extends Component
 {
     public $selectedUnitId = '';
+
     public $showKtpModal = false;
+
     public $ktpImageUrl = '';
+
     public $ktpNama = '';
 
     public function updatedSelectedUnitId()
@@ -22,7 +25,7 @@ class ArsipPenghuni extends Component
 
     public function viewKtp($fotoKtp, $nama)
     {
-        $this->ktpImageUrl = asset('storage/' . $fotoKtp);
+        $this->ktpImageUrl = asset('storage/'.$fotoKtp);
         $this->ktpNama = $nama;
         $this->showKtpModal = true;
     }

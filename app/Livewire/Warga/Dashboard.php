@@ -64,7 +64,7 @@ class Dashboard extends Component
             ->where('status_pengajuan', StatusPengajuan::MENUNGGU)
             ->isNotEmpty();
 
-        $bisaAjukanKeluar = $punyaPenempatan && !$punyaPengajuanKeluarMenunggu;
+        $bisaAjukanKeluar = $punyaPenempatan && ! $punyaPengajuanKeluarMenunggu;
 
         return view('livewire.warga.dashboard', [
             'warga' => $warga,

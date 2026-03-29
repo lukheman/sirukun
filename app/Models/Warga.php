@@ -48,7 +48,7 @@ class Warga extends Authenticatable
         return Str::of($this->nama)
             ->explode(' ')
             ->take(2)
-            ->map(fn($word) => Str::substr($word, 0, 1))
+            ->map(fn ($word) => Str::substr($word, 0, 1))
             ->implode('');
     }
 

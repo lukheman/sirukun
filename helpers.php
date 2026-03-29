@@ -10,8 +10,11 @@
  *   require __DIR__ . '/helpers.php';
  *
  * @author    Akmal
+ *
  * @instagram @lukheeman
+ *
  * @phone     082250212121
+ *
  * @portfolio https://lukheman.github.io/portfolio/
  */
 
@@ -19,7 +22,9 @@
 //  Guard – cegah di-load lebih dari sekali
 // ============================================================
 
-if (defined('HELPERS_LOADED')) return;
+if (defined('HELPERS_LOADED')) {
+    return;
+}
 define('HELPERS_LOADED', true);
 
 // ============================================================
@@ -36,14 +41,14 @@ define('USE_COLOR', IS_WIN
 
 /** Kode ANSI. Akses via C['cyan'] dll. */
 const C = [
-    'reset'  => "\033[0m",
-    'green'  => "\033[32m",
-    'red'    => "\033[31m",
+    'reset' => "\033[0m",
+    'green' => "\033[32m",
+    'red' => "\033[31m",
     'yellow' => "\033[33m",
-    'blue'   => "\033[34m",
-    'cyan'   => "\033[36m",
-    'bold'   => "\033[1m",
-    'dim'    => "\033[2m",
+    'blue' => "\033[34m",
+    'cyan' => "\033[36m",
+    'bold' => "\033[1m",
+    'dim' => "\033[2m",
 ];
 
 // ============================================================
@@ -60,29 +65,41 @@ const C = [
 function out(string $text, string ...$colors): void
 {
     if (USE_COLOR && $colors) {
-        $open = implode('', array_map(fn($c) => C[$c] ?? '', $colors));
-        echo $open . $text . C['reset'] . PHP_EOL;
+        $open = implode('', array_map(fn ($c) => C[$c] ?? '', $colors));
+        echo $open.$text.C['reset'].PHP_EOL;
     } else {
-        echo $text . PHP_EOL;
+        echo $text.PHP_EOL;
     }
 }
 
 /** Kembalikan prefix ikon berdasarkan tipe (ok|err|warn|info). */
 function icon(string $type): string
 {
-    return '  ' . match($type) {
-        'ok'   => IS_WIN ? '[OK]   ' : '✔  ',
-        'err'  => IS_WIN ? '[ERR]  ' : '✖  ',
+    return '  '.match ($type) {
+        'ok' => IS_WIN ? '[OK]   ' : '✔  ',
+        'err' => IS_WIN ? '[ERR]  ' : '✖  ',
         'warn' => IS_WIN ? '[WARN] ' : '⚠  ',
         'info' => IS_WIN ? '[-]    ' : '➜  ',
         default => '   ',
     };
 }
 
-function ok(string $msg): void   { out(icon('ok')   . $msg, 'green'); }
-function err(string $msg): void  { out(icon('err')  . $msg, 'red'); }
-function warn(string $msg): void { out(icon('warn') . $msg, 'yellow'); }
-function info(string $msg): void { out(icon('info') . $msg, 'blue'); }
+function ok(string $msg): void
+{
+    out(icon('ok').$msg, 'green');
+}
+function err(string $msg): void
+{
+    out(icon('err').$msg, 'red');
+}
+function warn(string $msg): void
+{
+    out(icon('warn').$msg, 'yellow');
+}
+function info(string $msg): void
+{
+    out(icon('info').$msg, 'blue');
+}
 
 /**
  * Cetak header langkah dengan garis pemisah.
@@ -106,9 +123,9 @@ function step(int $n, string $title): void
 function printHeader(string $title): void
 {
     out('');
-    out('+' . str_repeat('-', 63) . '+', 'bold', 'green');
-    out('|' . str_pad("  {$title}", 63) . '|', 'bold', 'green');
-    out('+' . str_repeat('-', 63) . '+', 'bold', 'green');
+    out('+'.str_repeat('-', 63).'+', 'bold', 'green');
+    out('|'.str_pad("  {$title}", 63).'|', 'bold', 'green');
+    out('+'.str_repeat('-', 63).'+', 'bold', 'green');
     out('');
 }
 
@@ -122,7 +139,7 @@ function printHeader(string $title): void
 function summary(string $label, string $status, bool $last = false): void
 {
     $prefix = $last ? '  └─' : '  ├─';
-    out("{$prefix} " . str_pad($label, 22) . ": {$status}", 'cyan');
+    out("{$prefix} ".str_pad($label, 22).": {$status}", 'cyan');
 }
 
 // ============================================================
@@ -138,9 +155,12 @@ function run(string $cmd): bool
     info("Menjalankan: {$cmd}");
     out('');
     $proc = proc_open($cmd, [STDIN, STDOUT, STDERR], $pipes);
-    if (!is_resource($proc)) return false;
+    if (! is_resource($proc)) {
+        return false;
+    }
     $code = proc_close($proc);
     out('');
+
     return $code === 0;
 }
 
@@ -151,6 +171,7 @@ function run(string $cmd): bool
 function shell(string $cmd): string
 {
     $redirect = IS_WIN ? '2>NUL' : '2>/dev/null';
+
     return trim(shell_exec("{$cmd} {$redirect}") ?? '');
 }
 
@@ -161,7 +182,7 @@ function shell(string $cmd): string
  */
 function hasCmd(string $cmd): bool
 {
-    return !empty(shell(IS_WIN ? "where {$cmd}" : "which {$cmd}"));
+    return ! empty(shell(IS_WIN ? "where {$cmd}" : "which {$cmd}"));
 }
 
 /**
@@ -172,7 +193,8 @@ function hasCmd(string $cmd): bool
 function getVer(string $cmd): string
 {
     $redirect = IS_WIN ? '2>NUL' : '2>/dev/null';
-    $out      = shell_exec("{$cmd} --version {$redirect}");
+    $out = shell_exec("{$cmd} --version {$redirect}");
+
     return explode("\n", trim($out ?? ''))[0] ?: 'Tidak diketahui';
 }
 
@@ -189,8 +211,9 @@ function getVer(string $cmd): string
 function input(string $prompt, string $default = ''): string
 {
     $hint = $default !== '' ? " [{$default}]" : '';
-    echo (USE_COLOR ? C['yellow'] : '') . "  {$prompt}{$hint}: " . (USE_COLOR ? C['reset'] : '');
+    echo (USE_COLOR ? C['yellow'] : '')."  {$prompt}{$hint}: ".(USE_COLOR ? C['reset'] : '');
     $val = trim(fgets(STDIN));
+
     return $val !== '' ? $val : $default;
 }
 
@@ -202,9 +225,12 @@ function input(string $prompt, string $default = ''): string
 function confirm(string $prompt, bool $default = false): bool
 {
     $hint = $default ? 'Y/n' : 'y/N';
-    echo (USE_COLOR ? C['yellow'] : '') . "  {$prompt} [{$hint}]: " . (USE_COLOR ? C['reset'] : '');
+    echo (USE_COLOR ? C['yellow'] : '')."  {$prompt} [{$hint}]: ".(USE_COLOR ? C['reset'] : '');
     $val = strtolower(trim(fgets(STDIN)));
-    if ($val === '') return $default;
+    if ($val === '') {
+        return $default;
+    }
+
     return in_array($val, ['y', 'ya', 'yes'], true);
 }
 
@@ -221,10 +247,10 @@ function confirm(string $prompt, bool $default = false): bool
 function setEnv(string $file, string $key, string $val): void
 {
     $content = file_get_contents($file);
-    $line    = "{$key}={$val}";
+    $line = "{$key}={$val}";
     $content = preg_match("/^{$key}=/m", $content)
         ? preg_replace("/^{$key}=.*/m", $line, $content)
-        : $content . PHP_EOL . $line;
+        : $content.PHP_EOL.$line;
     file_put_contents($file, $content);
 }
 
@@ -244,18 +270,21 @@ function openBrowser(string $url): void
 
     if (IS_WIN) {
         pclose(popen("start {$url}", 'r'));
+
         return;
     }
 
     if (IS_MAC) {
         exec("open {$url} > /dev/null 2>&1 &");
+
         return;
     }
 
     // Linux — coba launcher satu per satu
     foreach (['xdg-open', 'gnome-open', 'kde-open', 'sensible-browser', 'x-www-browser'] as $bin) {
-        if (!empty(shell("which {$bin}"))) {
+        if (! empty(shell("which {$bin}"))) {
             exec("{$bin} {$url} > /dev/null 2>&1 &");
+
             return;
         }
     }
@@ -273,20 +302,20 @@ function openBrowser(string $url): void
  */
 function showContact(): void
 {
-    $e = fn(string $unicode, string $fallback) => IS_WIN ? $fallback : $unicode;
+    $e = fn (string $unicode, string $fallback) => IS_WIN ? $fallback : $unicode;
 
     out('');
-    out('+' . str_repeat('-', 63) . '+', 'bold', 'cyan');
-    out('|' . str_repeat(' ', 63) . '|', 'bold', 'cyan');
-    out('|   ' . $e('👤', '*') . ' Nama      : Akmal'                              . str_repeat(' ', 40) . '|', 'bold', 'cyan');
-    out('|   ' . $e('📸', '*') . ' Instagram : @lukheeman'                         . str_repeat(' ', 35) . '|', 'bold', 'cyan');
-    out('|   ' . $e('📱', '*') . ' No. HP    : 082250223147'                       . str_repeat(' ', 33) . '|', 'bold', 'cyan');
-    out('|   ' . $e('🌐', '*') . ' Portfolio : https://lukheman.github.io/portfolio/' . str_repeat(' ', 8) . '|', 'bold', 'cyan');
-    out('|   ' . $e('🌐', '*') . ' Website   : https://aplikasita.my.id/'          . str_repeat(' ', 20) . '|', 'bold', 'cyan');
-    out('|' . str_repeat(' ', 63) . '|', 'bold', 'cyan');
-    out('|   Silahkan hubungi untuk pertanyaan atau bantuan!' . str_repeat(' ', 13) . '|', 'bold', 'cyan');
-    out('|' . str_repeat(' ', 63) . '|', 'bold', 'cyan');
-    out('+' . str_repeat('-', 63) . '+', 'bold', 'cyan');
+    out('+'.str_repeat('-', 63).'+', 'bold', 'cyan');
+    out('|'.str_repeat(' ', 63).'|', 'bold', 'cyan');
+    out('|   '.$e('👤', '*').' Nama      : Akmal'.str_repeat(' ', 40).'|', 'bold', 'cyan');
+    out('|   '.$e('📸', '*').' Instagram : @lukheeman'.str_repeat(' ', 35).'|', 'bold', 'cyan');
+    out('|   '.$e('📱', '*').' No. HP    : 082250223147'.str_repeat(' ', 33).'|', 'bold', 'cyan');
+    out('|   '.$e('🌐', '*').' Portfolio : https://lukheman.github.io/portfolio/'.str_repeat(' ', 8).'|', 'bold', 'cyan');
+    out('|   '.$e('🌐', '*').' Website   : https://aplikasita.my.id/'.str_repeat(' ', 20).'|', 'bold', 'cyan');
+    out('|'.str_repeat(' ', 63).'|', 'bold', 'cyan');
+    out('|   Silahkan hubungi untuk pertanyaan atau bantuan!'.str_repeat(' ', 13).'|', 'bold', 'cyan');
+    out('|'.str_repeat(' ', 63).'|', 'bold', 'cyan');
+    out('+'.str_repeat('-', 63).'+', 'bold', 'cyan');
     out('');
 }
 

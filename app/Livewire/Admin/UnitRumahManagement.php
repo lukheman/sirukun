@@ -142,8 +142,8 @@ class UnitRumahManagement extends Component
     {
         $unitQuery = UnitRumah::query()
             ->when($this->search, function ($query) {
-                $query->where('blok', 'like', '%' . $this->search . '%')
-                    ->orWhere('nomor', 'like', '%' . $this->search . '%');
+                $query->where('blok', 'like', '%'.$this->search.'%')
+                    ->orWhere('nomor', 'like', '%'.$this->search.'%');
             })
             ->orderBy('blok')
             ->orderBy('nomor')

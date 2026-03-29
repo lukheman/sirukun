@@ -74,7 +74,7 @@ class InformasiUnit extends Component
             ->whereHas('penempatan')
             ->with('penempatan.unitRumah')
             ->first()
-                ?->penempatan;
+            ?->penempatan;
 
         // Cari pengajuan masuk yang masih menunggu
         $pengajuanMasukMenunggu = $warga->pengajuan()

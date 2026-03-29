@@ -50,7 +50,7 @@ class WargaManagement extends Component
     public function rules()
     {
         return [
-            'nik' => 'required|string|max:16|unique:warga,nik,' . $this->editingWargaId . ',id_warga',
+            'nik' => 'required|string|max:16|unique:warga,nik,'.$this->editingWargaId.',id_warga',
             'nkk' => 'required|string|max:16',
             'nama' => 'required|string|max:255',
             'alamat' => 'required|string|max:255',
@@ -158,9 +158,9 @@ class WargaManagement extends Component
     {
         $wargaQuery = Warga::query()
             ->when($this->search, function ($query) {
-                $query->where('nama', 'like', '%' . $this->search . '%')
-                    ->orWhere('nik', 'like', '%' . $this->search . '%')
-                    ->orWhere('nkk', 'like', '%' . $this->search . '%');
+                $query->where('nama', 'like', '%'.$this->search.'%')
+                    ->orWhere('nik', 'like', '%'.$this->search.'%')
+                    ->orWhere('nkk', 'like', '%'.$this->search.'%');
             })
             ->latest('created_at')
             ->paginate(10);

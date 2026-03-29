@@ -20,15 +20,25 @@ class Register extends Component
     use WithFileUploads;
 
     public string $nik = '';
+
     public string $nkk = '';
+
     public string $nama = '';
+
     public string $alamat = '';
+
     public string $telepon = '';
+
     public string $tempat_lahir = '';
+
     public string $tanggal_lahir = '';
+
     public string $agama = '';
+
     public string $password = '';
+
     public string $password_confirmation = '';
+
     public $foto_ktp = null;
 
     protected function rules(): array

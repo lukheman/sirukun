@@ -38,8 +38,9 @@ class KepalaDinas extends Authenticatable
     {
         $words = explode(' ', $this->nama);
         if (count($words) >= 2) {
-            return Str::upper(Str::substr($words[0], 0, 1) . Str::substr($words[1], 0, 1));
+            return Str::upper(Str::substr($words[0], 0, 1).Str::substr($words[1], 0, 1));
         }
+
         return Str::upper(Str::substr($this->nama, 0, 2));
     }
 }
