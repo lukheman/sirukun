@@ -321,7 +321,7 @@
             transition: all 0.2s;
             font-size: 0.875rem;
         }
-        .btn-modern:hover { 
+        .btn-modern:hover {
             transform: translateY(-1px);
             box-shadow: 0 2px 8px rgba(0,0,0,0.08);
         }
@@ -638,7 +638,8 @@
 <body>
     <!-- Sidebar -->
     <x-sidebar :brand-name="$brandName" :brand-icon="$brandIcon">
-        @if(Auth::guard('admin')->check())
+
+    @auth('admin')
             <x-sidebar-section title="Menu">
                 <x-sidebar-link href="{{ route('dashboard') }}" icon="fas fa-th-large" :active="request()->routeIs('dashboard')">Dashboard</x-sidebar-link>
             </x-sidebar-section>
@@ -657,8 +658,9 @@
                 <x-sidebar-link href="{{ route('admin.profile') }}" icon="fas fa-user-circle" :active="request()->routeIs('admin.profile')">Profile</x-sidebar-link>
                 <x-sidebar-link href="#settings" icon="fas fa-cog">Settings</x-sidebar-link>
             </x-sidebar-section>
+    @endauth
 
-        @elseif(Auth::guard('warga')->check())
+    @auth('warga')
             <x-sidebar-section title="Menu Utama">
                 <x-sidebar-link href="{{ route('warga.dashboard') }}" icon="fas fa-th-large" :active="request()->routeIs('warga.dashboard')">Dashboard</x-sidebar-link>
                 <x-sidebar-link href="{{ route('warga.unit') }}" icon="fas fa-home" :active="request()->routeIs('warga.unit')">Informasi Unit</x-sidebar-link>
@@ -672,13 +674,15 @@
                 <x-sidebar-link href="{{ route('warga.profile') }}" icon="fas fa-user-circle" :active="request()->routeIs('warga.profile')">Profile Saya</x-sidebar-link>
             </x-sidebar-section>
 
-        @elseif(Auth::guard('kepala_dinas')->check())
+    @endauth
+
+    @auth('kepala_dinas')
             <x-sidebar-section title="Menu Pimpinan">
                 <x-sidebar-link href="{{ route('pimpinan.dashboard') }}" icon="fas fa-th-large" :active="request()->routeIs('pimpinan.dashboard')">Dashboard</x-sidebar-link>
                 <x-sidebar-link href="{{ route('pimpinan.laporan') }}" icon="fas fa-file-alt" :active="request()->routeIs('pimpinan.laporan')">Laporan Rumah</x-sidebar-link>
                 <x-sidebar-link href="{{ route('pimpinan.arsip') }}" icon="fas fa-archive" :active="request()->routeIs('pimpinan.arsip')">Arsip Penghuni</x-sidebar-link>
             </x-sidebar-section>
-        @endif
+    @endauth
     </x-sidebar>
 
     @php
