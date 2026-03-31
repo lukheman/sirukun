@@ -12,6 +12,6 @@ class PenempatanSeeder extends Seeder
      */
     public function run(): void
     {
-        Penempatan::factory(5)->create();
+        // Penempatan::factory()->create();
     }
 }
