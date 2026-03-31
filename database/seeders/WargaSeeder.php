@@ -12,6 +12,12 @@ class WargaSeeder extends Seeder
      */
     public function run(): void
     {
-        Warga::factory(10)->create();
+
+        Warga::factory()->create([
+            'nik' => '1234567890123456',
+            'password' => 'password123'
+        ]);
+
+        Warga::factory(1)->create();
     }
 }
