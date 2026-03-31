@@ -231,6 +231,7 @@ class PengajuanManagement extends Component
 
         // Unit rumah yang tersedia (belum dihuni)
         $unitRumahs = UnitRumah::where('status_ketersediaan', '!=', StatusKetersediaan::DIHUNI->value)
+            ->where('status_ketersediaan', StatusKetersediaan::TERSEDIA)
             ->orderBy('blok')
             ->orderBy('nomor')
             ->get();
