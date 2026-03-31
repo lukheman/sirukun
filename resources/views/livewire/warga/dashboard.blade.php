@@ -3,7 +3,7 @@
         <x-slot:actions>
             <div class="welcome-badge"
                 style="background: var(--bg-white); padding: 0.5rem 1rem; border-radius: 10px; border: 1px solid var(--border-color); display: flex; align-items: center; gap: 8px; font-weight: 500;">
-                <i class="fas fa-id-card text-primary"></i>
+                <i class="fas fa-id-card"></i>
                 NIK: {{ $warga->nik }}
             </div>
         </x-slot:actions>
@@ -29,51 +29,51 @@
         <div class="col-12">
             <x-modern-card title="Data Diri">
                 <x-slot:actions>
-                    <i class="fas fa-user text-primary"></i>
+                    <i class="fas fa-user"></i>
                 </x-slot:actions>
 
                 <div class="row g-3">
                     <div class="col-md-6 col-lg-4">
                         <div class="d-flex flex-column gap-1">
                             <span class="text-muted small fw-medium">Nama Lengkap</span>
-                            <span class="text-primary fw-medium">{{ $warga->nama }}</span>
+                            <span class="fw-medium">{{ $warga->nama }}</span>
                         </div>
                     </div>
                     <div class="col-md-6 col-lg-4">
                         <div class="d-flex flex-column gap-1">
                             <span class="text-muted small fw-medium">NIK</span>
-                            <span class="text-primary fw-medium">{{ $warga->nik }}</span>
+                            <span class="fw-medium">{{ $warga->nik }}</span>
                         </div>
                     </div>
                     <div class="col-md-6 col-lg-4">
                         <div class="d-flex flex-column gap-1">
                             <span class="text-muted small fw-medium">No. KK</span>
-                            <span class="text-primary fw-medium">{{ $warga->nkk }}</span>
+                            <span class="fw-medium">{{ $warga->nkk }}</span>
                         </div>
                     </div>
                     <div class="col-md-6 col-lg-4">
                         <div class="d-flex flex-column gap-1">
                             <span class="text-muted small fw-medium">No. Telepon</span>
-                            <span class="text-primary fw-medium">{{ $warga->telepon }}</span>
+                            <span class="fw-medium">{{ $warga->telepon }}</span>
                         </div>
                     </div>
                     <div class="col-md-6 col-lg-4">
                         <div class="d-flex flex-column gap-1">
                             <span class="text-muted small fw-medium">Tempat, Tanggal Lahir</span>
-                            <span class="text-primary fw-medium">{{ $warga->tempat_lahir }},
+                            <span class="fw-medium">{{ $warga->tempat_lahir }},
                                 {{ $warga->tanggal_lahir->format('d M Y') }}</span>
                         </div>
                     </div>
                     <div class="col-md-6 col-lg-4">
                         <div class="d-flex flex-column gap-1">
                             <span class="text-muted small fw-medium">Agama</span>
-                            <span class="text-primary fw-medium">{{ $warga->agama }}</span>
+                            <span class="fw-medium">{{ $warga->agama }}</span>
                         </div>
                     </div>
                     <div class="col-12">
                         <div class="d-flex flex-column gap-1">
                             <span class="text-muted small fw-medium">Alamat</span>
-                            <span class="text-primary fw-medium">{{ $warga->alamat }}</span>
+                            <span class="fw-medium">{{ $warga->alamat }}</span>
                         </div>
                     </div>
                 </div>
@@ -108,7 +108,7 @@
                             Ajukan Keluar
                         </x-button>
                     @else
-                        <i class="fas fa-file-alt text-primary"></i>
+                        <i class="fas fa-file-alt"></i>
                     @endif
                 </x-slot:actions>
 
@@ -171,7 +171,7 @@
         <div class="col-12">
             <x-table-card title="Informasi Unit Rumah" :headers="['Blok', 'Nomor', 'Status', 'Penghuni', 'Tanggal Masuk']">
                 <x-slot:actions>
-                    <i class="fas fa-building text-primary"></i>
+                    <i class="fas fa-building"></i>
                 </x-slot:actions>
 
                 @forelse($units as $unit)
@@ -188,7 +188,7 @@
                                 <div class="d-flex align-items-center gap-2">
                                     <x-avatar :name="$unit->penempatan->pengajuan->warga->nama" />
                                     <div>
-                                        <div class="fw-medium text-primary" style="font-size: 0.88rem;">
+                                        <div class="fw-medium" style="font-size: 0.88rem;">
                                             {{ $unit->penempatan->pengajuan->warga->nama }}</div>
                                         <div class="text-muted" style="font-size: 0.75rem;">
                                             {{ $unit->penempatan->pengajuan->warga->nik }}</div>
