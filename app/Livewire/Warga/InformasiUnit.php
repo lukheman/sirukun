@@ -69,12 +69,16 @@ class InformasiUnit extends Component
         $warga = Auth::guard('warga')->user();
 
         // Cari penempatan aktif (pengajuan 'disetujui' dan punya relasi penempatan)
-        $penempatanAktif = $warga->pengajuan()
-            ->where('status_pengajuan', StatusPengajuan::DISETUJUI)
-            ->whereHas('penempatan')
-            ->with('penempatan.unitRumah')
-            ->first()
-            ?->penempatan;
+$penempatanAktif = $warga->pengajuan()
+    ->where('status_pengajuan', StatusPengajuan::DISETUJUI)
+    ->whereHas('penempatan', function ($q) {
+        $q->whereNull('tanggal_keluar');
+    })
+    ->with(['penempatan' => function ($q) {
+        $q->whereNull('tanggal_keluar');
+    }, 'penempatan.unitRumah'])
+    ->first()
+    ?->penempatan;
 
         // Cari pengajuan masuk yang masih menunggu
         $pengajuanMasukMenunggu = $warga->pengajuan()
