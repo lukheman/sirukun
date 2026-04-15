@@ -652,6 +652,7 @@
             <x-sidebar-section title="Transaksi">
                 <x-sidebar-link href="{{ route('admin.pengajuan') }}" icon="fas fa-file-signature" :active="request()->routeIs('admin.pengajuan')">Data Pengajuan</x-sidebar-link>
                 <x-sidebar-link href="{{ route('admin.penempatan') }}" icon="fas fa-key" :active="request()->routeIs('admin.penempatan')">Data Penempatan</x-sidebar-link>
+                <x-sidebar-link href="{{ route('admin.keluhan') }}" icon="fas fa-comments" :active="request()->routeIs('admin.keluhan')">Keluhan Warga</x-sidebar-link>
             </x-sidebar-section>
 
             <x-sidebar-section title="Account">
@@ -668,6 +669,7 @@
 
             <x-sidebar-section title="Aktivitas">
                 <x-sidebar-link href="{{ route('warga.pengajuan') }}" icon="fas fa-file-signature" :active="request()->routeIs('warga.pengajuan')">Riwayat Pengajuan</x-sidebar-link>
+                <x-sidebar-link href="{{ route('warga.keluhan') }}" icon="fas fa-comments" :active="request()->routeIs('warga.keluhan')">Keluhan Saya</x-sidebar-link>
             </x-sidebar-section>
 
             <x-sidebar-section title="Account">

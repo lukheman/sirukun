@@ -27,6 +27,8 @@ class Warga extends Authenticatable
         'password',
         'agama',
         'foto_ktp',
+        'foto_kk',
+        'foto_kusuka',
         'remember_token',
     ];
 
@@ -55,5 +57,10 @@ class Warga extends Authenticatable
     public function pengajuan(): HasMany
     {
         return $this->hasMany(Pengajuan::class, 'id_warga', 'id_warga');
+    }
+
+    public function keluhan(): HasMany
+    {
+        return $this->hasMany(\App\Models\Keluhan::class, 'id_warga', 'id_warga');
     }
 }

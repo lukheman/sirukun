@@ -13,6 +13,8 @@ use App\Livewire\Warga\Dashboard as WargaDashboard;
 use App\Livewire\Warga\InformasiUnit as WargaInformasiUnit;
 use App\Livewire\Warga\Profile as WargaProfile;
 use App\Livewire\Warga\RiwayatPengajuan as WargaRiwayatPengajuan;
+use App\Livewire\Warga\KeluhanSaya as WargaKeluhanSaya;
+use App\Livewire\Admin\KeluhanManagement as AdminKeluhanManagement;
 use Illuminate\Support\Facades\Route;
 
 // Guest Routes
@@ -32,6 +34,7 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
     Route::get('/pengajuan', App\Livewire\Admin\PengajuanManagement::class)->name('admin.pengajuan');
     Route::get('/unit-rumah', App\Livewire\Admin\UnitRumahManagement::class)->name('admin.unitrumah');
     Route::get('/penempatan', App\Livewire\Admin\PenempatanManagement::class)->name('admin.penempatan');
+    Route::get('/keluhan', AdminKeluhanManagement::class)->name('admin.keluhan');
 
     Route::post('/logout', [LogoutController::class, '__invoke'])->name('logout');
 });
@@ -41,6 +44,7 @@ Route::prefix('warga')->middleware('auth:warga')->group(function () {
     Route::get('/dashboard', WargaDashboard::class)->name('warga.dashboard');
     Route::get('/unit', WargaInformasiUnit::class)->name('warga.unit');
     Route::get('/pengajuan', WargaRiwayatPengajuan::class)->name('warga.pengajuan');
+    Route::get('/keluhan', WargaKeluhanSaya::class)->name('warga.keluhan');
     Route::get('/profile', WargaProfile::class)->name('warga.profile');
     Route::post('/logout', [LogoutController::class, '__invoke'])->name('warga.logout');
 });
