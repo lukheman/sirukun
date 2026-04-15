@@ -153,22 +153,81 @@
                             @enderror
                         </div>
 
-                        <!-- Upload Foto KTP (full width) -->
+                        {{-- Upload Berkas (full width header) --}}
                         <div class="auth-field auth-field-full">
-                            <label for="foto_ktp">Foto KTP <small class="text-muted">(opsional, maks
-                                    2MB)</small></label>
-                            <div class="auth-input-wrap" style="padding: 0.5rem 0.85rem;">
-                                <i class="fas fa-id-card"></i>
-                                <input type="file" wire:model="foto_ktp" class="@error('foto_ktp') is-invalid @enderror"
-                                    id="foto_ktp" accept="image/*" style="font-size: 0.85rem;">
+                            <div style="display: flex; align-items: center; gap: 8px; padding: 0.6rem 0; border-bottom: 1.5px solid var(--border-color); margin-bottom: 0.25rem;">
+                                <i class="fas fa-folder-open" style="color: var(--primary-color);"></i>
+                                <span style="font-size: 0.8rem; font-weight: 700; color: var(--text-primary); text-transform: uppercase; letter-spacing: 0.5px;">Berkas Dokumen</span>
+                            </div>
+                        </div>
+
+                        {{-- Upload Foto KTP (full width) --}}
+                        <div class="auth-field auth-field-full">
+                            <label for="foto_ktp">Foto KTP <small style="font-weight:400; color:var(--text-muted);">(opsional, maks 2MB)</small></label>
+                            <div class="auth-file-wrap @error('foto_ktp') is-invalid-file @enderror">
+                                <label for="foto_ktp" class="auth-file-label">
+                                    <i class="fas fa-id-card"></i>
+                                    <span wire:loading.remove wire:target="foto_ktp">
+                                        @if ($foto_ktp)
+                                            <span style="color: var(--primary-color);">{{ $foto_ktp->getClientOriginalName() }}</span>
+                                        @else
+                                            Klik untuk unggah Foto KTP
+                                        @endif
+                                    </span>
+                                    <span wire:loading wire:target="foto_ktp" style="color:var(--primary-color);"><i class="fas fa-spinner fa-spin"></i> Mengupload...</span>
+                                </label>
+                                <input type="file" wire:model="foto_ktp"
+                                    id="foto_ktp" accept="image/*" class="auth-file-input">
                             </div>
                             @error('foto_ktp')
                                 <span class="auth-error">{{ $message }}</span>
                             @enderror
-                            <div wire:loading wire:target="foto_ktp" class="auth-error"
-                                style="color: var(--primary-color);">
-                                <i class="fas fa-spinner fa-spin"></i> Mengupload...
+                        </div>
+
+                        {{-- Upload Foto KK --}}
+                        <div class="auth-field">
+                            <label for="foto_kk">Foto Kartu Keluarga <span class="req">*</span> <small style="font-weight:400; color:var(--text-muted);">(maks 2MB)</small></label>
+                            <div class="auth-file-wrap @error('foto_kk') is-invalid-file @enderror">
+                                <label for="foto_kk" class="auth-file-label">
+                                    <i class="fas fa-users"></i>
+                                    <span wire:loading.remove wire:target="foto_kk">
+                                        @if ($foto_kk)
+                                            <span style="color: var(--primary-color);">{{ $foto_kk->getClientOriginalName() }}</span>
+                                        @else
+                                            Klik untuk unggah Foto KK
+                                        @endif
+                                    </span>
+                                    <span wire:loading wire:target="foto_kk" style="color:var(--primary-color);"><i class="fas fa-spinner fa-spin"></i> Mengupload...</span>
+                                </label>
+                                <input type="file" wire:model="foto_kk"
+                                    id="foto_kk" accept="image/*" class="auth-file-input">
                             </div>
+                            @error('foto_kk')
+                                <span class="auth-error">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        {{-- Upload Foto Kartu Kusuka --}}
+                        <div class="auth-field">
+                            <label for="foto_kusuka">Foto Kartu Kusuka <span class="req">*</span> <small style="font-weight:400; color:var(--text-muted);">(maks 2MB)</small></label>
+                            <div class="auth-file-wrap @error('foto_kusuka') is-invalid-file @enderror">
+                                <label for="foto_kusuka" class="auth-file-label">
+                                    <i class="fas fa-address-card"></i>
+                                    <span wire:loading.remove wire:target="foto_kusuka">
+                                        @if ($foto_kusuka)
+                                            <span style="color: var(--primary-color);">{{ $foto_kusuka->getClientOriginalName() }}</span>
+                                        @else
+                                            Klik untuk unggah Kartu Kusuka
+                                        @endif
+                                    </span>
+                                    <span wire:loading wire:target="foto_kusuka" style="color:var(--primary-color);"><i class="fas fa-spinner fa-spin"></i> Mengupload...</span>
+                                </label>
+                                <input type="file" wire:model="foto_kusuka"
+                                    id="foto_kusuka" accept="image/*" class="auth-file-input">
+                            </div>
+                            @error('foto_kusuka')
+                                <span class="auth-error">{{ $message }}</span>
+                            @enderror
                         </div>
 
                         <!-- Password -->
@@ -520,6 +579,55 @@
                 color: var(--danger-color);
                 margin-top: 0.25rem;
                 font-weight: 500;
+            }
+
+            /* ==================== FILE UPLOAD ==================== */
+            .auth-file-wrap {
+                position: relative;
+                border: 1.5px dashed var(--border-color);
+                border-radius: 10px;
+                background: var(--bg-light);
+                transition: all 0.25s;
+                overflow: hidden;
+            }
+
+            .auth-file-wrap:hover {
+                border-color: var(--primary-color);
+                background: rgba(199, 91, 63, 0.04);
+            }
+
+            .auth-file-wrap.is-invalid-file {
+                border-color: var(--danger-color);
+            }
+
+            .auth-file-label {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                padding: 0.6rem 0.85rem;
+                cursor: pointer;
+                font-size: 0.85rem;
+                color: var(--text-muted);
+                font-weight: 500;
+                width: 100%;
+                margin: 0;
+            }
+
+            .auth-file-label i {
+                color: var(--text-muted);
+                font-size: 0.9rem;
+                flex-shrink: 0;
+                width: 18px;
+                text-align: center;
+            }
+
+            .auth-file-input {
+                position: absolute;
+                inset: 0;
+                width: 100%;
+                height: 100%;
+                opacity: 0;
+                cursor: pointer;
             }
 
             .auth-submit {

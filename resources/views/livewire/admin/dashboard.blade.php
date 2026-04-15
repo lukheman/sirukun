@@ -3,11 +3,10 @@
     <x-page-header title="Dashboard Overview"
         subtitle="Selamat datang kembali! Berikut ringkasan data SIRUKUN hari ini.">
         <x-slot:actions>
-            <a href="{{ route('admin.pengajuan') }}" wire:navigate
-                class="btn btn-primary d-flex align-items-center gap-2">
-                <i class="fas fa-arrow-right"></i>
-                <span>Lihat Pengajuan</span>
-            </a>
+
+            <x-button href="{{ route('admin.pengajuan') }}" variant="primary" icon="fas fa-arrow-right">
+            Lihat Pengajuan
+            </x-button>
         </x-slot:actions>
     </x-page-header>
 
