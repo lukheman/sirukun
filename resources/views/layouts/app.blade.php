@@ -389,42 +389,50 @@
         /* ==================== TABLES ==================== */
         .table-modern {
             border-collapse: separate;
-            border-spacing: 0 0.4rem;
+            border-spacing: 0;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            overflow: hidden;
+            width: 100%;
         }
 
         .table-modern thead th {
-            border: none;
-            background: transparent;
+            background: var(--bg-tertiary);
             color: var(--text-muted);
             font-weight: 600;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            padding: 0.75rem 1rem;
+            padding: 1rem 1rem;
+            border-bottom: 2px solid var(--border-color);
+            border-right: 1px solid var(--border-light);
+        }
+
+        .table-modern thead th:last-child {
+            border-right: none;
         }
 
         .table-modern tbody tr {
             background: var(--bg-secondary);
-            box-shadow: var(--card-shadow);
-            border-radius: 10px;
+            transition: all 0.2s;
         }
 
         .table-modern tbody td {
-            padding: 0.9rem 1rem;
-            border: none;
+            padding: 1rem 1rem;
             vertical-align: middle;
             color: var(--text-primary);
             font-size: 0.9rem;
+            border-right: 1px solid var(--border-light);
+            border-bottom: 1px solid var(--border-light);
+            border-top: none;
         }
 
-        .table-modern tbody tr td:first-child {
-            border-top-left-radius: 10px;
-            border-bottom-left-radius: 10px;
+        .table-modern tbody tr:last-child td {
+            border-bottom: none;
         }
 
-        .table-modern tbody tr td:last-child {
-            border-top-right-radius: 10px;
-            border-bottom-right-radius: 10px;
+        .table-modern tbody td:last-child {
+            border-right: none;
         }
 
         /* ==================== BOOTSTRAP TABLE OVERRIDE ==================== */
@@ -655,6 +663,10 @@
                 <x-sidebar-link href="{{ route('admin.keluhan') }}" icon="fas fa-comments" :active="request()->routeIs('admin.keluhan')">Keluhan Warga</x-sidebar-link>
             </x-sidebar-section>
 
+            <x-sidebar-section title="Laporan">
+                <x-sidebar-link href="{{ route('admin.laporan.keluhan') }}" icon="fas fa-file-alt" :active="request()->routeIs('admin.laporan.keluhan')">Laporan Keluhan</x-sidebar-link>
+            </x-sidebar-section>
+
             <x-sidebar-section title="Account">
                 <x-sidebar-link href="{{ route('admin.profile') }}" icon="fas fa-user-circle" :active="request()->routeIs('admin.profile')">Profile</x-sidebar-link>
                 <x-sidebar-link href="#settings" icon="fas fa-cog">Settings</x-sidebar-link>
@@ -682,6 +694,7 @@
             <x-sidebar-section title="Menu Pimpinan">
                 <x-sidebar-link href="{{ route('pimpinan.dashboard') }}" icon="fas fa-th-large" :active="request()->routeIs('pimpinan.dashboard')">Dashboard</x-sidebar-link>
                 <x-sidebar-link href="{{ route('pimpinan.laporan') }}" icon="fas fa-file-alt" :active="request()->routeIs('pimpinan.laporan')">Laporan Rumah</x-sidebar-link>
+                <x-sidebar-link href="{{ route('pimpinan.laporan.keluhan') }}" icon="fas fa-file-lines" :active="request()->routeIs('pimpinan.laporan.keluhan')">Laporan Keluhan</x-sidebar-link>
                 <x-sidebar-link href="{{ route('pimpinan.arsip') }}" icon="fas fa-archive" :active="request()->routeIs('pimpinan.arsip')">Arsip Penghuni</x-sidebar-link>
             </x-sidebar-section>
     @endauth

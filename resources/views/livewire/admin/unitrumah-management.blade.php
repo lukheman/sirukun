@@ -34,15 +34,17 @@
             <table class="table table-modern">
                 <thead>
                     <tr>
+                        <th style="width: 5%">No.</th>
                         <th style="width: 25%">Blok Unit</th>
                         <th style="width: 25%">Nomor Rumah</th>
                         <th style="width: 30%">Status Ketersediaan</th>
-                        <th style="width: 20%" class="text-end">Aksi</th>
+                        <th style="width: 15%" class="text-end">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse($units as $unit)
+                    @forelse($units as $index => $unit)
                         <tr>
+                            <td class="text-muted text-center">{{ $units->firstItem() + $index }}</td>
                             <td>
                                 <div class="fw-semibold text-dark-heading">Blok {{ $unit->blok }}</div>
                             </td>
@@ -67,7 +69,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="4" class="text-center py-4">
+                            <td colspan="5" class="text-center py-4">
                                 <div class="text-muted">
                                     <i class="fas fa-home mb-2" style="font-size: 2rem;"></i>
                                     <p class="mb-0">Tidak ada data unit rumah ditemukan</p>

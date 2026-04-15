@@ -38,15 +38,17 @@
             <table class="table table-modern">
                 <thead>
                     <tr>
+                        <th style="width: 5%">No.</th>
                         <th style="width: 30%">Warga Penghuni</th>
                         <th style="width: 25%">Unit Rumah</th>
                         <th style="width: 25%">Tanggal Masuk</th>
-                        <th style="width: 20%" class="text-end">Aksi</th>
+                        <th style="width: 15%" class="text-end">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse($penempatans as $penempatan)
+                    @forelse($penempatans as $index => $penempatan)
                         <tr>
+                            <td class="text-muted text-center">{{ $penempatans->firstItem() + $index }}</td>
                             <td>
                                 <div>
                                     <div class="fw-semibold text-dark-heading">{{ $penempatan->pengajuan->warga->nama }}
@@ -77,7 +79,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="4" class="text-center py-4">
+                            <td colspan="5" class="text-center py-4">
                                 <div class="text-muted">
                                     <i class="fas fa-key mb-2" style="font-size: 2rem;"></i>
                                     <p class="mb-0">Tidak ada data penempatan ditemukan</p>

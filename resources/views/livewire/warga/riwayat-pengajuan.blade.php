@@ -13,6 +13,7 @@
             <table class="table table-modern align-middle mb-0">
                 <thead>
                     <tr>
+                        <th width="5%">No.</th>
                         <th width="20%">Jenis Pengajuan</th>
                         <th>Tanggal Pengajuan</th>
                         <th>Keterangan / Unit</th>
@@ -20,8 +21,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse($pengajuans as $pengajuan)
+                    @forelse($pengajuans as $index => $pengajuan)
                         <tr>
+                            <td class="text-muted text-center">{{ $pengajuans->firstItem() + $index }}</td>
                             <td>
                                 @if($pengajuan->jenis_pengajuan === App\Enums\JenisPengajuan::KELUAR)
                                     <div class="d-flex align-items-center gap-2">
@@ -63,6 +65,14 @@
                                     :icon="$pengajuan->status_pengajuan->getIcon()">
                                     {{ $pengajuan->status_pengajuan->getLabel() }}
                                 </x-badge>
+                                @if($pengajuan->status_pengajuan === App\Enums\StatusPengajuan::DITOLAK && $pengajuan->alasan_tolak)
+                                    <div class="mt-2 p-2 rounded" style="background: rgba(220,53,69,.06); border: 1px solid rgba(220,53,69,.15); border-radius: 6px;">
+                                        <small class="text-danger d-flex align-items-start gap-1">
+                                            <i class="fas fa-info-circle mt-1" style="flex-shrink:0;"></i>
+                                            <span><strong>Alasan:</strong> {{ $pengajuan->alasan_tolak }}</span>
+                                        </small>
+                                    </div>
+                                @endif
                             </td>
                         </tr>
                     @empty

@@ -1,6 +1,7 @@
 <div>
     {{-- Page Header --}}
-    <x-page-header title="Manajemen Keluhan" subtitle="Tinjau dan balas keluhan yang dikirim oleh warga." />
+    <x-page-header title="Manajemen Keluhan" subtitle="Tinjau dan balas keluhan yang dikirim oleh warga.">
+    </x-page-header>
 
     {{-- Flash Messages --}}
     @if (session('success'))
@@ -44,15 +45,17 @@
             <table class="table table-modern">
                 <thead>
                     <tr>
-                        <th style="width:35%">Warga Pengirim</th>
+                        <th style="width: 5%">No.</th>
+                        <th style="width:30%">Warga Pengirim</th>
                         <th style="width:30%">Keluhan</th>
                         <th style="width:15%">Status</th>
                         <th style="width:20%" class="text-end">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse ($query as $keluhan)
+                    @forelse ($query as $index => $keluhan)
                         <tr>
+                            <td class="text-muted text-center">{{ $query->firstItem() + $index }}</td>
                             <td>
                                 <div class="fw-semibold" style="color: var(--text-primary);">{{ $keluhan->warga->nama }}</div>
                                 <small class="text-muted">NIK: {{ $keluhan->warga->nik }}</small>
@@ -92,7 +95,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="4" class="text-center py-4">
+                            <td colspan="5" class="text-center py-4">
                                 <div class="text-muted">
                                     <i class="fas fa-comment-slash mb-2" style="font-size: 2rem;"></i>
                                     <p class="mb-0">Tidak ada keluhan ditemukan.</p>

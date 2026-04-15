@@ -566,6 +566,24 @@
                 transform: translateX(3px);
             }
 
+            .auth-footer {
+                text-align: center;
+                margin-top: 1.25rem;
+                font-size: 0.85rem;
+                color: var(--text-secondary);
+            }
+
+            .auth-footer a {
+                color: var(--primary-color);
+                font-weight: 600;
+                text-decoration: none;
+                transition: opacity 0.2s;
+            }
+
+            .auth-footer a:hover {
+                opacity: 0.8;
+            }
+
             /* Responsive */
             @media (max-width:768px) {
                 .auth-wrapper {

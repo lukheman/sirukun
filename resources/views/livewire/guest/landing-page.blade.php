@@ -61,44 +61,71 @@
         </div>
     </section>
 
-    <!-- Stats Section -->
-    <section class="section pt-0" id="statistik">
+    <!-- Galeri & Stats Section -->
+    <section class="section pt-0" id="galeri" style="position: relative; z-index: 10; margin-top: -2rem;">
         <div class="container">
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-icon" style="background: linear-gradient(135deg, #6366f1, #8b5cf6);">
-                        <i class="fas fa-users"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3 class="stat-number">{{ number_format($stats['total_warga']) }}</h3>
-                        <p class="stat-label">Total Warga</p>
-                    </div>
+            <div class="section-header mb-4" style="margin-top: 2rem;">
+                <span class="section-badge">Fasilitas</span>
+                <h2 class="section-title" style="font-size: 2rem;">Potret Rumah Nelayan</h2>
+                <p class="section-description">
+                    Lingkungan perumahan yang telah dibangun dan difasilitasi untuk kesejahteraan nelayan.
+                </p>
+            </div>
+            
+            <div class="gallery-grid mb-5">
+                <div class="gallery-item" style="cursor: pointer;" onclick="openLightbox('{{ asset('images/gallery/rumah1.jpg') }}')">
+                    <img src="{{ asset('images/gallery/rumah1.jpg') }}" alt="Rumah Nelayan 1">
+                    <div class="gallery-overlay"><i class="fas fa-search-plus"></i></div>
                 </div>
+                <div class="gallery-item" style="cursor: pointer;" onclick="openLightbox('{{ asset('images/gallery/rumah2.jpg') }}')">
+                    <img src="{{ asset('images/gallery/rumah2.jpg') }}" alt="Rumah Nelayan 2">
+                    <div class="gallery-overlay"><i class="fas fa-search-plus"></i></div>
+                </div>
+                <div class="gallery-item" style="cursor: pointer;" onclick="openLightbox('{{ asset('images/gallery/rumah3.jpg') }}')">
+                    <img src="{{ asset('images/gallery/rumah3.jpg') }}" alt="Rumah Nelayan 3">
+                    <div class="gallery-overlay"><i class="fas fa-search-plus"></i></div>
+                </div>
+                <div class="gallery-item" style="cursor: pointer;" onclick="openLightbox('{{ asset('images/gallery/rumah4.jpg') }}')">
+                    <img src="{{ asset('images/gallery/rumah4.jpg') }}" alt="Rumah Nelayan 4">
+                    <div class="gallery-overlay"><i class="fas fa-search-plus"></i></div>
+                </div>
+            </div>
+
+            <div class="stats-grid">
                 <div class="stat-card">
                     <div class="stat-icon" style="background: linear-gradient(135deg, #0ea5e9, #06b6d4);">
                         <i class="fas fa-building"></i>
                     </div>
                     <div class="stat-info">
                         <h3 class="stat-number">{{ number_format($stats['total_unit']) }}</h3>
-                        <p class="stat-label">Total Unit Rumah</p>
+                        <p class="stat-label">Total Rumah</p>
                     </div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-icon" style="background: linear-gradient(135deg, #10b981, #34d399);">
-                        <i class="fas fa-check-circle"></i>
+                        <i class="fas fa-house-user"></i>
                     </div>
                     <div class="stat-info">
-                        <h3 class="stat-number">{{ number_format($stats['unit_tersedia']) }}</h3>
-                        <p class="stat-label">Unit Tersedia</p>
+                        <h3 class="stat-number">{{ number_format($stats['unit_dihuni']) }}</h3>
+                        <p class="stat-label">Rumah Terisi</p>
                     </div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-icon" style="background: linear-gradient(135deg, #f59e0b, #fbbf24);">
-                        <i class="fas fa-file-signature"></i>
+                        <i class="fas fa-check-circle"></i>
                     </div>
                     <div class="stat-info">
-                        <h3 class="stat-number">{{ number_format($stats['pengajuan_disetujui']) }}</h3>
-                        <p class="stat-label">Pengajuan Disetujui</p>
+                        <h3 class="stat-number">{{ number_format($stats['unit_tersedia']) }}</h3>
+                        <p class="stat-label">Rumah Tersedia</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #6366f1, #8b5cf6);">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 class="stat-number">{{ number_format($stats['total_warga']) }}</h3>
+                        <p class="stat-label">Total Penghuni</p>
                     </div>
                 </div>
             </div>
@@ -189,6 +216,14 @@
             </div>
         </div>
     </section>
+
+    <!-- Custom Lightbox -->
+    <div id="customLightbox" class="lightbox-overlay" onclick="closeLightbox()" style="display: none;">
+        <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
+        <div class="lightbox-content-wrapper" onclick="event.stopPropagation();">
+            <img class="lightbox-content" id="lightboxImg">
+        </div>
+    </div>
 
     <x-slot:styles>
         <style>
@@ -468,6 +503,64 @@
                 margin: 0;
             }
 
+            /* Gallery Grid */
+            .gallery-grid {
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 1.5rem;
+                margin-bottom: 3rem;
+            }
+
+            .gallery-item {
+                position: relative;
+                border-radius: 16px;
+                overflow: hidden;
+                aspect-ratio: 4 / 3;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+                border: 2px solid white;
+            }
+
+            .gallery-item img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                transition: transform 0.5s ease;
+            }
+
+            .gallery-item .gallery-overlay {
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, 0.4);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                opacity: 0;
+                transition: opacity 0.3s ease;
+                z-index: 2;
+            }
+
+            .gallery-item .gallery-overlay i {
+                color: white;
+                font-size: 2.5rem;
+                transform: scale(0.5);
+                transition: transform 0.3s ease;
+            }
+
+            .gallery-item:hover img {
+                transform: scale(1.05);
+            }
+
+            .gallery-item:hover .gallery-overlay {
+                opacity: 1;
+            }
+
+            .gallery-item:hover .gallery-overlay i {
+                transform: scale(1);
+            }
+
             /* Section Header */
             .section-header {
                 text-align: center;
@@ -651,6 +744,10 @@
                     grid-template-columns: repeat(2, 1fr);
                 }
 
+                .gallery-grid {
+                    grid-template-columns: repeat(2, 1fr);
+                }
+
                 .features-grid {
                     grid-template-columns: repeat(2, 1fr);
                 }
@@ -665,6 +762,10 @@
                     grid-template-columns: 1fr;
                 }
 
+                .gallery-grid {
+                    grid-template-columns: 1fr;
+                }
+
                 .features-grid {
                     grid-template-columns: 1fr;
                 }
@@ -676,7 +777,93 @@
                 .cta-content h2 {
                     font-size: 2rem;
                 }
+                
+                .lightbox-content {
+                    width: 95%;
+                }
+            }
+
+            /* Custom Lightbox Styles */
+            .lightbox-overlay {
+                position: fixed;
+                z-index: 2000;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.85);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                backdrop-filter: blur(5px);
+            }
+
+            .lightbox-content-wrapper {
+                position: relative;
+                max-width: 90%;
+                max-height: 90vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .lightbox-content {
+                max-width: 100%;
+                max-height: 90vh;
+                border-radius: 8px;
+                box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+                object-fit: contain;
+                animation: zoomIn 0.3s ease;
+            }
+
+            @keyframes zoomIn {
+                from { transform: scale(0.9); opacity: 0; }
+                to { transform: scale(1); opacity: 1; }
+            }
+
+            .lightbox-close {
+                position: absolute;
+                top: 20px;
+                right: 30px;
+                color: #f1f1f1;
+                font-size: 40px;
+                font-weight: bold;
+                cursor: pointer;
+                transition: 0.2s;
+                z-index: 2001;
+            }
+
+            .lightbox-close:hover,
+            .lightbox-close:focus {
+                color: var(--primary-color);
+                text-decoration: none;
+                cursor: pointer;
             }
         </style>
     </x-slot:styles>
+
+    <x-slot:scripts>
+        <script>
+            function openLightbox(imgSrc) {
+                const lightbox = document.getElementById('customLightbox');
+                const lightboxImg = document.getElementById('lightboxImg');
+                lightboxImg.src = imgSrc;
+                lightbox.style.display = 'flex';
+                document.body.style.overflow = 'hidden'; // Prevent scrolling
+            }
+
+            function closeLightbox() {
+                const lightbox = document.getElementById('customLightbox');
+                lightbox.style.display = 'none';
+                document.body.style.overflow = 'auto'; // Restore scrolling
+            }
+
+            // Close with Escape key
+            document.addEventListener('keydown', function(event) {
+                if (event.key === "Escape") {
+                    closeLightbox();
+                }
+            });
+        </script>
+    </x-slot:scripts>
 </div>

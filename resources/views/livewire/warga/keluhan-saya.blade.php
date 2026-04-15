@@ -1,11 +1,13 @@
 <div>
     {{-- Page Header --}}
     <x-page-header title="Keluhan Saya" subtitle="Sampaikan keluhan atau permintaan perbaikan kepada admin.">
-        <x-slot:actions>
-            <x-button variant="primary" icon="fas fa-plus" wire:click="openFormModal">
-                Buat Keluhan Baru
-            </x-button>
-        </x-slot:actions>
+        @if($sudahDitempatkan)
+            <x-slot:actions>
+                <x-button variant="primary" icon="fas fa-plus" wire:click="openFormModal">
+                    Buat Keluhan Baru
+                </x-button>
+            </x-slot:actions>
+        @endif
     </x-page-header>
 
     {{-- Flash Messages --}}
@@ -14,6 +16,32 @@
             {{ session('success') }}
         </x-alert>
     @endif
+
+    @if (session('error'))
+        <x-alert variant="danger" title="Gagal!" class="mb-4">
+            {{ session('error') }}
+        </x-alert>
+    @endif
+
+    {{-- Belum Ditempatkan Notice --}}
+    @if(!$sudahDitempatkan)
+        <div class="modern-card">
+            <div class="text-center py-5">
+                <div class="mb-3">
+                    <i class="fas fa-house-circle-xmark" style="font-size: 3.5rem; color: var(--warning-color); opacity: 0.7;"></i>
+                </div>
+                <h5 class="fw-bold" style="color: var(--text-primary);">Fitur Keluhan Belum Tersedia</h5>
+                <p class="text-muted mb-3" style="max-width: 480px; margin: 0 auto; line-height: 1.7;">
+                    Anda belum ditempatkan di unit rumah manapun. Fitur keluhan hanya dapat diakses setelah pengajuan Anda disetujui dan Anda telah ditempatkan di sebuah unit.
+                </p>
+                <div class="d-inline-flex align-items-center gap-2 px-3 py-2 rounded-3"
+                    style="background: rgba(212, 148, 58, 0.08); border: 1px solid rgba(212, 148, 58, 0.2);">
+                    <i class="fas fa-info-circle" style="color: var(--warning-color);"></i>
+                    <small class="text-muted">Silakan cek status pengajuan Anda di halaman <strong>Riwayat Pengajuan</strong>.</small>
+                </div>
+            </div>
+        </div>
+    @else
 
     {{-- Keluhan List --}}
     <div class="modern-card">
@@ -191,5 +219,6 @@
                 </div>
             </div>
         </div>
+    @endif
     @endif
 </div>

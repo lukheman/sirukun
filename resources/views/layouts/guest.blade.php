@@ -357,8 +357,8 @@
                 <button class="theme-toggle" onclick="toggleTheme()">
                     <i class="fas fa-moon" id="theme-icon"></i>
                 </button>
-                <a href="{{ route('login') }}" class="btn btn-outline">Sign In</a>
-                <a href="{{ route('login') }}" class="btn btn-primary">Get Started</a>
+                <a href="{{ route('login') }}" class="btn btn-outline">Masuk</a>
+                <a href="{{ route('login') }}" class="btn btn-primary">Registrasi</a>
                 <button class="mobile-menu-btn">
                     <i class="fas fa-bars"></i>
                 </button>

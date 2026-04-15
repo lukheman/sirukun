@@ -8,13 +8,21 @@ use App\Models\Pengajuan;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Title;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 #[Title('Informasi Unit - SIRUKUN')]
 class InformasiUnit extends Component
 {
+    use WithFileUploads;
+
     public $showAjukanUnitModal = false;
 
     public $showAjukanKeluarModal = false;
+
+    // File upload properties
+    public $upload_foto_ktp = null;
+    public $upload_foto_kk = null;
+    public $upload_foto_kusuka = null;
 
     // Functions for Ajukan Unit (Masuk)
     public function openAjukanUnitModal()
@@ -25,11 +33,43 @@ class InformasiUnit extends Component
     public function closeAjukanUnitModal()
     {
         $this->showAjukanUnitModal = false;
+        $this->upload_foto_ktp = null;
+        $this->upload_foto_kk = null;
+        $this->upload_foto_kusuka = null;
+        $this->resetValidation();
     }
 
     public function submitPengajuanUnit()
     {
+        $this->validate([
+            'upload_foto_ktp' => ['nullable', 'image', 'max:2048'],
+            'upload_foto_kk' => ['nullable', 'image', 'max:2048'],
+            'upload_foto_kusuka' => ['nullable', 'image', 'max:2048'],
+        ], [
+            'upload_foto_ktp.image' => 'Foto KTP harus berupa gambar.',
+            'upload_foto_ktp.max' => 'Foto KTP maksimal 2MB.',
+            'upload_foto_kk.image' => 'Foto KK harus berupa gambar.',
+            'upload_foto_kk.max' => 'Foto KK maksimal 2MB.',
+            'upload_foto_kusuka.image' => 'Foto Kusuka harus berupa gambar.',
+            'upload_foto_kusuka.max' => 'Foto Kusuka maksimal 2MB.',
+        ]);
+
         $warga = Auth::guard('warga')->user();
+
+        // Update berkas jika ada yang diupload ulang
+        $updateData = [];
+        if ($this->upload_foto_ktp) {
+            $updateData['foto_ktp'] = $this->upload_foto_ktp->store('ktp', 'public');
+        }
+        if ($this->upload_foto_kk) {
+            $updateData['foto_kk'] = $this->upload_foto_kk->store('kk', 'public');
+        }
+        if ($this->upload_foto_kusuka) {
+            $updateData['foto_kusuka'] = $this->upload_foto_kusuka->store('kusuka', 'public');
+        }
+        if (!empty($updateData)) {
+            $warga->update($updateData);
+        }
 
         $warga->pengajuan()->create([
             'jenis_pengajuan' => JenisPengajuan::MASUK,

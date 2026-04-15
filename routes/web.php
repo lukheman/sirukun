@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\LogoutController;
+use App\Http\Controllers\LaporanKeluhanPdfController;
 use App\Http\Controllers\Pimpinan\LaporanPdfController;
 use App\Livewire\Admin\Dashboard as AdminDashboard;
 use App\Livewire\Admin\Profile;
@@ -35,6 +36,8 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
     Route::get('/unit-rumah', App\Livewire\Admin\UnitRumahManagement::class)->name('admin.unitrumah');
     Route::get('/penempatan', App\Livewire\Admin\PenempatanManagement::class)->name('admin.penempatan');
     Route::get('/keluhan', AdminKeluhanManagement::class)->name('admin.keluhan');
+    Route::get('/keluhan/pdf', [LaporanKeluhanPdfController::class, 'download'])->name('admin.keluhan.pdf');
+    Route::get('/laporan-keluhan', App\Livewire\Admin\LaporanKeluhan::class)->name('admin.laporan.keluhan');
 
     Route::post('/logout', [LogoutController::class, '__invoke'])->name('logout');
 });
@@ -55,5 +58,7 @@ Route::prefix('pimpinan')->middleware('auth:kepala_dinas')->group(function () {
     Route::get('/laporan-rumah', PimpinanLaporanRumah::class)->name('pimpinan.laporan');
     Route::get('/laporan-rumah/pdf', [LaporanPdfController::class, 'downloadLaporanRumah'])->name('pimpinan.laporan.pdf');
     Route::get('/arsip-penghuni', PimpinanArsipPenghuni::class)->name('pimpinan.arsip');
+    Route::get('/laporan-keluhan', App\Livewire\Pimpinan\LaporanKeluhan::class)->name('pimpinan.laporan.keluhan');
+    Route::get('/laporan-keluhan/pdf', [LaporanKeluhanPdfController::class, 'download'])->name('pimpinan.keluhan.pdf');
     Route::post('/logout', [LogoutController::class, '__invoke'])->name('pimpinan.logout');
 });

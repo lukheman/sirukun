@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Laporan Rumah Nelayan - SIRUKUN</title>
+    <title>Laporan Keluhan Warga - SIRUKUN</title>
     <style>
         * {
             margin: 0;
@@ -44,26 +44,6 @@
             color: #888;
         }
 
-        .meta-info {
-            display: flex;
-            margin-bottom: 12px;
-            font-size: 10px;
-        }
-
-        .meta-info table {
-            width: 100%;
-        }
-
-        .meta-info td {
-            padding: 2px 0;
-        }
-
-        .meta-info .label {
-            font-weight: 600;
-            width: 120px;
-            color: #555;
-        }
-
         .summary {
             margin-bottom: 15px;
         }
@@ -77,7 +57,7 @@
             border: 1px solid #ddd;
             padding: 8px 12px;
             text-align: center;
-            width: 33.33%;
+            width: 25%;
         }
 
         .summary .label {
@@ -115,7 +95,7 @@
             border: 1px solid #ddd;
             padding: 6px;
             font-size: 10px;
-            vertical-align: middle;
+            vertical-align: top;
         }
 
         .data-table tbody tr:nth-child(even) {
@@ -130,14 +110,39 @@
             font-weight: 600;
         }
 
+        .badge-warning {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        .badge-info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+        }
+
         .badge-success {
             background-color: #d4edda;
             color: #155724;
         }
 
-        .badge-warning {
-            background-color: #fff3cd;
-            color: #856404;
+        .text-muted {
+            color: #888;
+        }
+
+        .balasan-box {
+            background-color: #f0f7f0;
+            border: 1px solid #c3e6c3;
+            border-radius: 4px;
+            padding: 4px 6px;
+            margin-top: 4px;
+            font-size: 9px;
+        }
+
+        .balasan-label {
+            font-weight: 600;
+            color: #155724;
+            font-size: 8px;
+            text-transform: uppercase;
         }
 
         .footer {
@@ -161,9 +166,9 @@
 <body>
     {{-- Header --}}
     <div class="header">
-        <h1>LAPORAN RUMAH NELAYAN</h1>
+        <h1>LAPORAN KELUHAN WARGA</h1>
         <h2>Sistem Informasi Rukun Warga & Perumahan (SIRUKUN)</h2>
-        <p>Dicetak pada: {{ $tanggalCetak }} — Oleh: {{ $namaPimpinan }}</p>
+        <p>Dicetak pada: {{ $tanggalCetak }} — Oleh: {{ $namaPencetak }}</p>
         @if(!empty($filterInfo))
             <p style="margin-top: 5px; color: #C75B3F; font-weight: bold; font-size: 10px;">
                 Filter Aktif: {{ implode(', ', $filterInfo) }}
@@ -176,16 +181,20 @@
         <table>
             <tr>
                 <td>
-                    <div class="label">Total Unit Rumah</div>
-                    <div class="value">{{ $totalUnit }}</div>
+                    <div class="label">Total Keluhan</div>
+                    <div class="value">{{ $totalKeluhan }}</div>
                 </td>
                 <td>
-                    <div class="label">Unit Dihuni</div>
-                    <div class="value">{{ $unitDihuni }}</div>
+                    <div class="label">Menunggu</div>
+                    <div class="value" style="color: #856404;">{{ $menunggu }}</div>
                 </td>
                 <td>
-                    <div class="label">Unit Tersedia</div>
-                    <div class="value">{{ $unitTersedia }}</div>
+                    <div class="label">Diproses</div>
+                    <div class="value" style="color: #0c5460;">{{ $diproses }}</div>
+                </td>
+                <td>
+                    <div class="label">Selesai</div>
+                    <div class="value" style="color: #155724;">{{ $selesai }}</div>
                 </td>
             </tr>
         </table>
@@ -196,34 +205,48 @@
         <thead>
             <tr>
                 <th style="width: 4%;">No</th>
-                <th style="width: 8%;">Blok</th>
-                <th style="width: 8%;">Nomor</th>
-                <th style="width: 10%;">Status</th>
-                <th style="width: 25%;">Nama Penghuni</th>
-                <th style="width: 18%;">NIK</th>
-                <th style="width: 15%;">No. Telepon</th>
-                <th style="width: 12%;">Tgl. Masuk</th>
+                <th style="width: 14%;">Nama Warga</th>
+                <th style="width: 10%;">NIK</th>
+                <th style="width: 14%;">Judul Keluhan</th>
+                <th style="width: 22%;">Isi Keluhan</th>
+                <th style="width: 8%;">Status</th>
+                <th style="width: 18%;">Balasan Admin</th>
+                <th style="width: 10%;">Tanggal</th>
             </tr>
         </thead>
         <tbody>
-            @foreach($units as $index => $unit)
-                @php
-                    $penghuni = $unit->penempatan?->pengajuan?->warga;
-                    $tanggalMasuk = $unit->penempatan?->tanggal_masuk;
-                @endphp
+            @foreach($keluhans as $index => $keluhan)
                 <tr>
                     <td style="text-align: center;">{{ $index + 1 }}</td>
-                    <td>{{ $unit->blok }}</td>
-                    <td>{{ $unit->nomor }}</td>
+                    <td>{{ $keluhan->warga->nama }}</td>
+                    <td>{{ $keluhan->warga->nik }}</td>
+                    <td>{{ $keluhan->judul }}</td>
+                    <td>{{ Str::limit($keluhan->isi, 120) }}</td>
                     <td>
-                        <span class="badge badge-{{ $unit->status_ketersediaan->getColor() }}">
-                            {{ $unit->status_ketersediaan->getLabel() }}
-                        </span>
+                        @php
+                            $colorMap = [
+                                'Menunggu' => 'warning',
+                                'Diproses' => 'info',
+                                'Selesai'  => 'success',
+                            ];
+                            $badgeClass = $colorMap[$keluhan->status->value] ?? 'warning';
+                        @endphp
+                        <span class="badge badge-{{ $badgeClass }}">{{ $keluhan->status->getLabel() }}</span>
                     </td>
-                    <td>{{ $penghuni?->nama ?? '—' }}</td>
-                    <td>{{ $penghuni?->nik ?? '-' }}</td>
-                    <td>{{ $penghuni?->telepon ?? '-' }}</td>
-                    <td>{{ $tanggalMasuk ? $tanggalMasuk->format('d/m/Y') : '-' }}</td>
+                    <td>
+                        @if($keluhan->balasan)
+                            <div class="balasan-box">
+                                <div class="balasan-label">Balasan:</div>
+                                {{ Str::limit($keluhan->balasan, 100) }}
+                                @if($keluhan->dibalas_pada)
+                                    <br><span class="text-muted">({{ $keluhan->dibalas_pada->format('d/m/Y') }})</span>
+                                @endif
+                            </div>
+                        @else
+                            <span class="text-muted">—</span>
+                        @endif
+                    </td>
+                    <td>{{ $keluhan->created_at->format('d/m/Y') }}<br><span class="text-muted">{{ $keluhan->created_at->format('H:i') }}</span></td>
                 </tr>
             @endforeach
         </tbody>

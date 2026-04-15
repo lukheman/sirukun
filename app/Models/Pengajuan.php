@@ -21,6 +21,7 @@ class Pengajuan extends Model
         'id_warga',
         'jenis_pengajuan',
         'status_pengajuan',
+        'alasan_tolak',
     ];
 
     protected $casts = [

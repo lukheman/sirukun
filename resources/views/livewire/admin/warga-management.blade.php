@@ -34,6 +34,7 @@
             <table class="table table-modern">
                 <thead>
                     <tr>
+                        <th style="width: 5%">No.</th>
                         <th>NIK</th>
                         <th>Nama Warga</th>
                         <th>Kontak</th>
@@ -42,8 +43,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse($wargas as $warga)
+                    @forelse($wargas as $index => $warga)
                         <tr>
+                            <td class="text-muted text-center">{{ $wargas->firstItem() + $index }}</td>
                             <td>
                                 <div class="fw-semibold text-dark-secondary">{{ $warga->nik }}</div>
                             </td>
@@ -66,7 +68,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" class="text-center py-4">
+                            <td colspan="6" class="text-center py-4">
                                 <div class="text-muted">
                                     <i class="fas fa-users mb-2" style="font-size: 2rem;"></i>
                                     <p class="mb-0">Tidak ada data warga ditemukan</p>

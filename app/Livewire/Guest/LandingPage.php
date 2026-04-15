@@ -20,6 +20,7 @@ class LandingPage extends Component
         $stats = [
             'total_warga' => Warga::count(),
             'total_unit' => UnitRumah::count(),
+            'unit_dihuni' => UnitRumah::where('status_ketersediaan', StatusKetersediaan::DIHUNI)->count(),
             'unit_tersedia' => UnitRumah::where('status_ketersediaan', StatusKetersediaan::TERSEDIA)->count(),
             'pengajuan_disetujui' => Pengajuan::where('status_pengajuan', StatusPengajuan::DISETUJUI)->count(),
         ];

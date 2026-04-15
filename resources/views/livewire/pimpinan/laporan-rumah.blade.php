@@ -1,7 +1,7 @@
 <div>
     <x-page-header title="Laporan Rumah Nelayan" subtitle="Laporan lengkap status unit rumah dan data penghuni">
         <x-slot:actions>
-            <a href="{{ route('pimpinan.laporan.pdf') }}" class="btn btn-primary d-flex align-items-center gap-2"
+            <a href="{{ route('pimpinan.laporan.pdf', ['status' => $filterStatus]) }}" class="btn btn-primary d-flex align-items-center gap-2"
                 style="border-radius: 10px; font-weight: 500; padding: 0.5rem 1.25rem;">
                 <i class="fas fa-file-pdf"></i> Download PDF
             </a>

@@ -4,6 +4,7 @@ namespace App\Livewire\Warga;
 
 use App\Enums\StatusKeluhan;
 use App\Models\Keluhan;
+use App\Models\Penempatan;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Title;
 use Livewire\Component;
@@ -18,6 +19,7 @@ class KeluhanSaya extends Component
 
     public bool $showFormModal = false;
     public bool $showDetailModal = false;
+    public bool $sudahDitempatkan = false;
 
     public string $judul = '';
     public string $isi = '';
@@ -50,6 +52,11 @@ class KeluhanSaya extends Component
 
     public function kirim(): void
     {
+        if (! $this->sudahDitempatkan) {
+            session()->flash('error', 'Anda belum ditempatkan di unit manapun. Keluhan tidak dapat dikirim.');
+            return;
+        }
+
         $this->validate([
             'judul' => 'required|string|min:5|max:150',
             'isi' => 'required|string|min:10',
@@ -77,6 +84,12 @@ class KeluhanSaya extends Component
     public function render()
     {
         $warga = Auth::guard('warga')->user();
+
+        // Cek apakah warga sudah ditempatkan di unit (penempatan aktif)
+        $this->sudahDitempatkan = Penempatan::whereNull('tanggal_keluar')
+            ->whereHas('pengajuan', function ($q) use ($warga) {
+                $q->where('id_warga', $warga->id_warga);
+            })->exists();
 
         $keluhans = Keluhan::where('id_warga', $warga->id_warga)
             ->latest()

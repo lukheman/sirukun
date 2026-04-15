@@ -26,6 +26,14 @@ class PengajuanManagement extends Component
 
     public $showTerimaKeluarModal = false;
 
+    public $showTolakModal = false;
+
+    public $showBerkasModal = false;
+
+    public $reviewingPengajuanId = null;
+
+    public $alasan_tolak = '';
+
     public $editingPengajuanId = null;
 
     public $acceptingPengajuanId = null;
@@ -193,6 +201,57 @@ class PengajuanManagement extends Component
 
         $this->closePenempatanModal();
         session()->flash('success', 'Pengajuan masuk berhasil disetujui dan penempatan unit telah diatur.');
+    }
+
+    // ── Tinjau Berkas ───────────────────────────────────────
+
+    public function openBerkasModal($id)
+    {
+        $this->reviewingPengajuanId = $id;
+        $this->showBerkasModal = true;
+    }
+
+    public function closeBerkasModal()
+    {
+        $this->showBerkasModal = false;
+        $this->reviewingPengajuanId = null;
+    }
+
+    // ── Tolak Pengajuan ─────────────────────────────────────
+
+    public function openTolakModal($id)
+    {
+        $this->resetValidation();
+        $this->acceptingPengajuanId = $id;
+        $this->alasan_tolak = '';
+        $this->showTolakModal = true;
+    }
+
+    public function closeTolakModal()
+    {
+        $this->showTolakModal = false;
+        $this->acceptingPengajuanId = null;
+        $this->alasan_tolak = '';
+    }
+
+    public function tolakPengajuan()
+    {
+        $this->validate([
+            'alasan_tolak' => 'required|string|min:10|max:500',
+        ], [
+            'alasan_tolak.required' => 'Alasan penolakan wajib diisi.',
+            'alasan_tolak.min' => 'Alasan penolakan minimal 10 karakter.',
+            'alasan_tolak.max' => 'Alasan penolakan maksimal 500 karakter.',
+        ]);
+
+        $pengajuan = Pengajuan::findOrFail($this->acceptingPengajuanId);
+        $pengajuan->update([
+            'status_pengajuan' => StatusPengajuan::DITOLAK,
+            'alasan_tolak' => $this->alasan_tolak,
+        ]);
+
+        $this->closeTolakModal();
+        session()->flash('success', 'Pengajuan berhasil ditolak.');
     }
 
     // ── Delete ──────────────────────────────────────────────
